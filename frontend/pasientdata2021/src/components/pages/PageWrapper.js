@@ -1,14 +1,18 @@
-
+import styled from 'styled-components'
 import Footer from './Footer'
 
 const PageWrapper = ({children}) => {
 
+    const MainContainer = styled.div`
+        height: 736px;
+        width: 414px;
+    `
+
      return (
         <>
-        <div className="container" style={{minHeight:"1000px"}}>
+        <MainContainer className="MainContainer">
             {children}
-        </div>
-        <Footer text={"Welcome to PasientData2021"}/>
+        </MainContainer>
         </>
     )
 }
