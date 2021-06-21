@@ -13,7 +13,7 @@ import LandingPageCategory from '../LandingPageCategory';
 const LandingPage = () => {
 
     const Wrapper = styled.div`
-      background-color: #f1f1f1;
+      background-color: #d8d5d5;
       height: 100%;
       display: flex;
       flex-direction: column;
@@ -28,12 +28,12 @@ const LandingPage = () => {
 
           <ButtonBox className="BottomBox">
             <LandingPageCategory title="TRENING">
-              <LandingPageLink title="Mål" description="Se oversikt over dine mål" />
-              <LandingPageLink title="Aktivitet" description="Ha kontroll på aktiviteten din" />
+              <LandingPageLink title="Mål" description="Se oversikt over dine mål" imgPath="goal.svg" />
+              <LandingPageLink title="Aktivitet" description="Ha kontroll på aktiviteten din" imgPath="running.svg"/>
             </LandingPageCategory>
 
             <LandingPageCategory title="SOSIAL">
-              <LandingPageLink title="Grupper" description="Administrer gruppene dine" />
+              <LandingPageLink title="Grupper" description="Administrer gruppene dine" imgPath="team.svg"/>
             </LandingPageCategory>
    
           </ButtonBox>

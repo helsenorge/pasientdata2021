@@ -1,6 +1,7 @@
 
 
 import styled from 'styled-components'
+import ProgressGauge from './ProgressGauge'
 
 
 const TopBox = ({children}) => {
@@ -27,15 +28,22 @@ const TopBox = ({children}) => {
       border-radius: 50px 50px 0px 0px;
       margin: 0px 10px -1px 10px;
     `
+
+    const TopText = styled.div`
+        font-size: 20px;
+        margin-bottom: 20px;
+        color: #ffffff;
+    `
       
 
     return (
         <>
         <TopBoxWrapper className="TopBoxWrapper">
             <ImageBox className="ImageBox">
-                {children}
-                <img src="logo512.png" alt="React logo" width="200"></img>
+                <TopText>{children}</TopText>
+                <ProgressGauge />
             </ImageBox>
+            
             <WhiteCurvedBox className="WhiteCurvedBox"/>
         </TopBoxWrapper>
         </>
