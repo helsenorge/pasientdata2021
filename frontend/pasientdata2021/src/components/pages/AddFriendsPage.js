@@ -38,7 +38,8 @@ function AddFriendsPage() {
       <>
       <TopWrapper className ="TopWrapper">
         <H_title>
-          <ArrowButton><img src="https://img.icons8.com/material-outlined/35/000000/back--v2.png"/></ArrowButton>Legg til Venner
+          <ArrowButton direction="left" />
+            Legg til Venner
         </H_title>
       </TopWrapper>
       <BottomWrapper className="BottomWrapper">
