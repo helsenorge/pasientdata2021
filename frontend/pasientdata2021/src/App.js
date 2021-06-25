@@ -3,6 +3,10 @@ import './App.css';
 
 import PageWrapper from './components/pages/PageWrapper';
 import LandingPage from './components/pages/LandingPage';
+import WelcomePage from './components/pages/WelcomePage';
+import LoginPage from './components/pages/LoginPage';
+import RegisterPage from './components/pages/RegisterPage';
+import MapPage from './components/pages/MapPage';
 
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
@@ -12,6 +16,10 @@ function App() {
       <PageWrapper>
         <Switch>
            <Route path="/" exact render={() => <LandingPage /> } />
+           <Route path="/welcome" exact render={() => <WelcomePage /> } />
+           <Route path="/login" exact render={() => <LoginPage /> } />
+           <Route path="/register" exact render={() => <RegisterPage /> } />
+           <Route path="/map" exact render={() => <MapPage /> } />
         </Switch>
       </PageWrapper>
     </Router>
