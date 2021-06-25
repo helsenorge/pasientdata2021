@@ -1,35 +1,37 @@
 import styled from "styled-components";
-
+import ColorTriangleWrapper from "./ColorTriangleWrapper";
+import UserInputField from "../inputFields/UserInputField";
 import LoginButton from "../buttons/LoginButton";
+import UnderlineButton from "../buttons/UnderlineButton";
 
-const LoginPage = () => {
-
-    const Wrapper = styled.div`
-      background-color: #f1f1f1;
+function LoginPage() {
+    const BottomWrapper = styled.div`
       height: 100%;
       display: flex;
       flex-direction: column;
       justify-content: center;
-      align-items: center;
+      background-color: #7BEFB2;
+      padding: 10px 70px 130px 70px;
     `
 
-    const TopImage = styled.img`
-        margin-bottom: 80px;
-        max-width: 300px;
-    `
-
-    const greenTheme = {
-        backgroundColor: "#015945",
-        marginTop: "25px",
-        color: "white"
+    const LoginButtonTheme = {
+        marginTop: "25px"
     }
 
+    const UnderlineButtonTheme = {
+        marginTop: "30px"
+    }
+    
+
     return (
-        <Wrapper className="Wrapper">
-            <TopImage src="nhn_logo.svg"></TopImage>
-            <LoginButton>Logg inn</LoginButton>
-            <LoginButton theme={greenTheme}>Registrer</LoginButton>
-        </Wrapper>
+        <ColorTriangleWrapper className="ColorTriangle">
+          <BottomWrapper className="BottomWrapper">
+            <UserInputField placeholder="Email" />
+            <UserInputField placeholder="Passord" type="password" marginTop="15px" />
+            <LoginButton theme={LoginButtonTheme}>Logg inn</LoginButton>
+            <UnderlineButton theme={UnderlineButtonTheme}>Avbryt</UnderlineButton>
+          </BottomWrapper>
+        </ColorTriangleWrapper>
     )
 }
 

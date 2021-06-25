@@ -4,7 +4,7 @@ import styled from 'styled-components'
 function LoginButton({children, theme}) {
 
     const LoginButton = styled.button`
-        width: 313px;
+        width: 100%;
         height: 66px;
 
         margin-top: ${props => props.theme.marginTop};

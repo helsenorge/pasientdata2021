@@ -1,25 +1,14 @@
 import styled from "styled-components"
 
-import ColorTriangle from "./ColorTriangle"
+import ColorTriangleWrapper from "./ColorTriangleWrapper"
 
 import UserInputField from "../inputFields/UserInputField"
 
-import LoginButton from "../buttons/LoginButton"
+import RegisterButton from "../buttons/LoginButton"
+
+import UnderlineButton from "../buttons/UnderlineButton"
 
 function RegisterPage() {
-
-    const Wrapper = styled.div`
-      background-color: #f1f1f1;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-    `
-    
-    const TopImage = styled.img`
-        margin-top: 0px;
-        margin-left: 15px;
-        max-width: 230px;
-    `
 
     const BottomWrapper = styled.div`
       height: 100%;
@@ -27,27 +16,28 @@ function RegisterPage() {
       flex-direction: column;
       justify-content: center;
       background-color: #7BEFB2;
-      padding: 10px 70px 10px 70px;
+      padding: 10px 70px 130px 70px;
     `
 
-    const Offset = styled.div`
-        display: flex;
-        height: 50px;
-        background-color: #ffffff;
-    `
+    const LoginButtonTheme = {
+        marginTop: "25px"
+    }
+
+    const UnderlineButtonTheme = {
+        marginTop: "30px"
+    }
 
     return (
-        <Wrapper className="Wrapper">
-        <Offset className="WhiteOffset" />
-        <ColorTriangle className="ColorTriangle">
-            <TopImage src="nhn_logo.svg"></TopImage>
-        </ColorTriangle>
-        <BottomWrapper className="BottomWrapper">
-            <UserInputField placeholder="Email" />
-            <UserInputField placeholder="Passord" />
-            <LoginButton></LoginButton>
-        </BottomWrapper>
-        </Wrapper>
+        <ColorTriangleWrapper className="ColorTriangle">
+          <BottomWrapper className="BottomWrapper">
+            <UserInputField placeholder="Navn" />
+            <UserInputField placeholder="Epost" />
+            <UserInputField placeholder="Passord" type="password" />
+            <UserInputField placeholder="Gjenta passord" type="password" />
+            <RegisterButton theme={LoginButtonTheme}>Registrer</RegisterButton>
+            <UnderlineButton theme={UnderlineButtonTheme}>Avbryt</UnderlineButton>
+          </BottomWrapper>
+        </ColorTriangleWrapper>
     )
 }
 
