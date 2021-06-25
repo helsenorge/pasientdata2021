@@ -16,6 +16,7 @@ function LoginButton({children, theme}) {
         border-radius: 5px;
 
         font-size: 20px;
+        font: comfortaa;
     `
     
     return (

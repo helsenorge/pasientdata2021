@@ -13,6 +13,7 @@ function UserInputField({placeholder, type, marginTop}) {
       border: none;
       border-bottom: 2px solid black;
       background-color: #7BEFB2;
+      font-style: comfortaa;
     `;
 
     return (
