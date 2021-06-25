@@ -5,6 +5,7 @@ const LandingPageLink = ({title, description, imgPath}) => {
 
     const LandingPageLinkWrapper = styled.div`
         display: flex;
+        align-items: center;
         margin-bottom: 20px;
     `
 
@@ -30,7 +31,7 @@ const LandingPageLink = ({title, description, imgPath}) => {
             <LinkIcon src={imgPath} alt="Icon" />
             <LandingPageLinkText className="LandingPageLinkText">
                 <TitleText>{title}</TitleText>
-                <DescriptionText>{description}</DescriptionText>
+                { description ? <DescriptionText>{description}</DescriptionText> : "" }
             </LandingPageLinkText>
         </LandingPageLinkWrapper>
         </>
