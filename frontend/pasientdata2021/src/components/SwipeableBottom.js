@@ -1,8 +1,7 @@
-import { findAllByTestId } from '@testing-library/react';
+
 import SwipeableBottomSheet from 'react-swipeable-bottom-sheet';
 
 function SwipeableBottom({children, style}) {
-
 
     const bodyStyle = {
         backgroundColor: "#7BEFB2",
