@@ -1,9 +1,9 @@
 
 import styled from 'styled-components';
 import MapComponent from './MapComponent';
-import SwipeableBottom from '../SwipeableBottom';
+import SwipeableBottom from '../boxes/SwipeableBottom';
 
-import LandingPageLink from '../LandingPageLink';
+import LandingPageLink from '../buttons/LandingPageLink';
 
 const Wrapper = styled.div`
     display: flex;

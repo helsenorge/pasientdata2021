@@ -8,6 +8,7 @@ import LoginPage from './components/pages/LoginPage';
 import RegisterPage from './components/pages/RegisterPage';
 import MapPage from './components/pages/MapPage';
 import AddFriendsPage from './components/pages/AddFriendsPage';
+import SettingsPage from './components/pages/SettingsPage';
 
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
@@ -22,6 +23,7 @@ function App() {
            <Route path="/register" exact render={() => <RegisterPage /> } />
            <Route path="/map" exact render={() => <MapPage /> } />
            <Route path="/addfriend" exact render={()=> <AddFriendsPage />} />
+           <Route path="/settings" exact render={()=> <SettingsPage />} />
         </Switch>
       </PageWrapper>
     </Router>

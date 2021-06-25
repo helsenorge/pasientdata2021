@@ -17,9 +17,9 @@ const LoginButtonStyle = styled.button`
     font: comfortaa;
 `
 
-function LoginButton({children, theme}) {
+function LoginButton({className, children, theme}) {
     return (
-        <LoginButtonStyle className="LoginButton" theme={theme}>
+        <LoginButtonStyle className={className} theme={theme}>
             {children}
         </LoginButtonStyle>
     )

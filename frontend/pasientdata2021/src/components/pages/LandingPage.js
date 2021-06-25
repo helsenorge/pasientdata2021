@@ -1,12 +1,12 @@
 
 import styled from 'styled-components'
 
-import ButtonBox from '../ButtonBox'
-import TopBox from '../TopBox'
+import ButtonBox from '../boxes/ButtonBox'
+import TopBox from '../boxes/TopBox'
 
-import LandingPageLink from '../LandingPageLink'
+import LandingPageLink from '../buttons/LandingPageLink'
 
-import LandingPageCategory from '../LandingPageCategory';
+import LandingPageCategory from '../boxes/LandingPageCategory';
 
 const Wrapper = styled.div`
   background-color: #d8d5d5;

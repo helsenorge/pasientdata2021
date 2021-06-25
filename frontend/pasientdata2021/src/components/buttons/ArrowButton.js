@@ -25,11 +25,18 @@ const ArrowButtonStyle = styled.button`
     outline: inherit;
     `
 
-function ArrowButton({direction}) {
+function ArrowButton({className, direction, width, height}) {
     return (
-        <ArrowButtonStyle direction={direction} className="ArrowButton">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M8.122 24l-4.122-4 8-8-8-8 4.122-4 11.878 12z"/></svg>
+        <ArrowButtonStyle className={className} direction={direction} className="ArrowButton">
+            <svg xmlns="http://www.w3.org/2000/svg" width={width} height={height} viewBox="0 0 24 24"><path d="M8.122 24l-4.122-4 8-8-8-8 4.122-4 11.878 12z"/></svg>
         </ArrowButtonStyle>
     )
 }
+
+ArrowButton.defaultProps = {
+    width: "30",
+    height: "30"
+}
+
+
 export default ArrowButton
