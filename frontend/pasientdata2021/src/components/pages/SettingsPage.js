@@ -3,6 +3,7 @@ import WhiteHeaderWrapper from "../boxes/WhiteHeaderWrapper";
 import GreenBoxRoundedCorner from "../boxes/GreenBoxRoundedCorner";
 import TextImgButton from "../buttons/TextImgButton";
 
+import LandingPageCategory from "../boxes/LandingPageCategory";
 
 const Wrapper = styled.div`
     display: flex;
@@ -37,8 +38,10 @@ function SettingsPage() {
         <WhiteHeaderWrapper title="Innstillinger"/>
         <GreenBoxWrapper className="GreenBoxWrapper">
             <TopButtons>
+                <LandingPageCategory title="Personlig">
                 <TextImgButton title="Mine data" imgSrc="hard-drive.svg" />
                 <TextImgButton title="Rediger profil" imgSrc="user.svg" />
+                </LandingPageCategory>
             </TopButtons>
             <BottomButtons>
                 <TextImgButton title="Logg ut" imgSrc="log-out.svg" />
