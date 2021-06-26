@@ -1,6 +1,4 @@
 import styled from "styled-components";
-import ArrowButton from "../buttons/ArrowButton";
-import {FaTimes, FaCheck} from "react-icons/fa";
 import WhiteHeaderWrapper from "../boxes/WhiteHeaderWrapper";
 import GreenBoxRoundedCorner from "../boxes/GreenBoxRoundedCorner";
 import TripComponent from "../boxes/TripComponent";
@@ -9,19 +7,10 @@ import TripComponent from "../boxes/TripComponent";
 const OwnGreenBox = styled(GreenBoxRoundedCorner)`
 
 `
-const HeaderTitle = styled.a`
-  display:flex ;
-  font-family: "Comfortaa";
-  font-size: 30px;
-  color: black;
-  justify-content:"flex-start";
-`
+
 const SubTitle = styled.a`
     color: rgba(0,0,0,.87);
    `
-const Title = styled.a`
-margin-left: 20px;
-`
 const TripsContainer = styled.div`
 display: flex;
 flex-direction: column;

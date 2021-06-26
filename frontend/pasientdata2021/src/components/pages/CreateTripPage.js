@@ -7,7 +7,7 @@ import MapComponent from './MapComponent';
 
 import GreenBoxRoundedCorner from '../boxes/GreenBoxRoundedCorner';
 
-import {FaUser, FaTimes, FaChevronRight} from 'react-icons/fa'
+import {FaTimes, FaChevronRight} from 'react-icons/fa'
 
 import FriendsBox from '../FriendsBox';
 

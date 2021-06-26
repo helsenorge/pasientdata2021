@@ -1,7 +1,6 @@
-import styled from "styled-components";
+
 import UserInputField from "../inputFields/UserInputField";
 import LoginButton from "../buttons/LoginButton";
-import ArrowButton from "../buttons/ArrowButton";
 
 import WhiteHeaderWrapper from "../boxes/WhiteHeaderWrapper";
 import GreenBoxRoundedCorner from "../boxes/GreenBoxRoundedCorner";
