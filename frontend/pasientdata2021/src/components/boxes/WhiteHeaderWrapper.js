@@ -16,22 +16,18 @@ const Wrapper = styled.div`
   max-height: 70px;
   display: flex;
   background-color: white;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
   padding: 0px 0px 0px 10px;
-  margin-right: 180px;
+  margin-right: 100px;
 `
-
-const LargeArrowButton = styled(ArrowButton)`
-  height: 20px;
-`;
 
 function WhiteHeaderWrapper({className, title, children}) {
     const history = useHistory();
 
     return (
       <Wrapper className={className}>
-          <LargeArrowButton direction="left" onClick={() => history.goBack()}/>
+          <ArrowButton direction="left" onClick={() => history.goBack()}/>
         <HeaderTitle>
           {title}
         </HeaderTitle>
