@@ -15,9 +15,9 @@ const UnderlineButtonWrapper = styled.button`
     background-color: #7BEFB2;
 `
 
-function UnderlineButton({children, theme}) {
+function UnderlineButton({children, theme, onClick}) {
     return (
-        <UnderlineButtonWrapper className="LoginButton" theme={theme}>
+        <UnderlineButtonWrapper className="LoginButton" theme={theme} onClick={onClick}>
             {children}
         </UnderlineButtonWrapper>
     )

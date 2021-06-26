@@ -1,9 +1,17 @@
 import styled from 'styled-components'
 
-const LandingPageLinkWrapper = styled.div`
+const LandingPageLinkWrapper = styled.button`
     display: flex;
     align-items: center;
     margin-bottom: 20px;
+
+    background: none;
+	color: inherit;
+	border: none;
+	padding: 0;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
 `
 
 const LandingPageLinkText = styled.div`
@@ -22,11 +30,11 @@ const LinkIcon = styled.img`
     width: 40px;
 `
 
-const LandingPageLink = ({title, description, imgPath}) => {
+const LandingPageLink = ({title, description, imgPath, onClick}) => {
 
     return (
         <>
-        <LandingPageLinkWrapper className="LandingPageLinkWrapper">
+        <LandingPageLinkWrapper className="LandingPageLinkWrapper" onClick={onClick}>
             <LinkIcon src={imgPath} alt="Icon" />
             <LandingPageLinkText className="LandingPageLinkText">
                 <TitleText>{title}</TitleText>
