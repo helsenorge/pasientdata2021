@@ -13,6 +13,7 @@ const UnderlineButtonWrapper = styled.button`
     border: none;
     border-bottom: 2px solid black;
     background-color: #7BEFB2;
+    font-family: 'Comfortaa';
 `
 
 function UnderlineButton({children, theme, onClick}) {

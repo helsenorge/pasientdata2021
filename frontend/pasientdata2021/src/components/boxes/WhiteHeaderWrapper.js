@@ -26,7 +26,7 @@ const LargeArrowButton = styled(ArrowButton)`
   height: 20px;
 `;
 
-function WhiteHeaderWrapper({className, title}) {
+function WhiteHeaderWrapper({className, title, children}) {
     const history = useHistory();
 
     return (
