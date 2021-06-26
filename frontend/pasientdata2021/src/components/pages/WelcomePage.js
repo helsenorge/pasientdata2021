@@ -2,7 +2,11 @@ import styled from "styled-components";
 
 import LoginButton from "../buttons/LoginButton";
 
+import { useEffect, useState } from "react";
+
 import { useHistory } from 'react-router-dom';
+
+import axios from "axios";
 
 const Wrapper = styled.div`
   background-color: #f1f1f1;
@@ -29,6 +33,14 @@ const greenTheme = {
 
 const WelcomePage = () => {
     const history = useHistory();
+    
+    const [requestResult, setRequestResult] = useState({})
+    useEffect(() => {
+        axios.get('/friend/test')
+            .then(response => setRequestResult(response.data));
+    }, []);
+
+    console.log(requestResult)
 
     return (
         <Wrapper className="Wrapper">
