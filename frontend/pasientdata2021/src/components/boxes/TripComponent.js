@@ -1,38 +1,68 @@
 import styled from "styled-components"
 import ArrowButton from "../buttons/ArrowButton"
+import {FaTimes, FaCheck} from "react-icons/fa";
 
 const Tripwrapper = styled.div`
+display: flex;
 padding-top: 10px;
 padding-left: 30px;
-`
-
-const Trip = styled.div`
-display: flex;
-font-family: 'Comfortaa';
-font-size: 1.8em;
+align-items: center;
 justify-content: space-between;
 `
+
 const TripTime = styled.a`
-    font-family: 'Comfortaa';
-    
-    font-size: 0.7em;
-    color: rgba(0,0,0,.60);
+font-family: 'Comfortaa';
+font-size: 0.35em;
+color: rgba(0,0,0,.60);
+`
+const Trip = styled.div`
+display: flex;
+flex-direction:column;
+font-family: 'Comfortaa';
+font-size: 1.8em;
+white-space: nowrap;
+overflow:hidden;
+max-width: 250px;
 `
 
-function TripComponent({name, time}){
+const Icon = styled(FaCheck)`
+font-size: 1.4em;
+color: "green";
+margin-right: 2px;
 
-    return(
+`
+const IconX = styled(FaTimes)`
+font-size: 1.4em;
+color: "red";
+
+`
+
+
+
+
+
+function TripComponent({name, time, invited}){
+
+        return(
         <Tripwrapper>
-        <Trip>
-            {name}
-            <ArrowButton direction="right"/>
-        </Trip>
-        <TripTime>
-            {time}
-        </TripTime>
-    </Tripwrapper>
 
-    )
+            <Trip>
+            {name}
+            <TripTime>{time}</TripTime>
+            </Trip>
+            {
+            invited ?
+                    <div><Icon style = {{color:"green"}}/>
+                    <IconX style={{color:"red"}} /></div>
+                
+                :
+                    <ArrowButton direction="right" />
+            }
+
+        </Tripwrapper>
+        )
+
+    
    
 }
 
