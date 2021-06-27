@@ -19,13 +19,19 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import axios from 'axios';
 
+import { useEffect } from 'react';
+
 
 function App() {
   axios.defaults.baseURL = 'http://localhost:5000';
   
-  if (localStorage.getItem('token')){
-    axios.defaults.headers.common['Authorization'] = "Bearer ".concat(localStorage.getItem('token'));
-  }
+  
+  useEffect(() => {
+    if (localStorage.getItem('token')){
+      axios.defaults.headers.common['Authorization'] = "Bearer ".concat(localStorage.getItem('token'));
+      console.log(localStorage.getItem('token'))
+    }
+  }, []);
 
   return (
     <Router>

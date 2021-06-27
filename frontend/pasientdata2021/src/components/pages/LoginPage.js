@@ -37,7 +37,6 @@ function LoginPage() {
 
     function responsegoogle(e) {
         var Provider = "ofdi";
-        console.log(e);
         var axios = require('axios'); 
         axios({
             method: 'post',
@@ -51,31 +50,18 @@ function LoginPage() {
                 })
             })
             .then(function (response) {
-            localStorage.setItem('token', response.data['token']);
-            SendWithToken(response.data["token"]);
+                axios.defaults.headers.common['Authorization'] = "Bearer ".concat(response.data['token']);
+                localStorage.setItem('token', response.data['token']);
+                localStorage.setItem('user', response.data);
+                if (response.data['username'] === ""){
+                        history.push("/userinfo");
+                }else{
+                        history.push("/map");
+                };
             })
             .catch(function (error) {
             console.log(error);
         });
-    }
-
-
-    function SendWithToken(token){
-        console.log(token.toString())
-        var axios = require('axios'); 
-        axios({
-        method: 'post',
-        url: 'http://localhost:5000/user/test',
-        headers: { 
-        'Authorization': 'Bearer '.concat(token)
-        },
-            })
-            .then(function (response) {
-            console.log(JSON.stringify(response.data));
-            })
-            .catch(function (error) {
-            console.log(error);
-            });
     }
  
     function responsefailedgoogle(e) {

@@ -14,7 +14,7 @@ namespace backend.Services
         User GetById(int id);
         User Create(string mail, string name, string username, string googleid);
         User Authenticate(string idtoken);
-        List<User> search(string key);
+        List<User> search(int id,string key);
         void Delete(int id);
         void SetUsername(int id, string username);
 
@@ -90,9 +90,10 @@ namespace backend.Services
             return _context.Users.Find(id);
         }
 
-        public List<User> search(string key)
+        public List<User> search(int id, string key)
         {
-            throw new NotImplementedException();
+            var users = _context.Users.ToList().Where(x=> x.Id != id).ToList().FindAll(x => x.Username.StartsWith(key));            
+            return users;
         }
 
         public void Delete(int id)
