@@ -13,6 +13,7 @@ import MyFriendsPage from './components/pages/MyFriendsPage';
 import CreateTripPage from './components/pages/CreateTripPage';
 import TripsPage from "./components/pages/TripsPage"
 import TripInfo from './components/pages/TripInfoPage'
+import UserInfoPage from './components/pages/UserInfoPage';
 
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
@@ -41,6 +42,7 @@ function App() {
            <Route path="/tripinfo" exact render={()=> <TripInfo />} /> 
            <Route path="/settings" exact render={()=> <SettingsPage />} />
            <Route path="/myfriends" exact render={()=> <MyFriendsPage/>} />
+           <Route path="/userinfo" exact render={()=> <UserInfoPage/>} />
         </Switch>
       </PageWrapper>
     </Router>

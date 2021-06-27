@@ -35,6 +35,7 @@ const WelcomePage = () => {
     const history = useHistory();
     
     const [requestResult, setRequestResult] = useState({})
+    
     useEffect(() => {
         axios.get('/friend/test')
             .then(response => setRequestResult(response.data));
