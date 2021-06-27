@@ -97,8 +97,6 @@ namespace backend.Services
 
         public void Delete(int id)
         {   
-            Console.WriteLine("ID IS: "+id);
-            //throw new NotImplementedException();
             var user = _context.Users.Find(id);
             _context.Users.Remove(user);
             _context.SaveChanges();
