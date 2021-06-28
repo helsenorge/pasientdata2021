@@ -150,8 +150,10 @@ function CreateTripPage() {
     width: 100%;  
     font-family: 'Comfortaa';
     justify-content: center;
-    margin-bottom: 20px;
+    margin-top: 30px;
     text-decoration: underline;
+    font-weight: bold;
+    font-size: 25px;
 
     `
    
@@ -209,7 +211,7 @@ function CreateTripPage() {
            </Rutercontainer>
 
            <SubmitTitle>
-           <h1>Lag</h1>
+           <a>Lag</a>
            </SubmitTitle>
             
         </BottomContainer>
