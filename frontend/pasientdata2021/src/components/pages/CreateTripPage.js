@@ -18,41 +18,7 @@ import '@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions.css'
 mapboxgl.accessToken = 'pk.eyJ1IjoidGVvMzIwMSIsImEiOiJja3FhbGwzMjYwbmJuMm5sYmQ0NWJnaTlzIn0.CvCp6NNdxaBVmCheNWhjYw';
 
 
-
-function CreateTripPage() {
-    const mapContainer = useRef(null);
-    const map = useRef(null);
-    const [lng, setLng] = useState(10.749);
-    const [lat, setLat] = useState(59.907);
-    const [zoom, setZoom] = useState(9);
-
-    
-    useEffect(() => {
-        if (map.current) return; // initialize map only once
-        
-        map.current = new mapboxgl.Map({
-            container: mapContainer.current,
-            style: 'mapbox://styles/mapbox/streets-v11',
-            center: [lng, lat],
-            zoom: zoom
-        });
-        
-        var marker = new mapboxgl.Marker({
-            color: "#FFFFFF",
-            draggable: true
-        }).setLngLat([10.74, 59.91])
-        .addTo(map.current);
-
-        map.current.addControl(
-            new MapboxDirections({
-                accessToken: mapboxgl.accessToken,
-                profile: 'mapbox/walking'
-            }),
-            'top-left'
-        );
-    });    
-
-    const Wrapper = styled.div`
+const Wrapper = styled.div`
         display: flex;
         flex-direction: column;
         height: 100%;
@@ -157,6 +123,41 @@ function CreateTripPage() {
 
     `
    
+
+function CreateTripPage() {
+    const mapContainer = useRef(null);
+    const map = useRef(null);
+    const [lng, setLng] = useState(10.749);
+    const [lat, setLat] = useState(59.907);
+    const [zoom, setZoom] = useState(9);
+
+    
+    useEffect(() => {
+        if (map.current) return; // initialize map only once
+        
+        map.current = new mapboxgl.Map({
+            container: mapContainer.current,
+            style: 'mapbox://styles/mapbox/streets-v11',
+            center: [lng, lat],
+            zoom: zoom
+        });
+        
+        var marker = new mapboxgl.Marker({
+            color: "#FFFFFF",
+            draggable: true
+        }).setLngLat([10.74, 59.91])
+        .addTo(map.current);
+
+        map.current.addControl(
+            new MapboxDirections({
+                accessToken: mapboxgl.accessToken,
+                profile: 'mapbox/walking'
+            }),
+            'top-left'
+        );
+    });    
+
+    
 
     return (
         <Wrapper>
