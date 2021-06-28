@@ -14,10 +14,10 @@ const Wrapper = styled.div`
   max-height: 70px;
   display: flex;
   background-color: white;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
   padding: 0px 0px 0px 10px;
-  margin-right: 120px;
+  margin-right: 180px;
 `
 
 const LargeArrowButton = styled(ArrowButton)`

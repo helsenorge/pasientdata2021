@@ -3,6 +3,7 @@ import ArrowButton from "../buttons/ArrowButton";
 import {FaTimes, FaCheck} from "react-icons/fa";
 import WhiteHeaderWrapper from "../boxes/WhiteHeaderWrapper";
 import GreenBoxRoundedCorner from "../boxes/GreenBoxRoundedCorner";
+import TripComponent from "../boxes/TripComponent";
 
 const TopWrapper = styled.div`
   height: 10%;
@@ -48,23 +49,25 @@ padding: 0px 50px 0px 0px;
 const OtherTripsContainer = styled(TripsContainer)`
 margin-top:30px;
 `
-const Tripwrapper = styled.div`
-padding-top: 10px;
-padding-left: 30px;
-`
-const Trip = styled.div`
-display: flex;
-font-family: 'Comfortaa';
-font-size: 1.8em;
-justify-content: space-between;
-`
+
+
 const InvitedTrip = styled.div`
 display: flex;
 font-family: 'Comfortaa';
 font-size: 1.8em;
 
 `
+const Tripwrapper = styled.div`
+padding-top: 10px;
+padding-left: 30px;
+`
 
+const Trip = styled.div`
+display: flex;
+font-family: 'Comfortaa';
+font-size: 1.8em;
+justify-content: space-between;
+`
 const TripTime = styled.a`
     font-family: 'Comfortaa';
     
@@ -84,72 +87,20 @@ function TripsPage(){
                 <SubTitle className = "SubTitle">
                 Mine Turer
                 </SubTitle>
-                <Tripwrapper>
-                    <Trip>
-                        Lørdagstur
-                        <ArrowButton direction="right"/>
-                    </Trip>
-                    <TripTime>
-                        25.06.21 - 12:30
-                    </TripTime>
-                </Tripwrapper>
-                
-                <Tripwrapper>
-                    <Trip>
-                        Lørdagstur
-                        <ArrowButton direction="right"/>
-                    </Trip>
-                    <TripTime>
-                        25.06.21 - 12:30
-                    </TripTime>
-                </Tripwrapper>
-
-                <Tripwrapper>
-                    <Trip>
-                        Lørdagstur
-                        <ArrowButton direction="right"/>
-                    </Trip>
-                    <TripTime>
-                        25.06.21 - 12:30
-                    </TripTime>
-                </Tripwrapper>
-                
+                <TripComponent name="Dagstur" time="09.05.1998 - 11:00"/>
+                <TripComponent name="Ettermiddagstur" time="09.05.1998 - 11:00"/>
+                <TripComponent name="Hardtur" time="09.05.1998 - 11:00"/>
+                <TripComponent name="Ture" time="09.05.1998 - 11:00"/>                            
             </TripsContainer>
 
             <OtherTripsContainer>
                 <SubTitle className = "SubTitle">
                     Andre turer
                 </SubTitle>
-                <Tripwrapper>
-                        <Trip>
-                            Kveldstur
-                            <ArrowButton direction="right"/>
-                        </Trip>
-                        <TripTime>
-                            26.06.21 - 19:45
-                        </TripTime>
-                </Tripwrapper>
-
-                <Tripwrapper>
-                        <Trip>
-                            Kveldstur
-                            <ArrowButton direction="right"/>
-                        </Trip>
-                        <TripTime>
-                            26.06.21 - 19:45
-                        </TripTime>
-                </Tripwrapper>
-
-                <Tripwrapper>
-                        <Trip>
-                            Kveldstur
-                            <ArrowButton direction="right"/>
-                        </Trip>
-                        <TripTime>
-                            26.06.21 - 19:45
-                        </TripTime>
-                </Tripwrapper>
-
+                <TripComponent name="Annen Tur" time="09.05.1998 - 11:00"/>
+                <TripComponent name="Annen Tur" time="09.05.1998 - 11:00"/>
+                <TripComponent name="Annen Tur" time="09.05.1998 - 11:00"/>
+                <TripComponent name="Annen Tur" time="09.05.1998 - 11:00"/>
             </OtherTripsContainer>
 
             <OtherTripsContainer>
@@ -159,7 +110,7 @@ function TripsPage(){
                 <Tripwrapper>
                         <InvitedTrip>
                             Kveldstur
-                            <FaCheck style = {{color:"green", marginLeft:"100px", marginRight:"10px"}}/>
+                            <FaCheck style = {{color:"green", marginLeft:"150px", marginRight:"10px"}}/>
                             <FaTimes style={{color:"red"}} />
                         </InvitedTrip>
                         <TripTime>
