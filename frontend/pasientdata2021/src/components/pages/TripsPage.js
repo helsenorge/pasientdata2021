@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import ArrowButton from "../buttons/ArrowButton";
 import {FaTimes, FaCheck} from "react-icons/fa";
+import WhiteHeaderWrapper from "../boxes/WhiteHeaderWrapper";
+import GreenBoxRoundedCorner from "../boxes/GreenBoxRoundedCorner";
 
 const TopWrapper = styled.div`
   height: 10%;
@@ -74,13 +76,10 @@ const TripTime = styled.a`
 function TripsPage(){
     return(
         <>
-        <TopWrapper className="Turer">
-            <HeaderTitle className="HeaderTitle">
-                <ArrowButton direction="left"/>
-                <Title>Turer</Title>
-            </HeaderTitle>
-        </TopWrapper>
-        <BottomWrapper>
+        <WhiteHeaderWrapper className="Turer" title="Turer">
+            
+        </WhiteHeaderWrapper>
+        <GreenBoxRoundedCorner>
             <TripsContainer className= "TripsContainer">
                 <SubTitle className = "SubTitle">
                 Mine Turer
@@ -160,7 +159,7 @@ function TripsPage(){
                 <Tripwrapper>
                         <InvitedTrip>
                             Kveldstur
-                            <FaCheck style = {{color:"green", marginLeft:"150px", marginRight:"10px"}}/>
+                            <FaCheck style = {{color:"green", marginLeft:"100px", marginRight:"10px"}}/>
                             <FaTimes style={{color:"red"}} />
                         </InvitedTrip>
                         <TripTime>
@@ -181,7 +180,7 @@ function TripsPage(){
 
 
             </OtherTripsContainer>
-        </BottomWrapper>
+        </GreenBoxRoundedCorner>
         </>
     )
 }

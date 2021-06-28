@@ -5,9 +5,10 @@ import ArrowButton from "../buttons/ArrowButton"
 import { useHistory } from "react-router"
 
 const HeaderTitle = styled.a`
-  font: comfortaa;
+  font-family: "Comfortaa";
   font-size: 30px;
   color: black;
+  font-weight: bold;
 `
 
 const Wrapper = styled.div`
@@ -25,7 +26,7 @@ const LargeArrowButton = styled(ArrowButton)`
   height: 20px;
 `;
 
-function WhiteHeaderWrapper({className, title, children}) {
+function WhiteHeaderWrapper({className, title}) {
     const history = useHistory();
 
     return (
@@ -34,7 +35,7 @@ function WhiteHeaderWrapper({className, title, children}) {
         <HeaderTitle>
           {title}
         </HeaderTitle>
-          {children}
+        {children}
       </Wrapper>
     )
 }
