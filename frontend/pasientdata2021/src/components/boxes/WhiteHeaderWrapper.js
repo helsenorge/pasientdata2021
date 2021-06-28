@@ -3,9 +3,10 @@ import styled from "styled-components"
 import ArrowButton from "../buttons/ArrowButton"
 
 const HeaderTitle = styled.a`
-  font: comfortaa;
+  font-family: "Comfortaa";
   font-size: 30px;
   color: black;
+  font-weight: bold;
 `
 
 const Wrapper = styled.div`

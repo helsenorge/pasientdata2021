@@ -7,7 +7,7 @@ const Wrapper = styled.div`
   flex-direction: column;
   background-color: #7BEFB2;
   border-radius: 0px 50px 0px 0px;
-  padding: 20px 30px 20px 30px;
+  padding: 20px 30px 20px 10px;
 `
 
 function GreenBoxRoundedCorner({children, className}) {
