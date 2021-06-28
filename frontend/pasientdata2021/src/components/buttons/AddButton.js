@@ -2,10 +2,9 @@ import React from 'react'
 import styled from 'styled-components'
 
 const AddButtonWrapper = styled.input`
-    margin-left: auto;
-    margin-right: auto;
-    height: 30px;
+    height: 40px;
     font-size: 24px;
+    justify-content: center;
 
     margin-top: ${props => props.theme.marginTop};
     background-color: ${props => props.theme.backgroundColor};

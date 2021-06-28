@@ -23,13 +23,14 @@ const LargeArrowButton = styled(ArrowButton)`
   height: 20px;
 `;
 
-function WhiteHeaderWrapper({className, title}) {
+function WhiteHeaderWrapper({className, title, children}) {
     return (
       <Wrapper className={className}>
           <LargeArrowButton direction="left" />
         <HeaderTitle>
           {title}
         </HeaderTitle>
+          {children}
       </Wrapper>
     )
 }

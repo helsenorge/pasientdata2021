@@ -5,32 +5,33 @@ const FriendsBox = ({imgPath, title, children}) => {
 
     const FriendsBoxWrapper = styled.div`
         display: flex;
-        margin-bottom: 20px;
-        justify-content: center;
-    `
+        font-size: 30px;
+        justify-content: space-evenly;
+        align-items: center;
+        height: 35px;
+        margin: 20px 0px 15px 0px;
 
-    const TitleText = styled.a`
-        font: comfortaa;
-        font-size: 22px;
-        margin-left: 40px;
-        min-width: 150px;
-        max-width: 200px;
-        overflow: hidden;
-        white-space: nowrap;
+        mix-blend-mode: darken;
+        border: none; 
     `
 
     const FriendsIcon = styled.img`
-        width: 30px;
-        display: flex;
-        flex-direction: column;
-        margin-left: -100px;
+        margin-right: 10px;
+
     `
 
+    const TitleText = styled.a`
+        font-size: 25px;
+        width: 260px;
+        white-space: nowrap;
+        overflow: hidden;  
+        color: black;
+    `
 
     return (
         <>
         <FriendsBoxWrapper className="FriendsBoxWrapper">
-            <FriendsIcon src={imgPath} alt="Icon" />
+            <FriendsIcon src={imgPath} alt="Icon" height ={30} />
             <TitleText>{title}</TitleText>
             {children}
         </FriendsBoxWrapper>
