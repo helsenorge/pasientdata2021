@@ -1,8 +1,6 @@
 import styled from "styled-components"
 
-function UserInputField({placeholder, type, marginTop}) {
-
-    const UserInputField = styled.input`
+    const UserInputFieldStyle = styled.input`
       padding: 0px;
       outline: none;
       height: 50px;

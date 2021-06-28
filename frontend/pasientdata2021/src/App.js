@@ -9,6 +9,7 @@ import RegisterPage from './components/pages/RegisterPage';
 import MapPage from './components/pages/MapPage';
 import CreateTripPage from './components/pages/CreateTripPage';
 import AddFriendsPage from './components/pages/AddFriendsPage';
+import TripsPage from "./components/pages/TripsPage"
 
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
@@ -23,8 +24,9 @@ function App() {
            <Route path="/register" exact render={() => <RegisterPage /> } />
            <Route path="/map" exact render={() => <MapPage /> } />
            <Route path="/createTrip" exact render={() => <CreateTripPage /> } />
-
            <Route path="/addfriend" exact render={()=> <AddFriendsPage />} />
+           <Route path="/trips" exact render={()=> <TripsPage />} />
+
         </Switch>
       </PageWrapper>
     </Router>

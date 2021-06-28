@@ -20,6 +20,7 @@ const BottomWrapper = styled.div`
   background-color: #7BEFB2;
   padding: 10px 90px 130px 90px;
   border-radius: 0% 8% 0% 0%;
+  width: auto;
 `
 
 const LoginButtonTheme = {
