@@ -1,7 +1,4 @@
-import styled from 'styled-components'
 import GaugeChart from 'react-gauge-chart'
-
-
 
 const ProgressGauge = ({children}) => {
     return (
