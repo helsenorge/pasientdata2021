@@ -1,7 +1,7 @@
 
 
 import styled from 'styled-components'
-import ProgressGauge from './ProgressGauge'
+import ProgressGauge from '../ProgressGauge'
 
 const TopBoxWrapper = styled.div`
     background-color: #02A67F;
