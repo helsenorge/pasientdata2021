@@ -9,7 +9,6 @@ function UserInputField({placeholder, type, marginTop}) {
       width: 100%;
       font-size: 20px;
       margin-bottom: 10px;
-      margin-top: ${props => props.marginTop ? "none" : marginTop};
       border: none;
       border-bottom: 2px solid black;
       background-color: #7BEFB2;
@@ -17,9 +16,11 @@ function UserInputField({placeholder, type, marginTop}) {
       color: #4E4E4E;
     `;
 
+
+function UserInputField({className, placeholder, type}) {
     return (
         <>
-            <UserInputField type={type} id="email" name="email" placeholder={placeholder}/>
+            <UserInputFieldStyle className={className} type={type} name="email" placeholder={placeholder}/>
         </>
     )
 };
