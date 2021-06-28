@@ -6,6 +6,8 @@ import styled from 'styled-components';
 
 import UserInputField from '../inputFields/UserInputField';
 
+import MapComponent from './MapComponent';
+
 import {FaUser, FaTimes, FaChevronRight} from 'react-icons/fa'
 
 import 'mapbox-gl/dist/mapbox-gl.css'
@@ -131,34 +133,8 @@ function CreateTripPage() {
     const [lat, setLat] = useState(59.907);
     const [zoom, setZoom] = useState(9);
 
+    <MapComponent/>
     
-    useEffect(() => {
-        if (map.current) return; // initialize map only once
-        
-        map.current = new mapboxgl.Map({
-            container: mapContainer.current,
-            style: 'mapbox://styles/mapbox/streets-v11',
-            center: [lng, lat],
-            zoom: zoom
-        });
-        
-        var marker = new mapboxgl.Marker({
-            color: "#FFFFFF",
-            draggable: true
-        }).setLngLat([10.74, 59.91])
-        .addTo(map.current);
-
-        map.current.addControl(
-            new MapboxDirections({
-                accessToken: mapboxgl.accessToken,
-                profile: 'mapbox/walking'
-            }),
-            'top-left'
-        );
-    });    
-
-    
-
     return (
         <Wrapper>
         <TopContainer className = "top-container"></TopContainer>
