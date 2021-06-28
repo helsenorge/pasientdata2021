@@ -62,6 +62,7 @@ function MapPage() {
         min-height: 500px;
         border-radius: 0px 50px 50px 0px;
         margin: 5px 5px 5px 0px;
+        position: relative;
     `
 
     const BottomContainer = styled.div`
@@ -73,7 +74,11 @@ function MapPage() {
         display: flex;
         flex-direction: column;
         padding: 10px;
-    `
+        position: absolute;
+        width:100%;
+        top:50px;
+        elevation:10;
+        `
 
     const PersonContainer = styled.div`
         font-size: 25px;
@@ -83,7 +88,7 @@ function MapPage() {
         <Wrapper>
         <TopContainer></TopContainer>
         <MapContainer ref={mapContainer} className="map-container" />
-        <BottomContainer>
+        <BottomContainer className = "BottomContainer">
             <PersonContainer>
                 Torstein
             </PersonContainer>
