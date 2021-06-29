@@ -2,6 +2,8 @@ import styled from "styled-components"
 
 import ArrowButton from "../buttons/ArrowButton"
 
+import { useHistory } from "react-router"
+
 const HeaderTitle = styled.a`
   font: comfortaa;
   font-size: 30px;
@@ -24,9 +26,11 @@ const LargeArrowButton = styled(ArrowButton)`
 `;
 
 function WhiteHeaderWrapper({className, title, children}) {
+    const history = useHistory();
+
     return (
       <Wrapper className={className}>
-          <LargeArrowButton direction="left" />
+          <LargeArrowButton direction="left" onClick={() => history.goBack()}/>
         <HeaderTitle>
           {title}
         </HeaderTitle>
