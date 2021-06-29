@@ -5,6 +5,8 @@ import SwipeableBottom from '../boxes/SwipeableBottom';
 
 import LandingPageLink from '../buttons/LandingPageLink';
 
+import { useHistory } from 'react-router';
+
 const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
@@ -37,6 +39,9 @@ const SwipeableBottomContainer = styled.div`
 `
 
 function MapPage() {
+
+    const history = useHistory();
+
     return (
         <Wrapper className="MapPageWrapper">
         <TopContainer className="TopContainer"></TopContainer>
@@ -46,10 +51,10 @@ function MapPage() {
                 Sveip opp
               </SwipeableBottomTop>
               <SwipeableBottomContainer className="SwipeableBottomContainer">
-                    <LandingPageLink title="Mine venner" imgPath="team.svg" />
-                    <LandingPageLink title="Legg til venner" imgPath="goal.svg" />
-                    <LandingPageLink title="Turer" imgPath="running.svg" />
-                    <LandingPageLink title="Innstillinger" imgPath="settings.svg" />
+                    <LandingPageLink title="Mine venner" imgPath="team.svg" onClick={() => history.push("/myfriends")}/>
+                    <LandingPageLink title="Legg til venner" imgPath="goal.svg" onClick={() => history.push("/addfriend")}/>
+                    <LandingPageLink title="Turer" imgPath="running.svg" onClick={() => history.push("/trips")} />
+                    <LandingPageLink title="Innstillinger" imgPath="settings.svg" onClick={() => history.push("/settings")} />
                 </SwipeableBottomContainer>
         </SwipeableBottom>
         </Wrapper>

@@ -4,6 +4,8 @@ import UserInputField from "../inputFields/UserInputField";
 import LoginButton from "../buttons/LoginButton";
 import UnderlineButton from "../buttons/UnderlineButton";
 
+import { useHistory } from "react-router";
+
 const BottomWrapper = styled.div`
     height: 100%;
     display: flex;
@@ -26,14 +28,16 @@ const UserInputFieldBottom = styled(UserInputField)`
 `;
 
 function LoginPage() {
+
+    const history = useHistory();
     
     return (
         <ColorTriangleWrapper className="ColorTriangle">
           <BottomWrapper className="BottomWrapper">
             <UserInputField placeholder="Email" />
             <UserInputFieldBottom placeholder="Passord" type="password"/>
-            <LoginButton theme={LoginButtonTheme}>Logg inn</LoginButton>
-            <UnderlineButton theme={UnderlineButtonTheme}>Avbryt</UnderlineButton>
+            <LoginButton onClick={() => history.push("/map")} theme={LoginButtonTheme}>Logg inn</LoginButton>
+            <UnderlineButton onClick={() => history.goBack()} theme={UnderlineButtonTheme}>Avbryt</UnderlineButton>
           </BottomWrapper>
         </ColorTriangleWrapper>
     )

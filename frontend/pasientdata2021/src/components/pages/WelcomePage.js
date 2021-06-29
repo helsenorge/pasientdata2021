@@ -2,6 +2,8 @@ import styled from "styled-components";
 
 import LoginButton from "../buttons/LoginButton";
 
+import { useHistory } from 'react-router-dom';
+
 const Wrapper = styled.div`
   background-color: #f1f1f1;
   height: 100%;
@@ -23,12 +25,16 @@ const greenTheme = {
     color: "white"
 }
 
+
+
 const WelcomePage = () => {
+    const history = useHistory();
+
     return (
         <Wrapper className="Wrapper">
             <TopImage src="nhn_logo.svg"></TopImage>
-            <LoginButton>Logg inn</LoginButton>
-            <LoginButton theme={greenTheme}>Registrer</LoginButton>
+            <LoginButton onClick={() => history.push("/login")} type="button">Logg inn</LoginButton>
+            <LoginButton onClick={() => history.push("/register")} theme={greenTheme}>Registrer</LoginButton>
         </Wrapper>
     )
 }
