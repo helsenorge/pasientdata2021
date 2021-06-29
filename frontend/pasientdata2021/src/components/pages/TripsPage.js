@@ -7,7 +7,7 @@ import TripComponent from "../boxes/TripComponent";
 
 
 const OwnGreenBox = styled(GreenBoxRoundedCorner)`
-height: auto;
+
 `
 const HeaderTitle = styled.a`
   display:flex ;
@@ -25,11 +25,10 @@ margin-left: 20px;
 const TripsContainer = styled.div`
 display: flex;
 flex-direction: column;
-width: 100%;
 font-family: "Comfortaa";
 justify-content: flex-start;
 font-weight: bold;
-padding: 0px 50px 0px 0px;
+
 `
 const OtherTripsContainer = styled(TripsContainer)`
 margin-top:30px;
@@ -64,7 +63,7 @@ function TripsPage(){
                 </SubTitle>
                 <TripComponent name="Annen Tur" time="09.05.1998 - 11:00"/>
                 <TripComponent name="Annen Tur" time="09.05.1998 - 11:00"/>
-                <TripComponent name="Annen Tur" time="09.05.1998 - 11:00"/>
+                <TripComponent name="Annen Turrrrrrrrrrrrrrrrrrrrr" time="09.05.1998 - 11:00"/>
                 <TripComponent name="Annen Tur" time="09.05.1998 - 11:00"/>
             </OtherTripsContainer>
 
@@ -72,7 +71,7 @@ function TripsPage(){
                 <SubTitle className = "SubTitle">
                     Invitasjoner
                 </SubTitle>
-                <TripComponent name = "Kvelstur" time="På kvelden da.." invited="True"/>
+                <TripComponent name = "Kvelsturennnnnnnnnnnnhelvettennnnn" time="På kvelden da.." invited="True"/>
                
 
 

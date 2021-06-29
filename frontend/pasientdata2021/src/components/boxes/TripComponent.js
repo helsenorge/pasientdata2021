@@ -3,66 +3,64 @@ import ArrowButton from "../buttons/ArrowButton"
 import {FaTimes, FaCheck} from "react-icons/fa";
 
 const Tripwrapper = styled.div`
+display: flex;
 padding-top: 10px;
 padding-left: 30px;
-`
-
-const Trip = styled.div`
-display: flex;
-font-family: 'Comfortaa';
-font-size: 1.8em;
+align-items: center;
 justify-content: space-between;
 `
+
 const TripTime = styled.a`
 font-family: 'Comfortaa';
-font-size: 0.7em;
+font-size: 0.35em;
 color: rgba(0,0,0,.60);
 `
-const InvitedTrip = styled.div`
+const Trip = styled.div`
 display: flex;
+flex-direction:column;
 font-family: 'Comfortaa';
 font-size: 1.8em;
+white-space: nowrap;
+overflow:hidden;
+max-width: 250px;
 `
 
-const TextBox = styled.div`
-display: flex;
-flex-direction: column;
-max-width: 100px;
-text-overflow: ellipsis;
+const Icon = styled(FaCheck)`
+font-size: 1.4em;
+color: "green";
+margin-right: 2px;
+
 `
+const IconX = styled(FaTimes)`
+font-size: 1.4em;
+color: "red";
+
+`
+
+
+
 
 
 function TripComponent({name, time, invited}){
 
-    if(invited){
         return(
         <Tripwrapper>
-        <InvitedTrip>
-        {name}
-            <FaCheck style = {{color:"green", marginLeft:"150px", marginRight:"10px"}}/>
-            <FaTimes style={{color:"red"}} />
-        </InvitedTrip>
-        <TripTime>
-            {time}
-        </TripTime>
-    </Tripwrapper>
-        )
-    }else{
-        return(
-            <Tripwrapper>
+
             <Trip>
-                <TextBox className = "TextBox">
-                {name}
-                </TextBox>
-                <ArrowButton direction="right"/>
+            {name}
+            <TripTime>{time}</TripTime>
             </Trip>
-            <TripTime>
-                {time}
-            </TripTime>
+            {
+            invited ?
+                    <div><Icon style = {{color:"green"}}/>
+                    <IconX style={{color:"red"}} /></div>
+                
+                :
+                    <ArrowButton direction="right" />
+            }
+
         </Tripwrapper>
-    
         )
-    }
 
     
    
