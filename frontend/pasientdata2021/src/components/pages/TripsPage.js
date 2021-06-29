@@ -5,24 +5,9 @@ import WhiteHeaderWrapper from "../boxes/WhiteHeaderWrapper";
 import GreenBoxRoundedCorner from "../boxes/GreenBoxRoundedCorner";
 import TripComponent from "../boxes/TripComponent";
 
-const TopWrapper = styled.div`
-  height: 10%;
-  display: flex;
-  flex-direction: column;
-  background-color: white;
-  justify-content: center;
-  padding: 10px 30px 0px 30px;
-`
 
-const BottomWrapper = styled.div`
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  background-color: #7BEFB2;
-  padding: 10px 30px 130px 10px;
-  border-radius: 0px 50px 0px 0px;
-  width: auto;
-  
+const OwnGreenBox = styled(GreenBoxRoundedCorner)`
+height: auto;
 `
 const HeaderTitle = styled.a`
   display:flex ;
@@ -51,29 +36,9 @@ margin-top:30px;
 `
 
 
-const InvitedTrip = styled.div`
-display: flex;
-font-family: 'Comfortaa';
-font-size: 1.8em;
 
-`
-const Tripwrapper = styled.div`
-padding-top: 10px;
-padding-left: 30px;
-`
 
-const Trip = styled.div`
-display: flex;
-font-family: 'Comfortaa';
-font-size: 1.8em;
-justify-content: space-between;
-`
-const TripTime = styled.a`
-    font-family: 'Comfortaa';
-    
-    font-size: 0.7em;
-    color: rgba(0,0,0,.60);
-`
+
 
 
 function TripsPage(){
@@ -82,7 +47,7 @@ function TripsPage(){
         <WhiteHeaderWrapper className="Turer" title="Turer">
             
         </WhiteHeaderWrapper>
-        <GreenBoxRoundedCorner>
+        <OwnGreenBox>
             <TripsContainer className= "TripsContainer">
                 <SubTitle className = "SubTitle">
                 Mine Turer
@@ -107,31 +72,12 @@ function TripsPage(){
                 <SubTitle className = "SubTitle">
                     Invitasjoner
                 </SubTitle>
-                <Tripwrapper>
-                        <InvitedTrip>
-                            Kveldstur
-                            <FaCheck style = {{color:"green", marginLeft:"150px", marginRight:"10px"}}/>
-                            <FaTimes style={{color:"red"}} />
-                        </InvitedTrip>
-                        <TripTime>
-                            26.06.21 - 19:45
-                        </TripTime>
-                </Tripwrapper>
-
-                <Tripwrapper>
-                        <InvitedTrip>
-                            Kveldstur
-                            <FaCheck style = {{color:"green", marginLeft:"150px", marginRight:"10px"}}/>
-                            <FaTimes style={{color:"red"}} />
-                        </InvitedTrip>
-                        <TripTime>
-                            26.06.21 - 19:45
-                        </TripTime>
-                </Tripwrapper>
+                <TripComponent name = "Kvelstur" time="På kvelden da.." invited="True"/>
+               
 
 
             </OtherTripsContainer>
-        </GreenBoxRoundedCorner>
+        </OwnGreenBox>
         </>
     )
 }

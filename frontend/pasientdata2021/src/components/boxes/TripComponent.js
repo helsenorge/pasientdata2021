@@ -1,5 +1,6 @@
 import styled from "styled-components"
 import ArrowButton from "../buttons/ArrowButton"
+import {FaTimes, FaCheck} from "react-icons/fa";
 
 const Tripwrapper = styled.div`
 padding-top: 10px;
@@ -13,26 +14,57 @@ font-size: 1.8em;
 justify-content: space-between;
 `
 const TripTime = styled.a`
-    font-family: 'Comfortaa';
-    
-    font-size: 0.7em;
-    color: rgba(0,0,0,.60);
+font-family: 'Comfortaa';
+font-size: 0.7em;
+color: rgba(0,0,0,.60);
+`
+const InvitedTrip = styled.div`
+display: flex;
+font-family: 'Comfortaa';
+font-size: 1.8em;
 `
 
-function TripComponent({name, time}){
+const TextBox = styled.div`
+display: flex;
+flex-direction: column;
+max-width: 100px;
+text-overflow: ellipsis;
+`
 
-    return(
+
+function TripComponent({name, time, invited}){
+
+    if(invited){
+        return(
         <Tripwrapper>
-        <Trip>
-            {name}
-            <ArrowButton direction="right"/>
-        </Trip>
+        <InvitedTrip>
+        {name}
+            <FaCheck style = {{color:"green", marginLeft:"150px", marginRight:"10px"}}/>
+            <FaTimes style={{color:"red"}} />
+        </InvitedTrip>
         <TripTime>
             {time}
         </TripTime>
     </Tripwrapper>
+        )
+    }else{
+        return(
+            <Tripwrapper>
+            <Trip>
+                <TextBox className = "TextBox">
+                {name}
+                </TextBox>
+                <ArrowButton direction="right"/>
+            </Trip>
+            <TripTime>
+                {time}
+            </TripTime>
+        </Tripwrapper>
+    
+        )
+    }
 
-    )
+    
    
 }
 

@@ -46,7 +46,7 @@ const Wrapper = styled.div`
         display: flex;
         flex-direction: column;
         padding: 10px;
-        width: auto;
+        width: 100%;
         `
 
     const Headercontainer = styled.div`
@@ -98,7 +98,6 @@ const Wrapper = styled.div`
         
         `
     const Rute = styled.div`
-        margin-left: 5px;
         font-size: 18px;
         color: #4E4E4E;
         display: flex;
