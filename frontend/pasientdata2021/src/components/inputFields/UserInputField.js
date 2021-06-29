@@ -10,7 +10,8 @@ const UserInputFieldStyle = styled.input`
     border: none;
     border-bottom: 2px solid black;
     background-color: #7BEFB2;
-    font-style: comfortaa;
+    font-family: 'Comfortaa';
+    color: #4E4E4E;
     `;
 
 
