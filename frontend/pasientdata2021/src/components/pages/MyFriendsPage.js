@@ -35,7 +35,6 @@ function MyFriendsPage() {  return (
       <TextImgButton imgSrc ="3-vertical-dots.svg"></TextImgButton>
     </FriendsBox>
   </GreenBoxWrapper>
-   
   </Wrapper>
 )}
   
