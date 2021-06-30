@@ -8,7 +8,7 @@ namespace backend.Services
 {
     public interface ITripService
     {
-
+        void Create(string name, DateTime date, List<int> InvitedUserIds);
     }
     public class TripService: ITripService
     {
@@ -18,5 +18,9 @@ namespace backend.Services
             _context = context;
         }
 
+        public void Create(string name, DateTime date, List<int> InvitedUserIds)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
