@@ -65,7 +65,6 @@ namespace backend.Controllers
             }
             catch (Exception ex)
             {
-                //log an exception
                 return BadRequest(new { message = ex.Message });
             }
         }
