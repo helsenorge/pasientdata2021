@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using backend.Helpers;
 using backend.InputModels;
+using backend.InputModels.User;
 using backend.Model;
 using backend.Services;
 using Google.Apis.Auth;
@@ -44,11 +45,27 @@ namespace backend.Controllers
             return Ok("HEI");
         }
 
+        [HttpPost("setUsername")]
+        public IActionResult setUsername([FromBody] UsernameModel model)
+        {
+            try
+            {
+                _service.SetUsername(model.UserId, model.Username);
+                return Ok(model.Username);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+
 
         [AllowAnonymous]
         [HttpPost("authenticate")]
         public async Task<IActionResult> Authenticate([FromBody]AuthenticateModel model)
         {
+
             try
             {
                 User user = _service.Authenticate(model.IdToken);
@@ -66,6 +83,55 @@ namespace backend.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
+
+        [HttpDelete("{id}")]
+        public IActionResult delete([FromRoute]int id)
+        {
+            try
+            {
+                _service.Delete(id);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+        [HttpGet("search/{key}")]
+        public IActionResult search([FromRoute]string key)
+        {
+            try
+            {
+                var users = _service.search(key);
+                return Ok(users);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+        [HttpGet("getById/{id}")]
+        public IActionResult GetById([FromRoute] int id)
+        {
+            try
+            {
+                var user = _service.GetById(id);
+                return Ok(user);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+
+
+        //delete
+        //search
+        //get by id
+
         
         private string GetToken(User user)
         {

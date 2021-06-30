@@ -14,8 +14,11 @@ namespace backend.Services
     {
         User GetById(int id);
         User Create(string mail, string name, string username, string googleid);
-
         User Authenticate(string idtoken);
+        List<User> search(string key);
+        void Delete(int id);
+        void SetUsername(int id, string username);
+
         //Definere funksjonene som UserController trenger, og som implementeres i UserService
     }
 
@@ -86,6 +89,30 @@ namespace backend.Services
         public User GetById(int id)
         {
             return _context.Users.Find(id);
+        }
+
+        public List<User> search(string key)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Delete(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetUsername(int id, string username)
+        {
+            var user = _context.Users.Find(id);
+            if(user == null)
+                throw new AppException("User doesnt exist");
+            
+            if(_context.Users.ToList().Exists(x=>x.Username == username))
+                throw new AppException("Username already exist");
+
+            user.Username = username;
+            _context.Users.Update(user);
+            _context.SaveChanges();
         }
     }
 }
