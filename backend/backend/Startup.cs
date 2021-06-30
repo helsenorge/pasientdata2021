@@ -83,9 +83,6 @@ namespace backend
 
 
             services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IChallengeService, ChallengeService>();
-            services.AddScoped<IDailyWorkService, DailyWorkService>();
-            services.AddScoped<IGroupService, GroupService>();
            
         }
 
