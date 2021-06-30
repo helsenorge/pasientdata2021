@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using backend.Helpers;
+using backend.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,11 +9,16 @@ using System.Threading.Tasks;
 
 namespace backend.Controllers
 {
-    public class FriendController : Controller
+    [Authorize]
+    [ApiController]
+    [Route("[controller]")]
+    public class FriendController : ControllerBase
     {
-        public IActionResult Index()
+        private IFriendService _service;
+        public FriendController(IFriendService service)
         {
-            return View();
+            _service = service;
         }
+
     }
 }
