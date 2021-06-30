@@ -31,7 +31,7 @@ const FriendsBox = ({imgPath, title, children, className}) => {
         <>
         <FriendsBoxWrapper className={className}>
             {imgPath ? <FriendsIcon src={imgPath} alt="Icon" height ={30} /> : ""}
-            <TitleText>{title}</TitleText>
+            <TitleText className={className}>{title}</TitleText>
             {children}
         </FriendsBoxWrapper> 
         </>
