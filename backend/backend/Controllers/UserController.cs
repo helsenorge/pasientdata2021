@@ -24,20 +24,18 @@ namespace backend.Controllers
     [Route("[controller]")]
     public class UserController : ControllerBase
     {
-        private DataContext _context;
         private readonly IConfiguration _configuration;
         private IUserService _service;
         private IMapper _mapper;
         private readonly AppSettings _appSettings;
 
         public UserController(IUserService service, IConfiguration configuration, IMapper mapper,
-            IOptions<AppSettings> appSettings, DataContext context)
+            IOptions<AppSettings> appSettings)
         {
             _configuration = configuration;
             _service = service;
             _mapper = mapper;
             _appSettings = appSettings.Value;
-            _context = context;
         }
 
         [HttpPost("test")]
@@ -71,7 +69,6 @@ namespace backend.Controllers
         
         private string GetToken(User user)
         {
-
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
             var tokenDescriptor = new SecurityTokenDescriptor
@@ -87,11 +84,5 @@ namespace backend.Controllers
             var tokenString = tokenHandler.WriteToken(token);
             return tokenString;
         }
-
-        //Autheticate(mail, password)
-        //Register(Navn, mail, password, height, weight)
-        //GetById(userid)
-        //Update(userid, weight, height)
-        //Delete(userid)
     }
 }
