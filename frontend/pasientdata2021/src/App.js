@@ -16,7 +16,16 @@ import TripInfo from './components/pages/TripInfoPage'
 
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
+import axios from 'axios';
+
+
 function App() {
+  axios.defaults.baseURL = 'http://localhost:5000';
+  
+  if (localStorage.getItem('token')){
+    axios.defaults.headers.common['Authorization'] = "Bearer ".concat(localStorage.getItem('token'));
+  }
+
   return (
     <Router>
       <PageWrapper>
