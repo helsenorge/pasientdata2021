@@ -20,5 +20,26 @@ namespace backend.Controllers
             _service = service;
         }
 
+        [HttpPost("AddFriend/{idSender}/{idAdded}")]
+        public IActionResult AddFriend([FromRouter] int idSender, int idAdded)
+        {
+            try
+            {
+                _service.AddFriend(idSender, idAdded);
+                return Ok();
+            }
+            catch(ApplicationException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+        [AllowAnonymous]
+        [HttpGet("test")]
+        public IActionResult test()
+        {
+            return Ok("Hei fra meg");
+        }
+
     }
 }
