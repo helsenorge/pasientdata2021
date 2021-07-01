@@ -15,10 +15,10 @@ const UserInputFieldStyle = styled.input`
     `;
 
 
-function UserInputField({className, placeholder, type}) {
+function UserInputField({className, placeholder, type, onChange}) {
     return (
         <>
-            <UserInputFieldStyle className={className} type={type} name="email" placeholder={placeholder}/>
+            <UserInputFieldStyle className={className} type={type} name="email" placeholder={placeholder} onChange={onChange}/>
         </>
     )
 };
