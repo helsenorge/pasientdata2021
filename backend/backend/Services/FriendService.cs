@@ -27,20 +27,67 @@ namespace backend.Services
 
         public void AcceptFriendRequest(int id, int friendrequestId)
         {
-            throw new NotImplementedException();
+            var user = _context.Users.Find(id);
+            if(user == null)
+                throw new AppException("User dosent exist");
+
+            var request = _context.FriendRequests.Find(friendrequestId);
+            if (request == null)
+                throw new AppException("Friendrequest dosent exist");
+
+            var userSender = _context.Users.Find(request.UserSenderId);
+            if (userSender == null)
+                throw new AppException("The user sending the request dosent exist anymore");
+
+
+            var friendship = new Friendship
+            {
+                CreatedAt = DateTime.Now,
+                Users = new List<UserHasFriendship>() {
+                    new UserHasFriendship { UserId = user.Id},
+                    new UserHasFriendship { UserId = userSender.Id}
+                }
+            };
+
+            _context.Friendships.Add(friendship);
+            _context.FriendRequests.Remove(request);
+            _context.SaveChanges();
+        }
+
+        public void DeclineFriendRequest(int id, int friendrequestId)
+        {
+            var request = _context.FriendRequests.Find(friendrequestId);
+            if (request == null)
+                throw new AppException("Friendrequest dosent exist");
+
+            _context.FriendRequests.Remove(request);
+            _context.SaveChanges();
         }
 
         public void AddFriend(int idSender, int idAdded)
         {
             var userSender = _context.Users.Find(idSender);
+            if (userSender == null)
+                throw new AppException("Sending user dosent exist");
+
             var userAdded = _context.Users.Find(idAdded);
-            if(userSender == null || userAdded == null)
-                throw new AppException("Users does not exist");
-            var oij = _context.FriendRequests.ToList().Where(x => x.UserReceiver == userAdded).Where(x=> x.UserSender == userSender);
-            if( oij != null)
+            if(userAdded == null)
+                throw new AppException("Users added dosent exist");
+
+            //sjekker om det finnes en forrespørsel mellom disse brukerene fra før
+            var temprequest = _context.FriendRequests.ToList().Where(x => x.UserReceiver == userAdded).Where(x=> x.UserSender == userSender);
+            if(temprequest != null)
             {
                 throw new AppException("Friendrequest already exist");
             }
+
+            //sjekker om det eksisterer et vennskap mellom disse to brukerene fra før
+            var friendshipsids1 = _context.UserHasFriendships.ToList().Where(x => x.UserId == userSender.Id).Select(x=>x.FriendshipId);
+            var friendshipsids2 = _context.UserHasFriendships.ToList().Where(x => x.UserId == userAdded.Id).Select(x => x.FriendshipId);
+            bool hasequalItems = friendshipsids1.Intersect(friendshipsids2).Any();
+            if (hasequalItems)
+                throw new AppException("Friendship already exist");
+
             var request = new FriendRequest
             {
                 UserSender = userSender,
@@ -51,14 +98,26 @@ namespace backend.Services
             _context.SaveChanges();
         }
 
-        public void DeclineFriendRequest(int id, int friendrequestId)
-        {
-            throw new NotImplementedException();
-        }
-
         public void DeleteFriend(int id, int userToDeleteId)
         {
-            throw new NotImplementedException();
+            var userSender = _context.Users.Find(id);
+            if (userSender == null)
+                throw new AppException("User dosent exist");
+
+            var userAdded = _context.Users.Find(userToDeleteId);
+            if (userAdded == null)
+                throw new AppException("Friend user dosent exist");
+
+            var friendshipsids1 = _context.UserHasFriendships.ToList().Where(x => x.UserId == userSender.Id).Select(x => x.FriendshipId);
+            var friendshipsids2 = _context.UserHasFriendships.ToList().Where(x => x.UserId == userAdded.Id).Select(x => x.FriendshipId);
+            bool hasequalItems = friendshipsids1.Intersect(friendshipsids2).Any();
+            if (!hasequalItems)
+                throw new AppException("Friendship dosent exist");
+
+            var friendshipid = friendshipsids1.Intersect(friendshipsids2).ToArray()[0];
+            var friendship = _context.Friendships.Find(friendshipid);
+            _context.Friendships.Remove(friendship);
+            _context.SaveChanges();
         }
 
         public List<FriendRequest> GetAllFriendRequests(int id)
