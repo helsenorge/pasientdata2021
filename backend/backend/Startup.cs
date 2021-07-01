@@ -7,7 +7,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using backend.Helpers;
 using backend.Services;
-using AutoMapper;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -80,8 +79,7 @@ namespace backend
                 };
             });
 
-
-
+            services.AddHttpContextAccessor();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IFriendService, FriendService>();
             services.AddScoped<ITripService, TripService>();
