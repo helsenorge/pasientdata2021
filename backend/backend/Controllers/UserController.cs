@@ -108,7 +108,8 @@ namespace backend.Controllers
         {
             try
             {
-                var users = _service.search(key);
+                var id = GetUserId();
+                var users = _service.search(id, key);
                 return Ok(users);
             }
             catch (Exception ex)
@@ -117,11 +118,12 @@ namespace backend.Controllers
             }
         }
 
-        [HttpGet("getById/{id}")]
-        public IActionResult GetById([FromRoute] int id)
+        [HttpGet()]
+        public IActionResult GetById()
         {
             try
             {
+                var id = GetUserId();
                 var user = _service.GetById(id);
                 return Ok(user);
             }

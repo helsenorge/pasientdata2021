@@ -12,6 +12,8 @@ namespace backend.Helpers
         public static void Initialize(DataContext context)
         {
             context.Database.Migrate();
+
         }
+       
     }
 }
