@@ -11,7 +11,7 @@ namespace backend.Services
     {
         void AddFriend(int idSender, int idAdded);
         List<User> GetAllFriends(int id);
-        List<FriendRequest> GetAlFriendRequests(int id);
+        List<FriendRequest> GetAllFriendRequests(int id);
         void DeleteFriend(int id, int userToDeleteId);
         void AcceptFriendRequest(int id, int friendrequestId);
         void DeclineFriendRequest(int id, int friendrequestId);
@@ -61,14 +61,23 @@ namespace backend.Services
             throw new NotImplementedException();
         }
 
-        public List<FriendRequest> GetAlFriendRequests(int id)
+        public List<FriendRequest> GetAllFriendRequests(int id)
         {
-            throw new NotImplementedException();
+            var user = _context.Users.Find(id);
+            if (user == null)
+                throw new AppException("User doesnt exist");
+            return _context.FriendRequests.ToList().FindAll(x => x.UserReceiver == user);
         }
 
         public List<User> GetAllFriends(int id)
         {
-            throw new NotImplementedException();
+            var user = _context.Users.Find(id);
+            if (user == null)
+                throw new AppException("User doesnt exist");
+            var userhasfriendshipIds = _context.UserHasFriendships.ToList().FindAll(x => x.UserId == user.Id).Select(x=>x.FriendshipId);
+            var Users = _context.Friendships.ToList().FindAll(x=> userhasfriendshipIds.Contains(x.Id)).ToList().Select(x=>x.Users).SelectMany(x => x).ToList();
+            var friendsIds = Users.ToList().FindAll(x => x.UserId != id).Select(x=>x.UserId);
+            return _context.Users.ToList().FindAll(x => friendsIds.Contains(x.Id));
         }
     }
 }

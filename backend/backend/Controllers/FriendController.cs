@@ -34,6 +34,34 @@ namespace backend.Controllers
             }
         }
 
+        [HttpPost("GetAllFriends/{id}")]
+        public IActionResult GetAllFriends([FromRoute] int id)
+        {
+            try
+            {
+                var friends = _service.GetAllFriends(id);
+                return Ok(friends);
+            }
+            catch (ApplicationException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+        [HttpPost("GetAllFriendRequests/{id}")]
+        public IActionResult GetAllFriendRequests([FromRoute] int id)
+        {
+            try
+            {
+                var requests = _service.GetAllFriendRequests(id);
+                return Ok(requests);
+            }
+            catch (ApplicationException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
         [AllowAnonymous]
         [HttpGet("test")]
         public IActionResult test()

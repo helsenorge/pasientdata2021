@@ -6,6 +6,7 @@ using backend.Model;
 using backend.Services;
 using Google.Apis.Auth;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
@@ -29,14 +30,16 @@ namespace backend.Controllers
         private IUserService _service;
         private IMapper _mapper;
         private readonly AppSettings _appSettings;
+        private IHttpContextAccessor httpContextAccessor;
 
         public UserController(IUserService service, IConfiguration configuration, IMapper mapper,
-            IOptions<AppSettings> appSettings)
+            IOptions<AppSettings> appSettings, IHttpContextAccessor context)
         {
-            _configuration = configuration;
+             _configuration = configuration;
             _service = service;
             _mapper = mapper;
             _appSettings = appSettings.Value;
+            httpContextAccessor = context;
         }
 
         [HttpPost("test")]
@@ -50,7 +53,9 @@ namespace backend.Controllers
         {
             try
             {
-                _service.SetUsername(model.UserId, model.Username);
+                var userid = GetUserId();
+
+                _service.SetUsername(userid, model.Username);
                 return Ok(model.Username);
             }
             catch (Exception ex)
@@ -65,7 +70,6 @@ namespace backend.Controllers
         [HttpPost("authenticate")]
         public async Task<IActionResult> Authenticate([FromBody]AuthenticateModel model)
         {
-
             try
             {
                 User user = _service.Authenticate(model.IdToken);
@@ -84,12 +88,13 @@ namespace backend.Controllers
             }
         }
 
-        [HttpDelete("{id}")]
-        public IActionResult delete([FromRoute]int id)
+        [HttpDelete()]
+        public IActionResult delete()
         {
             try
             {
-                _service.Delete(id);
+                var userid = GetUserId();
+                _service.Delete(userid);
                 return Ok();
             }
             catch (Exception ex)
@@ -127,11 +132,6 @@ namespace backend.Controllers
         }
 
 
-
-        //delete
-        //search
-        //get by id
-
         
         private string GetToken(User user)
         {
@@ -149,6 +149,13 @@ namespace backend.Controllers
             var token = tokenHandler.CreateToken(tokenDescriptor);
             var tokenString = tokenHandler.WriteToken(token);
             return tokenString;
+        }
+
+        private int GetUserId()
+        {
+            var key = Request.Headers["Authorization"].ToString().Substring(7);
+            var token = new JwtSecurityToken(jwtEncodedString: key);
+            return int.Parse(token.Claims.First(c => c.Type == "unique_name").Value);
         }
     }
 }
