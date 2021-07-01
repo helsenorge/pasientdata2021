@@ -27,13 +27,21 @@ function AddFriendsPage() {
       axios.post('/Friend/AddFriend/',{friendName})
           .then(response => setRequestResult(response.data));
   }
+
+  const [requestUsers, setRequestUser] = useState({})
+    
+  function searchResult(key){
+    axios.get('friend/search/'+key)
+    .then(response => setRequestUser(response.data))
+
+}
   
     
     return (
       <>
       <WhiteHeaderWrapper title="Legg til venner" />
       <GreenBoxRoundedCorner>
-        <UserInputField placeholder="Brukernavn" onChange={e=>setUserInput(e.target.value)}/>
+        <UserInputField placeholder="Brukernavn" onChange={e=>setRequestUser(e.target.value)}/>
         <LoginButton classname theme={LoginButtonTheme} onClick={()=>sendData(userInput)}>Legg til</LoginButton>
       </GreenBoxRoundedCorner>
       </>
