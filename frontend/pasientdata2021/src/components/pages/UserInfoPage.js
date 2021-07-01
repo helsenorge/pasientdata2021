@@ -9,6 +9,8 @@ import { useState } from "react"
 
 import axios from "axios"
 
+import { useHistory } from "react-router"
+
 const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
@@ -35,11 +37,19 @@ const BottomText = styled.div`
 function UserInfoPage() {
     const [requestResult, setRequestResult] = useState({});
     const [userInput, setUserInput] = useState("");
+    const [showError, setShowError] = useState(false);
+    const history = useHistory();
     
     function sendData(username){
-        console.log("SEND REQUEST WITH USERNAME: ".concat(username))
         axios.post('/user/setusername',{username})
-            .then(response => setRequestResult(response.data));
+            .then(function(response){
+                setRequestResult(response.data)
+                history.push("/map");
+            })
+            .catch(function (error) {
+                console.log(error);
+                setShowError(true);
+            })
     }
 
     return (
@@ -54,6 +64,11 @@ function UserInfoPage() {
                 <LoginButton onClick={()=>sendData(userInput)} >
                     Fortsett
                 </LoginButton>
+                {showError ? 
+                <BottomText>
+                Noe gikk galt. Vennligst prøv igjen med et annet brukernavn.
+                </BottomText> : "" 
+                }
             </CustomGreenBox>
         </Wrapper>
     )
