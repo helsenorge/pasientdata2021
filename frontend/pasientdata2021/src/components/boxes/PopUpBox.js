@@ -16,7 +16,7 @@ const PopUpBoxStyle = styled.div`
     opacity: 1;
 `
 const PopUpInner = styled.div`
-    position: absolute;
+    position: relative;
     width: 100%;
     max-width: 640px;
     background-color: white;
