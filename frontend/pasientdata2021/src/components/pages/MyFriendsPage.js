@@ -21,12 +21,12 @@ const GreenBoxWrapper = styled(GreenBoxRoundedCorner)`
 `
 const CustomHeaderWrapper = styled(WhiteHeaderWrapper)`
   width: inherit;
-  margin-left: -20px;
+  margin-left: -17px;
 `
 
 const FriendsBoxCustom = styled(FriendsBox)`
   margin-left: 10px;
-  width: 360px;
+  width: 363px;
   font-weight: 600;
 `
 

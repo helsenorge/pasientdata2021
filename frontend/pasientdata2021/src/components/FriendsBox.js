@@ -1,5 +1,10 @@
 
 import styled from 'styled-components'
+import TextImgButton from './buttons/TextImgButton'
+import PopUpBox from './boxes/PopUpBox'
+import { useState } from "react";
+
+
 const FriendsBoxWrapper = styled.div`
     display: flex;
     font-size: 30px;
@@ -23,17 +28,23 @@ const TitleText = styled.a`
     overflow: hidden;  
     color: black;
 `
+const CustomTextImgButton = styled(TextImgButton)`
+  font-size: 30px ;
+`
 
-const FriendsBox = ({imgPath, title, children, className}) => {
-
-
+const FriendsBox = ({imgPath, title, children, className, onClick}) => {
+    const [ButtonPopup, setButtonPopUp] = useState(false);
     return (
         <>
         <FriendsBoxWrapper className={className}>
             {imgPath ? <FriendsIcon src={imgPath} alt="Icon" height ={30} /> : ""}
             <TitleText className={className}>{title}</TitleText>
-            {children}
-        </FriendsBoxWrapper> 
+            <TextImgButton imgSrc ="3-vertical-dots.svg" onClick={() => setButtonPopUp(true)} />
+            <PopUpBox trigger = {ButtonPopup} setTrigger={setButtonPopUp}>
+            <CustomTextImgButton imgSrc ="trash.svg" title = "Fjern Venn"></CustomTextImgButton>
+            </PopUpBox>
+
+        </FriendsBoxWrapper>
         </>
     )
 }
