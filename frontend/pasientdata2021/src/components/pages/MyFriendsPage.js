@@ -4,6 +4,7 @@ import AddButton from "../buttons/AddButton";
 import WhiteHeaderWrapper from "../boxes/WhiteHeaderWrapper";
 import GreenBoxRoundedCorner from "../boxes/GreenBoxRoundedCorner";
 import TextImgButton from "../buttons/TextImgButton";
+import { useHistory } from "react-router"
 
 
 
@@ -31,9 +32,10 @@ const FriendsBoxCustom = styled(FriendsBox)`
 `
 
 function MyFriendsPage() {  
+  const history = useHistory();
   return (
   <Wrapper className ="Wrapper">
-    <CustomHeaderWrapper title="Mine Venner"> <AddButton/> </CustomHeaderWrapper>
+    <CustomHeaderWrapper title="Mine Venner"> <AddButton onClick={() => history.push("/addfriend")} /> </CustomHeaderWrapper>
     <GreenBoxWrapper>
     <FriendsBoxCustom imgPath ="person.svg" title="Torstein" > 
     </FriendsBoxCustom>

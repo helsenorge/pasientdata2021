@@ -23,7 +23,7 @@ const FriendsIcon = styled.img`
 
 const TitleText = styled.a`
     font-size: 25px;
-    width: 260px;
+    width: 100%;
     white-space: nowrap;
     overflow: hidden;  
     color: black;

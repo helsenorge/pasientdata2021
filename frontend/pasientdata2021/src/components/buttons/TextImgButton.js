@@ -19,8 +19,8 @@ const ButtonImg = styled.img`
 
 function TextImgButton({className, title, imgSrc, onClick}) {
     return (
-        <TextImgButtonWrapper className={className}>
-            <ButtonImg src={imgSrc} height={30} onClick={onClick} />
+        <TextImgButtonWrapper className={className} onClick={onClick}>
+            <ButtonImg src={imgSrc} height={30}  />
             {title}
         </TextImgButtonWrapper>
     )
