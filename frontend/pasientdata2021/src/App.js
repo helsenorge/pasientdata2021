@@ -29,6 +29,7 @@ function App() {
   useEffect(() => {
     if (localStorage.getItem('token')){
       axios.defaults.headers.common['Authorization'] = "Bearer ".concat(localStorage.getItem('token'));
+      console.log(localStorage.getItem('token'))
     }
   }, []);
 
