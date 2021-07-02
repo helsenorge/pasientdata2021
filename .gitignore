@@ -93,3 +93,10 @@ _[Ss]cripts
 *.nupkg
 *.ncrunchsolution
 *.dot[Cc]over
+
+backend/backend/bin/
+backend/backend/obj/
+backend/backend/LocalDatabase.db
+.vs/
+backend/.vs/
+backend/backend/.vs/
