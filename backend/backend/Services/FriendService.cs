@@ -1,5 +1,6 @@
 ﻿using backend.Helpers;
 using backend.Model;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -75,8 +76,8 @@ namespace backend.Services
                 throw new AppException("Users added dosent exist");
 
             //sjekker om det finnes en forrespørsel mellom disse brukerene fra før
-            var temprequest = _context.FriendRequests.ToList().Where(x => x.UserReceiver == userAdded).Where(x=> x.UserSender == userSender);
-            if(temprequest != null)
+            var temprequest = _context.FriendRequests.ToList().Where(x => x.UserReceiver == userAdded).Where(x=> x.UserSender == userSender).ToList();
+            if(temprequest.Count != 0)
             {
                 throw new AppException("Friendrequest already exist");
             }
@@ -125,7 +126,19 @@ namespace backend.Services
             var user = _context.Users.Find(id);
             if (user == null)
                 throw new AppException("User doesnt exist");
-            return _context.FriendRequests.ToList().FindAll(x => x.UserReceiver == user);
+            var requests = _context.FriendRequests.Include(x=>x.UserSender).Include(x=>x.UserReceiver).ToList().FindAll(x=>x.UserReceiverId == id);
+            requests.ForEach(item =>
+            {
+                item.UserReceiver.FriendRequestsReceived = null;
+                item.UserSender.FriendRequestsSent = null;
+            });
+            return requests;
+            /*requests.ForEach(item =>
+            {
+                item.UserReceiver.FriendRequestsReceived = null;
+                item.UserSender.FriendRequestsSent = null;
+            });
+            return requests;*/
         }
 
         public List<User> GetAllFriends(int id)

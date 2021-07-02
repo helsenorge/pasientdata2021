@@ -36,7 +36,7 @@ namespace backend.Controllers
             }
         }
 
-        [HttpPost("GetAllFriends")]
+        [HttpGet("GetAllFriends")]
         public IActionResult GetAllFriends()
         {
             try
