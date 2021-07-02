@@ -6,6 +6,8 @@ import GreenBoxRoundedCorner from "../boxes/GreenBoxRoundedCorner";
 import TextImgButton from "../buttons/TextImgButton";
 
 
+
+
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -22,18 +24,23 @@ const CustomHeaderWrapper = styled(WhiteHeaderWrapper)`
   margin-left: -20px;
 `
 
+const FriendsBoxCustom = styled(FriendsBox)`
+  margin-left: 10px;
+  width: 360px;
+  font-weight: 600;
+`
 
-function MyFriendsPage() {  return (
+function MyFriendsPage() {  
+  return (
   <Wrapper className ="Wrapper">
     <CustomHeaderWrapper title="Mine Venner"> <AddButton/> </CustomHeaderWrapper>
     <GreenBoxWrapper>
-    <FriendsBox imgPath ="person.svg" title="Torstein" > <TextImgButton imgSrc ="3-vertical-dots.svg"></TextImgButton>
-    </FriendsBox>
-    <FriendsBox imgPath ="person.svg" title="Awalle" > <TextImgButton imgSrc ="3-vertical-dots.svg"></TextImgButton>
-    </FriendsBox>
-    <FriendsBox imgPath ="person.svg" title="Ole Kristian" > 
-      <TextImgButton imgSrc ="3-vertical-dots.svg"></TextImgButton>
-    </FriendsBox>
+    <FriendsBoxCustom imgPath ="person.svg" title="Torstein" > 
+    </FriendsBoxCustom>
+    <FriendsBoxCustom imgPath ="person.svg" title="Awalle" > 
+    </FriendsBoxCustom>
+    <FriendsBoxCustom imgPath ="person.svg" title="Ole Kristian" > 
+  </FriendsBoxCustom>
   </GreenBoxWrapper>
   </Wrapper>
 )}
