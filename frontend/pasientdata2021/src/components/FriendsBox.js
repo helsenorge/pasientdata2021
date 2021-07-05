@@ -39,11 +39,7 @@ const FriendsBox = ({imgPath, title, children, className, onClick}) => {
         <FriendsBoxWrapper className={className}>
             {imgPath ? <FriendsIcon src={imgPath} alt="Icon" height ={30} /> : ""}
             <TitleText className={className}>{title}</TitleText>
-            <TextImgButton imgSrc ="3-vertical-dots.svg" onClick={() => setButtonPopUp(true)} />
-            <PopUpBox trigger = {ButtonPopup} setTrigger={setButtonPopUp}>
-            <CustomTextImgButton imgSrc ="trash.svg" title = "Fjern Venn"></CustomTextImgButton>
-            </PopUpBox>
-
+            {children}
         </FriendsBoxWrapper>
         </>
     )

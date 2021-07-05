@@ -1,6 +1,5 @@
 import styled from "styled-components"
 import ArrowButton from "../buttons/ArrowButton"
-import {FaTimes, FaCheck} from "react-icons/fa";
 
 const Tripwrapper = styled.div`
 display: flex;
@@ -15,6 +14,7 @@ font-family: 'Comfortaa';
 font-size: 0.35em;
 color: rgba(0,0,0,.60);
 `
+
 const Trip = styled.div`
 display: flex;
 flex-direction:column;
@@ -25,35 +25,23 @@ overflow:hidden;
 max-width: 250px;
 `
 
-const Icon = styled(FaCheck)`
-font-size: 1.4em;
-color: "green";
-margin-right: 2px;
 
-`
-const IconX = styled(FaTimes)`
-font-size: 1.4em;
-color: "red";
-
-`
-
-
-
-
-
-function TripComponent({name, time, invited}){
+function TripComponent({name, time, invited, children}){
 
         return(
         <Tripwrapper>
 
             <Trip>
-            {name}
-            <TripTime>{time}</TripTime>
+                {name}
+                <TripTime>
+                    {time}
+                </TripTime>
             </Trip>
             {
             invited ?
-                    <div><Icon style = {{color:"green"}}/>
-                    <IconX style={{color:"red"}} /></div>
+                    <div>
+                        {children}
+                    </div>
                 
                 :
                     <ArrowButton direction="right" />
