@@ -132,8 +132,6 @@ namespace backend.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
-
-
         
         private string GetToken(User user)
         {

@@ -83,8 +83,10 @@ namespace backend.Services
             }
 
             //sjekker om det eksisterer et vennskap mellom disse to brukerene fra før
-            var friendshipsids1 = _context.UserHasFriendships.ToList().Where(x => x.UserId == userSender.Id).Select(x=>x.FriendshipId);
-            var friendshipsids2 = _context.UserHasFriendships.ToList().Where(x => x.UserId == userAdded.Id).Select(x => x.FriendshipId);
+            var friendshipsids1 = _context.UserHasFriendships.ToList()
+                .Where(x => x.UserId == userSender.Id).Select(x=>x.FriendshipId);
+            var friendshipsids2 = _context.UserHasFriendships.ToList()
+                .Where(x => x.UserId == userAdded.Id).Select(x => x.FriendshipId);
             bool hasequalItems = friendshipsids1.Intersect(friendshipsids2).Any();
             if (hasequalItems)
                 throw new AppException("Friendship already exist");
@@ -109,8 +111,10 @@ namespace backend.Services
             if (userAdded == null)
                 throw new AppException("Friend user dosent exist");
 
-            var friendshipsids1 = _context.UserHasFriendships.ToList().Where(x => x.UserId == userSender.Id).Select(x => x.FriendshipId);
-            var friendshipsids2 = _context.UserHasFriendships.ToList().Where(x => x.UserId == userAdded.Id).Select(x => x.FriendshipId);
+            var friendshipsids1 = _context.UserHasFriendships.ToList()
+                .Where(x => x.UserId == userSender.Id).Select(x => x.FriendshipId);
+            var friendshipsids2 = _context.UserHasFriendships.ToList()
+                .Where(x => x.UserId == userAdded.Id).Select(x => x.FriendshipId);
             bool hasequalItems = friendshipsids1.Intersect(friendshipsids2).Any();
             if (!hasequalItems)
                 throw new AppException("Friendship dosent exist");
@@ -126,19 +130,16 @@ namespace backend.Services
             var user = _context.Users.Find(id);
             if (user == null)
                 throw new AppException("User doesnt exist");
-            var requests = _context.FriendRequests.Include(x=>x.UserSender).Include(x=>x.UserReceiver).ToList().FindAll(x=>x.UserReceiverId == id);
+            var requests = _context.FriendRequests.Include(x=>x.UserSender)
+                .Include(x=>x.UserReceiver).ToList().FindAll(x => x.UserReceiverId == id);
             requests.ForEach(item =>
             {
                 item.UserReceiver.FriendRequestsReceived = null;
+                item.UserReceiver.FriendRequestsSent = null;
                 item.UserSender.FriendRequestsSent = null;
+                item.UserSender.FriendRequestsReceived = null;
             });
             return requests;
-            /*requests.ForEach(item =>
-            {
-                item.UserReceiver.FriendRequestsReceived = null;
-                item.UserSender.FriendRequestsSent = null;
-            });
-            return requests;*/
         }
 
         public List<User> GetAllFriends(int id)
@@ -146,8 +147,10 @@ namespace backend.Services
             var user = _context.Users.Find(id);
             if (user == null)
                 throw new AppException("User doesnt exist");
-            var userhasfriendshipIds = _context.UserHasFriendships.ToList().FindAll(x => x.UserId == user.Id).Select(x=>x.FriendshipId);
-            var Users = _context.Friendships.ToList().FindAll(x=> userhasfriendshipIds.Contains(x.Id)).ToList().Select(x=>x.Users).SelectMany(x => x).ToList();
+            var userhasfriendshipIds = _context.UserHasFriendships.ToList()
+                .FindAll(x => x.UserId == user.Id).Select(x=>x.FriendshipId);
+            var Users = _context.Friendships.ToList().FindAll(x=> userhasfriendshipIds.Contains(x.Id)).ToList()
+                .Select(x=>x.Users).SelectMany(x => x).ToList();
             var friendsIds = Users.ToList().FindAll(x => x.UserId != id).Select(x=>x.UserId);
             return _context.Users.ToList().FindAll(x => friendsIds.Contains(x.Id));
         }
