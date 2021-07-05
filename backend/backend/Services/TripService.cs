@@ -112,17 +112,6 @@ namespace backend.Services
             };
             _context.Trips.Add(trip);
             _context.SaveChanges();
-
-            //testing
-            
-            var friendship = new Friendship
-            {
-                CreatedAt = DateTime.Now,
-                Users = new List<UserHasFriendship>() { new UserHasFriendship { UserId = 3 }, new UserHasFriendship { UserId = 1 } }
-            };
-            _context.Friendships.Add(friendship);
-            _context.SaveChanges();
-            GetFriendsTrips(1);
             return trip;
         }
 
@@ -165,6 +154,7 @@ namespace backend.Services
             _context.SaveChanges();
         }
 
+        //Sjekk om det er mulig å effektivisere denne funksjonen litt
         public List<Trip> GetFriendsTrips(int userid)
         {
             var user = _context.Users.Include(x => x.UserHasFriendShips).ToList().Find(x=>x.Id == userid);
@@ -189,17 +179,44 @@ namespace backend.Services
 
         public Trip GetTrip(int tripid)
         {
-            throw new NotImplementedException();
+            var trip = _context.Trips.Find(tripid);
+            if(trip == null)
+                throw new AppException("Trip dosent exist");
+            return trip;
         }
 
         public List<Trip> GetUsersTrips(int userid)
         {
-            throw new NotImplementedException();
+            var user = _context.Users.Include(x=>x.UserHasTrips).ToList().Find(x=> x.Id == userid);
+            if(user == null)
+                throw new AppException("User dosent exist");
+
+            var userHasTrips = user.UserHasTrips.ToList().Where(x => x.IsCreator).ToList();
+            if (userHasTrips.Count == 0)
+                return new List<Trip>();
+
+            var tripIds = userHasTrips.ToList().Select(x => x.TripId);
+            return _context.Trips.ToList().FindAll(x => tripIds.Contains(x.Id));
         }
 
         public void InviteFriend(int userid, int tripid, int friendId)
         {
-            throw new NotImplementedException();
+            var user = _context.Users.Find(userid);
+            if (user == null)
+                throw new AppException("User dosent exist");
+
+            var friend = _context.Users.Find(friendId);
+            if(friend == null)
+                throw new AppException("Friend dosent exist");
+
+            var trip = _context.Trips.Find(tripid);
+            if(trip == null)
+                throw new AppException("Trip dosent exist");
+
+            var request = new TripRequest { SentAt = DateTime.Now, UserId = friendId };
+            trip.Requests.Add(request);
+            _context.Trips.Update(trip);
+            _context.SaveChanges();
         }
     }
 }

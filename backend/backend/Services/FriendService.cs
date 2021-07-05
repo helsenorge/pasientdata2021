@@ -76,8 +76,7 @@ namespace backend.Services
                 throw new AppException("Users added dosent exist");
 
             //sjekker om det finnes en forrespørsel mellom disse brukerene fra før
-            var temprequest = _context.FriendRequests.ToList()
-                .Where(x => x.UserReceiver == userAdded).Where(x=> x.UserSender == userSender).ToList();
+            var temprequest = _context.FriendRequests.ToList().Where(x => x.UserReceiver == userAdded).Where(x=> x.UserSender == userSender).ToList();
             if(temprequest.Count != 0)
             {
                 throw new AppException("Friendrequest already exist");
