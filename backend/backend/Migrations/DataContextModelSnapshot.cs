@@ -17,6 +17,28 @@ namespace backend.Migrations
                 .HasDefaultSchema("public")
                 .HasAnnotation("ProductVersion", "5.0.7");
 
+            modelBuilder.Entity("backend.Model.Destination", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("StopDestionation")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("StopNumber")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("TripDataId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TripDataId");
+
+                    b.ToTable("Destionations");
+                });
+
             modelBuilder.Entity("backend.Model.FriendRequest", b =>
                 {
                     b.Property<int>("Id")
@@ -67,9 +89,6 @@ namespace backend.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("TripDataId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<DateTime>("TripDate")
                         .HasColumnType("TEXT");
 
@@ -84,10 +103,16 @@ namespace backend.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("Description")
+                        .HasColumnType("TEXT");
+
                     b.Property<int>("TripId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("TripId")
+                        .IsUnique();
 
                     b.ToTable("TripData");
                 });
@@ -187,6 +212,15 @@ namespace backend.Migrations
                     b.ToTable("UserHasTrips");
                 });
 
+            modelBuilder.Entity("backend.Model.Destination", b =>
+                {
+                    b.HasOne("backend.Model.TripData", null)
+                        .WithMany("Destionations")
+                        .HasForeignKey("TripDataId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("backend.Model.FriendRequest", b =>
                 {
                     b.HasOne("backend.Model.User", "UserReceiver")
@@ -204,6 +238,17 @@ namespace backend.Migrations
                     b.Navigation("UserReceiver");
 
                     b.Navigation("UserSender");
+                });
+
+            modelBuilder.Entity("backend.Model.TripData", b =>
+                {
+                    b.HasOne("backend.Model.Trip", "Trip")
+                        .WithOne("TripData")
+                        .HasForeignKey("backend.Model.TripData", "TripId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Trip");
                 });
 
             modelBuilder.Entity("backend.Model.TripRequest", b =>
@@ -260,7 +305,14 @@ namespace backend.Migrations
                 {
                     b.Navigation("Requests");
 
+                    b.Navigation("TripData");
+
                     b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("backend.Model.TripData", b =>
+                {
+                    b.Navigation("Destionations");
                 });
 
             modelBuilder.Entity("backend.Model.User", b =>

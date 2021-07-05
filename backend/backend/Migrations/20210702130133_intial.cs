@@ -25,20 +25,6 @@ namespace backend.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TripData",
-                schema: "public",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    TripId = table.Column<int>(type: "INTEGER", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_TripData", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Trips",
                 schema: "public",
                 columns: table => new
@@ -47,7 +33,6 @@ namespace backend.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(type: "TEXT", nullable: true),
                     TripDate = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    TripDataId = table.Column<int>(type: "INTEGER", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
@@ -70,6 +55,28 @@ namespace backend.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TripData",
+                schema: "public",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    TripId = table.Column<int>(type: "INTEGER", nullable: false),
+                    Description = table.Column<string>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TripData", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_TripData_Trips_TripId",
+                        column: x => x.TripId,
+                        principalSchema: "public",
+                        principalTable: "Trips",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -192,6 +199,35 @@ namespace backend.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Destionations",
+                schema: "public",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    TripDataId = table.Column<int>(type: "INTEGER", nullable: false),
+                    StopDestionation = table.Column<string>(type: "TEXT", nullable: true),
+                    StopNumber = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Destionations", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Destionations_TripData_TripDataId",
+                        column: x => x.TripDataId,
+                        principalSchema: "public",
+                        principalTable: "TripData",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Destionations_TripDataId",
+                schema: "public",
+                table: "Destionations",
+                column: "TripDataId");
+
             migrationBuilder.CreateIndex(
                 name: "IX_FriendRequests_UserReceiverId",
                 schema: "public",
@@ -203,6 +239,13 @@ namespace backend.Migrations
                 schema: "public",
                 table: "FriendRequests",
                 column: "UserSenderId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TripData_TripId",
+                schema: "public",
+                table: "TripData",
+                column: "TripId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_TripRequests_TripId",
@@ -244,11 +287,11 @@ namespace backend.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "FriendRequests",
+                name: "Destionations",
                 schema: "public");
 
             migrationBuilder.DropTable(
-                name: "TripData",
+                name: "FriendRequests",
                 schema: "public");
 
             migrationBuilder.DropTable(
@@ -264,15 +307,19 @@ namespace backend.Migrations
                 schema: "public");
 
             migrationBuilder.DropTable(
+                name: "TripData",
+                schema: "public");
+
+            migrationBuilder.DropTable(
                 name: "Friendships",
                 schema: "public");
 
             migrationBuilder.DropTable(
-                name: "Trips",
+                name: "Users",
                 schema: "public");
 
             migrationBuilder.DropTable(
-                name: "Users",
+                name: "Trips",
                 schema: "public");
         }
     }

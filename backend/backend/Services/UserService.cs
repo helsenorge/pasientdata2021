@@ -72,7 +72,6 @@ namespace backend.Services
 
             //sjekk at googleid osv ikke er null;
 
-
             var user = new User
             {
                 Mail = mail,

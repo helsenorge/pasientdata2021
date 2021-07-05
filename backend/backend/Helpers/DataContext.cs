@@ -14,11 +14,17 @@ namespace backend.Helpers
         public DbSet<TripData> TripData { get; set; }
         public DbSet<Friendship> Friendships { get; set; }
         public DbSet<TripRequest> TripRequests { get; set; }
+        public DbSet<Destination> Destionations { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasDefaultSchema("public");
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Trip>()
+                .HasOne(fs => fs.TripData)
+                .WithOne(u => u.Trip)
+                .HasForeignKey<TripData>(b => b.TripId);
 
             modelBuilder.Entity<FriendRequest>()
                 .HasOne(fs => fs.UserSender)
@@ -31,6 +37,7 @@ namespace backend.Helpers
                 .WithMany(u => u.FriendRequestsReceived)
                 .HasForeignKey(fs => fs.UserReceiverId)
                 .HasPrincipalKey(t => t.Id);
+
         }
 
         protected readonly IConfiguration Configuration;
