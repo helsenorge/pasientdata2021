@@ -70,7 +70,6 @@ namespace backend.Services
                 return null;
             }
 
-            //sjekk at googleid osv ikke er null;
 
             var user = new User
             {
@@ -91,7 +90,7 @@ namespace backend.Services
 
         public List<User> search(int id, string key)
         {
-            var users = _context.Users.ToList().Where(x=> x.Id != id).ToList().FindAll(x => x.Username.StartsWith(key));            
+            var users = _context.Users.ToList().Where(x=> x.Id != id).ToList().FindAll(x => x.Username.ToLower().StartsWith(key.ToLower()));            
             return users;
         }
 
