@@ -39,7 +39,6 @@ function UserInfoPage() {
     const [userInput, setUserInput] = useState("");
     const [showError, setShowError] = useState(false);
     const history = useHistory();
-
     
     function sendData(username){
         axios.post('/user/setusername',{username})
