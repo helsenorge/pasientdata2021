@@ -13,10 +13,14 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 import { useHistory } from "react-router"
+import Accordion from "react-bootstrap/Accordion";
+import Card from "react-bootstrap/Card"
 
 
 const CustomTextImgButton = styled(TextImgButton)`
-font-size:30px;
+  margin: 0px 0px 0px 0px;
+  background-color: transparent;
+  font-size:20px;
 `
 
 const Wrapper = styled.div`
@@ -78,7 +82,7 @@ function MyFriendsPage() {
 
   useEffect(() => {
     GetAllFriends()
-}, []);
+  }, []);
 
 
   
@@ -141,32 +145,30 @@ function MyFriendsPage() {
   <Wrapper className ="Wrapper">
     <CustomHeaderWrapper title="Mine Venner"> <AddButton onClick={() => history.push("/addfriend")} /> </CustomHeaderWrapper>
     <GreenBoxWrapper>
-    {
-      <ul>
-        {friends.map((item) => <FriendsBoxCustom imgPath="person.svg" title = {item.name} >  
-          <TextImgButton imgSrc ="3-vertical-dots.svg" onClick={() => setButtonPopUp(true)} />          
-              <PopUpBox trigger = {ButtonPopup} setTrigger={setButtonPopUp}>
-                <CustomTextImgButton imgSrc ="trash.svg" title = "Fjern Venn" onClick={()=> removeFriend(item.id)}></CustomTextImgButton>
-              </PopUpBox>
-            </FriendsBoxCustom>)}
-        
-      </ul>
-    }
-   
-    
-    
+
+      <Accordion>
+        {friends?.map((item, index) =>
+          <Card>
+            <Accordion.Toggle as={Card.Header} eventKey={index.toString()}>
+              {item.name}
+            </Accordion.Toggle>
+            <Accordion.Collapse eventKey={index.toString()}>
+              <Card.Body>
+                <CustomTextImgButton imgSrc="trash.svg" title="Fjern Venn" onClick={()=> removeFriend(item.id)} />
+              </Card.Body>
+            </Accordion.Collapse>
+          </Card>
+        )}
+      </Accordion>
+
     <LandingPageCategory title="Venneforespørsler"/>
 
-
-    {<ul>
       {friendRequest?.map(item => <TripComponent name={item?.userSender?.username} invited="True">
           <Icon onClick={()=>acceptRequest(item.id)}/>
           <IconX onClick={()=>removeRequest(item.id)}/>
       </TripComponent>
-        
-        )}
-    </ul> } 
-
+      )}
+      
   </GreenBoxWrapper>
   </Wrapper>
 )}

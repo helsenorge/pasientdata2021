@@ -15,11 +15,14 @@ import TripsPage from "./components/pages/TripsPage"
 import TripInfo from './components/pages/TripInfoPage'
 import UserInfoPage from './components/pages/UserInfoPage';
 
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import axios from 'axios';
 
 import { useEffect } from 'react';
+
 
 
 function App() {
