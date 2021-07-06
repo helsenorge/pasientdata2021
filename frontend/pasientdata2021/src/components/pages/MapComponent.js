@@ -22,7 +22,6 @@ function MapComponent({className}) {
     let data = require('../route2.json');
 
     useEffect(() => {
-        console.log(data)
         if (map.current) return; // initialize map only once
         
         map.current = new mapboxgl.Map({
@@ -78,8 +77,6 @@ function MapComponent({className}) {
 
     return (
         <>
-        <button onClick={()=>addRoute()}>Put in route</button>
-        <button onClick={()=>removeRoute()}>Remove route</button>
         <div ref={mapContainer} className={className} />
         </>
     )

@@ -18,3 +18,16 @@ code {
 .mapboxgl-ctrl-bottom-right {
   display: none;
 }
+
+
+.mapbox-directions-component {
+  display: none;
+}
+
+.mapbox-directions-inputs {
+  display: none;
+}
+
+.mapboxgl-ctrl-top-left {
+  display: none;
+} 

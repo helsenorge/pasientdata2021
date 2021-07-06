@@ -41,6 +41,7 @@ const WelcomePage = () => {
             .then(response => setRequestResult(response.data));
     }, []);
 
+
     console.log(requestResult)
 
     return (
