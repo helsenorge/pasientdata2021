@@ -9,8 +9,8 @@ import 'mapbox-gl/dist/mapbox-gl.css'
 import MapboxDirections from '@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions'
 import '@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions.css'
 
-
 mapboxgl.accessToken = 'pk.eyJ1IjoidGVvMzIwMSIsImEiOiJja3FhbGwzMjYwbmJuMm5sYmQ0NWJnaTlzIn0.CvCp6NNdxaBVmCheNWhjYw';
+
 
 function MapComponent({className}) {
     const mapContainer = useRef(null);
@@ -19,8 +19,10 @@ function MapComponent({className}) {
     const [lat, setLat] = useState(59.907);
     const [zoom, setZoom] = useState(9);
 
-    
+    let data = require('../route2.json');
+
     useEffect(() => {
+        console.log(data)
         if (map.current) return; // initialize map only once
         
         map.current = new mapboxgl.Map({
@@ -43,11 +45,43 @@ function MapComponent({className}) {
             }),
             'top-left'
         );
-    }); 
+
+    });
+    
+    function addRoute(){
+        map.current.addLayer({
+            id: 'route',
+            type: 'line',
+            source: {
+                type: 'geojson',
+                data: {
+                type: 'Feature',
+                properties: {},
+                geometry: data.routes[0].geometry,
+                },
+            },
+            layout: {
+                'line-join': 'round',
+                'line-cap': 'round',
+            },
+            paint: {
+                'line-color': '#ff7e5f',
+                'line-width': 8,
+            },
+        })
+    };
+
+    function removeRoute(){
+        map.current.removeLayer('route');
+    }
 
 
     return (
+        <>
+        <button onClick={()=>addRoute()}>Put in route</button>
+        <button onClick={()=>removeRoute()}>Remove route</button>
         <div ref={mapContainer} className={className} />
+        </>
     )
 }
 
