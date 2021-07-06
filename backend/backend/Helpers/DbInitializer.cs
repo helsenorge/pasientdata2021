@@ -28,11 +28,10 @@ namespace backend.Helpers
                 GoogleId = "1343403409",
                 Username = "peokoffr"
             };
-
             context.Users.Add(user1);
             context.Users.Add(user2);
-            context.SaveChanges();
 
+            context.SaveChanges();
             var friendship = new Friendship
             {
                 CreatedAt = DateTime.Now,

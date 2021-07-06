@@ -68,7 +68,7 @@ namespace backend.Controllers
 
         [AllowAnonymous]
         [HttpPost("authenticate")]
-        public async Task<IActionResult> Authenticate([FromBody]AuthenticateModel model)
+        public IActionResult Authenticate([FromBody]AuthenticateModel model)
         {
             try
             {

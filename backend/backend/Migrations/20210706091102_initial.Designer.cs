@@ -9,8 +9,8 @@ using backend.Helpers;
 namespace backend.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210702130133_intial")]
-    partial class intial
+    [Migration("20210706091102_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
