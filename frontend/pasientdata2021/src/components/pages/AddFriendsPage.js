@@ -16,29 +16,20 @@ const LoginButtonTheme = {
 
 function AddFriendsPage() {
 
-  //const [requestResult, setRequestResult] = useState({});
-  //const [userInput, setUserInput] = useState("");
-  //console.log(userInput)
   
-
-  function sendData(friendName){
-      console.log("SEND REQUEST WITH USERNAME: ".concat(friendName))
-      
-      axios.post('/Friend/AddFriend/',{friendName})
-          .then(response => setRequestResult(response.data));
-  }
-
   //Søker etter brukere
   const [requestUsers, setRequestUser] = useState({})
+  const [requestResult, setRequestResult] = useState({});
+  
     
   function searchResult(key){
     axios.get('user/search/'+key)
     .then(response => setRequestUser(response.data))
-
+    console.log("FAEN")
+    
   }
-
-  const [requestResult, setRequestResult] = useState({});
   
+  console.log(requestUsers)
   //Legger til valgte brukerer som venn ved å bruke /Addfriend routen til backenden
   function sendFriendRequest(friendName){
     console.log("SEND REQUEST WITH USERNAME: "+ (friendName))
