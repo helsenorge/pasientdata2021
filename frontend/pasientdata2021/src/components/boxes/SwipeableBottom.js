@@ -11,7 +11,7 @@ function SwipeableBottom({children, style}) {
 
     return (
     <SwipeableBottomSheet overflowHeight={40} style={style} bodyStyle={bodyStyle} topShadow={false}>
-        <div style={{ height: '300px' }}>
+        <div style={{ height: '350px' }}>
             {children}
         </div>
     </SwipeableBottomSheet>

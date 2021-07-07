@@ -45,7 +45,7 @@ function SettingsPage() {
     function removeMe(){
         axios.delete('/User')
           .then(
-            history.push("/login")
+            history.push("/welcome")
         );
     }
 

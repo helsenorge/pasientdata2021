@@ -3,6 +3,8 @@ import styled from 'styled-components';
 
 import UserInputField from '../inputFields/UserInputField';
 
+import WhiteHeaderWrapper from '../boxes/WhiteHeaderWrapper';
+
 import MapComponent from './MapComponent';
 
 import GreenBoxRoundedCorner from '../boxes/GreenBoxRoundedCorner';
@@ -31,6 +33,9 @@ import ScrollList from '../boxes/ScrollList';
         justify-content: flex-end;
         height: 100%;
         background-color: white;
+    `
+    const HeaderWrapper = styled(WhiteHeaderWrapper)`
+        background-color: inherit;
     `
 
     const SubTitle = styled.a`
@@ -87,7 +92,7 @@ function InsertTripInfo({setTripName, setTripTime}) {
 
     return(
         <CustomGreenBox>
-            <CenterText>Lag Tur</CenterText>
+           <HeaderWrapper title="Lag Tur" />
             <UserInputField placeholder="Navn" onChange={(e)=>setTripName(e.target.value)} />
             <UserInputField placeholder="Dato"/>
             <LandingPageCategory title="Inviterte">
