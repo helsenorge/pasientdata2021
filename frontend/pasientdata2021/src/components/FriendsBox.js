@@ -36,9 +36,9 @@ const FriendsBox = ({imgPath, title, children, className, onClick}) => {
     const [ButtonPopup, setButtonPopUp] = useState(false);
     return (
         <>
-        <FriendsBoxWrapper className={className}>
+        <FriendsBoxWrapper className={className} onClick={onClick}>
             {imgPath ? <FriendsIcon src={imgPath} alt="Icon" height ={30} /> : ""}
-            <TitleText className={className}>{title}</TitleText>
+            <TitleText>{title}</TitleText>
             {children}
         </FriendsBoxWrapper>
         </>
