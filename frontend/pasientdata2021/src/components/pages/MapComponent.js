@@ -9,7 +9,7 @@ import axios from "axios";
 mapboxgl.accessToken = 'pk.eyJ1IjoidGVvMzIwMSIsImEiOiJja3FhbGwzMjYwbmJuMm5sYmQ0NWJnaTlzIn0.CvCp6NNdxaBVmCheNWhjYw';
 
 
-function MapComponent({className}) {
+function MapComponent({className, routeData, setRouteData}) {
     const mapContainer = useRef(null);
     const map = useRef(null);
     const [lng, setLng] = useState(10.749);
@@ -18,6 +18,8 @@ function MapComponent({className}) {
     const Route = useRef(null);
     const [Points, setPoints] = useState([]);
     const routeId = useRef("");
+
+
 
     useEffect(() => {
 
@@ -39,7 +41,10 @@ function MapComponent({className}) {
         map.current.on("click",function(e){
             var curentpoints = Points
             curentpoints.push({"lng":e["lngLat"]["lng"], "lat":e["lngLat"]["lat"]})
-            getAdress(e["lngLat"]["lng"],e["lngLat"]["lat"])
+            getAdress(e["lngLat"]["lng"], e["lngLat"]["lat"])
+
+            //currentpoints.push()
+
             if(curentpoints.length == 1){
                 setPoints(curentpoints)
                 return
@@ -65,8 +70,8 @@ function MapComponent({className}) {
         var key = "pk.eyJ1IjoidGVvMzIwMSIsImEiOiJja3FhbGwzMjYwbmJuMm5sYmQ0NWJnaTlzIn0.CvCp6NNdxaBVmCheNWhjYw"
         axios.get('http://api.tiles.mapbox.com/v4/geocode/mapbox.places/'+longitude+","+latitude+".json?access_token="+key)
                  .then(response => {
-                    console.log(response.data)
-                    console.log(response.data.features[0]["place_name"])
+                    let currentRouteData = {"lng":longitude, "lat":latitude, "address":response.data.features[0]["place_name"]}
+                    setRouteData(routeData => [...routeData, currentRouteData]);
                  })
     }
 

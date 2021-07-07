@@ -23,6 +23,8 @@ import AutocompleteField from '../inputFields/AutocompleteField';
 
 import axios from 'axios';
 
+import ScrollList from '../boxes/ScrollList';
+
     const Wrapper = styled.div`
         display: flex;
         flex-direction: column;
@@ -53,7 +55,7 @@ import axios from 'axios';
     `
 
     const SmallCustomGreenBox = styled(CustomGreenBox)`
-        height: 200px;
+        height: 250px;
     `
 
    const PersonBox = styled(FriendsBox)`
@@ -119,16 +121,18 @@ function InsertTripInfo({setTripName, setTripTime}) {
 }
 
 
-
-
-function InsertTripRoute() {
+function InsertTripRoute({routeData}) {
     const history = useHistory();
     let { path, url } = useRouteMatch();
 
     return(
         <SmallCustomGreenBox>
             <CenterText>Legg til stopp</CenterText>
-                <LandingPageCategory title="1. Nasjonalteateret" />
+                <ScrollList>
+                    {routeData.map((data, index) => 
+                        <LandingPageCategory id={"Checkpoint"+index} title={index+1 + ". " +data.address.split(",")[0]} />
+                    )}
+                </ScrollList>
                 <UnderlineButton onClick={()=>history.goBack()}>Ferdig</UnderlineButton>
         </SmallCustomGreenBox>
     )
@@ -140,18 +144,21 @@ function CreateTripPage() {
     const [tripTime, setTripTime] = useState("");
     const [invitedFriends, setInvitedFriends] = useState("")
 
+    const [routeData, setRouteData] = useState([]);
+    console.log(routeData)
+
     let { path, url } = useRouteMatch();
     const history = useHistory();
 
     return (
         <Wrapper>
-            <MapContainer className="MapContainer" />
+            <MapContainer className="MapContainer" routeData={routeData} setRouteData={setRouteData} />
             <Switch>
                 <Route exact path={path}>
                     <InsertTripInfo setTripName={setTripName}/>
                 </Route>
                 <Route path={path.concat("/enterroute")}>
-                    <InsertTripRoute/>
+                    <InsertTripRoute routeData={routeData}/>
                 </Route>
             </Switch>
         </Wrapper>
