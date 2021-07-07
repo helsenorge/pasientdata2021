@@ -44,7 +44,7 @@ function App() {
     <Router>
       <PageWrapper>
         <Switch>
-           <Route path="/" exact render={() => <LandingPage /> } />
+           <Route path="/" exact render={() => <WelcomePage /> } />
            <Route path="/welcome" exact render={() => <WelcomePage /> } />
            <Route path="/login" exact render={() => <LoginPage /> } />
            <Route path="/register" exact render={() => <RegisterPage /> } />

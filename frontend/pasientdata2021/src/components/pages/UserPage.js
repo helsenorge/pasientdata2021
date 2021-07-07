@@ -1,84 +1,61 @@
 
-import GreenBoxRoundedCorner from "../boxes/GreenBoxRoundedCorner"
-import WhiteHeaderWrapper from "../boxes/WhiteHeaderWrapper"
-import styled from "styled-components"
-import UserInputField from "../inputFields/UserInputField"
-import LoginButton from "../buttons/LoginButton"
+import styled from 'styled-components'
 
-import { useState, useEffect } from "react"
+import ButtonBox from '../boxes/ButtonBox'
+import TopBox from '../boxes/TopBox'
+import GreenBoxRoundedCorner from '../boxes/GreenBoxRoundedCorner'
 
-import axios from "axios"
+import LandingPageLink from '../buttons/LandingPageLink'
 
-import { useHistory } from "react-router"
+import LandingPageCategory from '../boxes/LandingPageCategory';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import WhiteHeaderWrapper from '../boxes/WhiteHeaderWrapper';
 
-const Wrapper = styled.div`
+
+const UserIcon = styled.img`
     display: flex;
-    flex-direction: column;
-    height: inherit;
-    `
-
-const CustomGreenBox = styled(GreenBoxRoundedCorner)`
-    padding: 20px 50px 20px 50px;
-    justify-content: space-around;
-    padding-bottom: 300px;
-    `
-
-const TopText = styled.div`
-    font-size: 30px;
-    text-align: center;
-    margin-bottom: 20px;
+    height: 130px;
+    margin-left: 33%;
 `
-const BottomText = styled.div`
-    text-align: center;
-    font-size: 20px;
-    color: #6C757D;
+const UserFullName = styled.h2`
+   text-align: center;
 `
 
+const UserName = styled.h4`
+    text-align: center;
+`
 
-function UserInfoPage() {
+const UserPage = () => {
     const [userResult, setUserResult] = useState({});
-    //const [userInput, setUserInput] = useState("");
-    const [showError, setShowError] = useState(false);
-
+    
     useEffect(() => {
         axios.get('User')
-            .then(response => setUserResult (response.data));
-      }, []);
-
-    //const history = useHistory();
-    
-    /*function sendData(username){
-        axios.post('/user/setusername',{username})
-            .then(function(response){
-                setRequestResult(response.data)
-                history.push("/map");
-            })
-            .catch(function (error) {
-                console.log(error);
-                setShowError(true);
-            })
-    }*/
+        .then(response => setUserResult (response.data));
+    }, []);
 
     return (
-        <Wrapper>
-            <WhiteHeaderWrapper title="Brukerinformasjon" />
-            <CustomGreenBox>
-                <div>
-                    <TopText>Velkommen!</TopText>
-                    
-                </div>
-                    <BottomText>
-                        {userResult.name}
-                    <div>
-                        {userResult.username}   
-                    </div>   
-                    </BottomText>
-                </CustomGreenBox>
-                </Wrapper>
-                )
-            }
-            
-            export default UserInfoPage
+        <>
+        <WhiteHeaderWrapper title="Brukerinformasjon" />
+          <GreenBoxRoundedCorner className="MainBox">
+            <LandingPageCategory title="BRUKER-INFO">
+            <div>
+            <UserIcon src="person.svg" alt="Icon" height ={100} /> 
+                <UserFullName>
+                    {userResult.name} 
+                </UserFullName>
+                <UserName>
+                    {userResult.username} 
+                </UserName>
+            </div>
+            </LandingPageCategory>
+        </GreenBoxRoundedCorner>
+        </>
+    )
+}
+
+        
+export default UserPage;
             
             //</LoginButton>
             //<BottomText>Vi trenger litt ekstrainformasjon om deg</BottomText>
@@ -87,4 +64,11 @@ function UserInfoPage() {
             
             /*<BottomText>
             Noe gikk galt. Vennligst prøv igjen med et annet brukernavn.
+            
+            
+           
+            
+            {userResult.name}
+            {userResult.username}   
+            
             </BottomText> : "" */ 

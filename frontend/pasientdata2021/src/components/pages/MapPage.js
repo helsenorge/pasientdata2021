@@ -7,6 +7,8 @@ import LandingPageLink from '../buttons/LandingPageLink';
 
 import { useHistory } from 'react-router';
 
+import { useState } from 'react';
+
 const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
@@ -41,13 +43,14 @@ const SwipeableBottomContainer = styled.div`
 function MapPage() {
 
     const history = useHistory();
+    const [open, setOpen] = useState(false)
 
     return (
         <Wrapper className="MapPageWrapper">
         <TopContainer className="TopContainer"></TopContainer>
         <MapContainer className="map-container" />
-        <SwipeableBottom style={SwipeableBottomStyle}>
-              <SwipeableBottomTop>
+        <SwipeableBottom style={SwipeableBottomStyle} open={open} setOpen = {setOpen}>
+              <SwipeableBottomTop onClick={()=>setOpen(!open)}>
                 Sveip opp
               </SwipeableBottomTop>
               <SwipeableBottomContainer className="SwipeableBottomContainer">
