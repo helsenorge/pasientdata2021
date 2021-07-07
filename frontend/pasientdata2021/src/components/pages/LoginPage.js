@@ -72,9 +72,6 @@ function LoginPage() {
     return (
         <ColorTriangleWrapper className="ColorTriangle">
           <BottomWrapper className="BottomWrapper">
-            <UserInputField placeholder="Email" />
-            <UserInputFieldBottom placeholder="Passord" type="password"/>
-            <LoginButton onClick={() => history.push("/map")} theme={LoginButtonTheme}>Logg inn</LoginButton>
             <GoogleLogin
                 clientId="571415920346-g7d1cr0ot7d6t5vubb5qbasr3egptkcq.apps.googleusercontent.com"
                 buttonText="Login"
