@@ -25,6 +25,8 @@ import axios from 'axios';
 
 import ScrollList from '../boxes/ScrollList';
 
+import DateTimeField from '../inputFields/DateTimeField';
+
     const Wrapper = styled.div`
         display: flex;
         flex-direction: column;
@@ -89,7 +91,7 @@ function InsertTripInfo({setTripName, setTripTime}) {
         <CustomGreenBox>
             <CenterText>Lag Tur</CenterText>
             <UserInputField placeholder="Navn" onChange={(e)=>setTripName(e.target.value)} />
-            <UserInputField placeholder="Dato"/>
+            <DateTimeField />
             <LandingPageCategory title="Inviterte">
                 <AutocompleteField
                     id="addFriendsField"
