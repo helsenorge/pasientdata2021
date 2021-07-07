@@ -1,7 +1,9 @@
 
 import SwipeableBottomSheet from 'react-swipeable-bottom-sheet';
+import { useState } from 'react';
 
-function SwipeableBottom({children, style}) {
+function SwipeableBottom({children, style, open,setOpen}) {
+
 
     const bodyStyle = {
         backgroundColor: "#7BEFB2",
@@ -10,7 +12,7 @@ function SwipeableBottom({children, style}) {
     };
 
     return (
-    <SwipeableBottomSheet overflowHeight={40} style={style} bodyStyle={bodyStyle} topShadow={false}>
+    <SwipeableBottomSheet overflowHeight={40} style={style} open={open} onChange={()=>setOpen(!open)} bodyStyle={bodyStyle} topShadow={false}>
         <div style={{ height: '350px' }}>
             {children}
         </div>
