@@ -39,18 +39,22 @@ function AddFriendsPage() {
 
   //Legger til valgte brukerer som venn ved å bruke /Addfriend routen til backenden
   function sendFriendRequest(friendName){
+    try{axios.post('/Friend/AddFriend/'+ friendName.id)
+    .then(response => {          
+        setAcceptMessage(true)
+        setErrorMessage(false)
+    })
+    .catch(function (error) {
+      // handle error
+      console.log(error.response.data);
+      setErrorMessage(true)
+      setAcceptMessage(false)
+    })}
+    catch{
+      setErrorMessage(true)
+      setAcceptMessage(false)
+    }
     
-    axios.post('/Friend/AddFriend/'+ friendName.id)
-        .then(response => {          
-            setAcceptMessage(true)
-            setErrorMessage(false)
-        })
-        .catch(function (error) {
-          // handle error
-          console.log(error.response.data);
-          setErrorMessage(true)
-          setAcceptMessage(false)
-        })
   }
 
 

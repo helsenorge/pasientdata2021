@@ -23,7 +23,11 @@ import AutocompleteField from '../inputFields/AutocompleteField';
 
 import axios from 'axios';
 
+
+import LoginButton from "../buttons/LoginButton";
+
 import ScrollList from '../boxes/ScrollList';
+
 
     const Wrapper = styled.div`
         display: flex;
@@ -71,19 +75,71 @@ import ScrollList from '../boxes/ScrollList';
    const CustomUnderlineButton = styled(UnderlineButton)`
         align-self: flex-end;
    `
+   const AddToTripButton = styled(LoginButton)`
+        width:100px;
+        height: auto ;
+        margin-left: 30px;
+   `
+   const AddToTripContainer = styled.div`
+        display: flex;
+   `
+    const BottomText = styled.div`
+    text-align: center;
+    font-size: 20px;
+    color: #6C757D;
+    
+`
 
-
-function InsertTripInfo({setTripName, setTripTime}) {
+function InsertTripInfo({setTripName, setTripTime, selectedUsers, setSelectedUsers}) {
     const history = useHistory();
     let { path, url } = useRouteMatch();
 
     const [requestUsers, setRequestUser] = useState([])
     const [selectedUser, setSelectedUser] = useState();
+    const [errorMessage, setErrorMessage] = useState(false)
+    
 
     function searchResult(key){
         axios.get('user/search/'+key)
         .then(response => setRequestUser(response.data))
+        console.log(requestUsers)
     }
+
+    function addFriendToTrip(){
+      //Hent ut brukernavnet som ligger i inputfielden
+      //Lag en ny personbox-component som inneholder navnet du henter ut
+      console.log(selectedUser)
+        try{
+            if (!selectedUsers.includes(selectedUser.username)){
+                setSelectedUsers(selectedUsers => [...selectedUsers, selectedUser.username]);
+            }else{
+                setErrorMessage(true)         
+                let timerId = setTimeout(() => {
+                setErrorMessage(false);
+                timerId = null;
+            }, 4000);
+            }
+            console.log(selectedUsers)         
+        }catch{
+                setErrorMessage(true)         
+                let timerId = setTimeout(() => {
+                setErrorMessage(false);
+                timerId = null;
+            }, 4000);
+        }
+    
+       
+    }
+
+    function removeFromTrip(item){
+        //setSelectedUsers(selectedUsers => selectedUsers.splice(index, 1));
+        setSelectedUsers(selectedUsers.filter(x => x !== item))
+        console.log("clicked remove")
+    }
+
+    
+
+
 
     return(
         <CustomGreenBox>
@@ -91,24 +147,32 @@ function InsertTripInfo({setTripName, setTripTime}) {
             <UserInputField placeholder="Navn" onChange={(e)=>setTripName(e.target.value)} />
             <UserInputField placeholder="Dato"/>
             <LandingPageCategory title="Inviterte">
-                <AutocompleteField
-                    id="addFriendsField"
-                    options={requestUsers}
-                    getOptionLabel={(option) => option.username}
-                    onChange={(event, value)=>setSelectedUser(value)}
-                    getOptionSelected = {(option, value) => option.username === value.username}
-                    style={{ width: 370 }}
-                    onInputChange={e=>searchResult(e.target.value)}
-                    inputLabel="Brukernavn"
-                />
-        
-                    <PersonBox title="Torstein" imgPath="person.svg">
-                        <FaTimes style={{color:'red'}} />
-                    </PersonBox>
+                <AddToTripContainer>
+                    <AutocompleteField
+                        id="addFriendsField"
+                        options={requestUsers}
+                        getOptionLabel={(option) => option.username}
+                        onChange={(event, value)=>setSelectedUser(value)}
+                        getOptionSelected = {(option, value) => option.username === value.username}
+                        style={{ width: 250 }}
+                        onInputChange={e=>searchResult(e.target.value)}
+                        inputLabel="Brukernavn"
+                    />  
+                    <AddToTripButton onClick={()=> addFriendToTrip()} >Legg til</AddToTripButton>
+                    
+                </AddToTripContainer>
 
-                    <PersonBox title="Awalle" imgPath="person.svg">
-                        <FaTimes style={{color:'red'}} />
-                    </PersonBox>
+                {errorMessage ? 
+                    <BottomText>
+                    Brukeren finnes ikke eller du har allerede lagt dem til i turen.
+                    </BottomText> : ""
+                }
+
+                    {selectedUsers?.map((item, index) => 
+                    <PersonBox title={item} imgPath="person.svg">
+                        <FaTimes onClick={() => removeFromTrip(item)} style={{color:'red'}} />
+                    </PersonBox>)}
+
 
                 </LandingPageCategory>
 
@@ -142,7 +206,7 @@ function InsertTripRoute({routeData}) {
 function CreateTripPage() {
     const [tripName, setTripName] = useState("");
     const [tripTime, setTripTime] = useState("");
-    const [invitedFriends, setInvitedFriends] = useState("")
+    const [selectedUsers, setSelectedUsers] = useState([])
 
     const [routeData, setRouteData] = useState([]);
     console.log(routeData)
@@ -155,7 +219,7 @@ function CreateTripPage() {
             <MapContainer className="MapContainer" routeData={routeData} setRouteData={setRouteData} />
             <Switch>
                 <Route exact path={path}>
-                    <InsertTripInfo setTripName={setTripName}/>
+                    <InsertTripInfo setTripName={setTripName} selectedUsers={selectedUsers} setSelectedUsers={setSelectedUsers}/>
                 </Route>
                 <Route path={path.concat("/enterroute")}>
                     <InsertTripRoute routeData={routeData}/>
