@@ -91,7 +91,7 @@ namespace backend.Services
             {
                 destinationsToStore.Add(new Destination
                 {
-                    StopDestionation = destination.Destionation,
+                    StopDestionation = destination.Destination,
                     StopNumber = destination.Number,
                     Longitude = destination.Longitude,
                     Latitude = destination.Latitude
@@ -109,6 +109,7 @@ namespace backend.Services
             var trip = new Trip
             {
                 TripData = tripdata,
+                TripDate = date,
                 Name = name,
                 CreatedAt = DateTime.Now,
                 Users = new List<UserHasTrip>() { userHasTrip },

@@ -7,7 +7,7 @@ namespace backend.InputModels.Trip
 {
     public class DestionationModel
     {
-        public string Destionation { get; set; }
+        public string Destination { get; set; }
         public int Number { get; set; }
         public float Longitude { get; set; }
         public float Latitude { get; set; }

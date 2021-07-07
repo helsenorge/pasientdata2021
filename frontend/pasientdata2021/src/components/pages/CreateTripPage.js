@@ -96,7 +96,7 @@ import DateTimeField from '../inputFields/DateTimeField';
     
 `
 
-function InsertTripInfo({setTripName, setTripTime, selectedUsers, setSelectedUsers}) {
+function InsertTripInfo({tripName, setTripName, selectedDate, handleDateChange, selectedUsers, setSelectedUsers, createTripFunction}) {
     const history = useHistory();
     let { path, url } = useRouteMatch();
 
@@ -104,28 +104,28 @@ function InsertTripInfo({setTripName, setTripTime, selectedUsers, setSelectedUse
     const [selectedUser, setSelectedUser] = useState();
     const [errorMessage, setErrorMessage] = useState(false)
     
+    
 
     function searchResult(key){
-        axios.get('Friend/SearchFriends/'+key)
-        .then(response => setRequestUser(response.data))
-        console.log(requestUsers)
+        if (key){
+            axios.get('Friend/SearchFriends/'+key)
+            .then(response => setRequestUser(response.data))
+        }
     }
 
     function addFriendToTrip(){
       //Hent ut brukernavnet som ligger i inputfielden
       //Lag en ny personbox-component som inneholder navnet du henter ut
-      console.log(selectedUser)
         try{
-            if (!selectedUsers.includes(selectedUser.username)){
-                setSelectedUsers(selectedUsers => [...selectedUsers, selectedUser.username]);
+            if (!selectedUsers.includes(selectedUser)){
+                setSelectedUsers(selectedUsers => [...selectedUsers, selectedUser]);
             }else{
                 setErrorMessage(true)         
                 let timerId = setTimeout(() => {
                 setErrorMessage(false);
                 timerId = null;
             }, 4000);
-            }
-            console.log(selectedUsers)         
+            }       
         }catch{
                 setErrorMessage(true)         
                 let timerId = setTimeout(() => {
@@ -133,25 +133,18 @@ function InsertTripInfo({setTripName, setTripTime, selectedUsers, setSelectedUse
                 timerId = null;
             }, 4000);
         }
-    
-       
     }
 
+    
     function removeFromTrip(item){
-        //setSelectedUsers(selectedUsers => selectedUsers.splice(index, 1));
         setSelectedUsers(selectedUsers.filter(x => x !== item))
-        console.log("clicked remove")
     }
-
-    
-
-
 
     return(
         <CustomGreenBox>
            <HeaderWrapper title="Lag Tur" />
-            <UserInputField placeholder="Navn" onChange={(e)=>setTripName(e.target.value)} />
-            <DateTimeField />
+            <UserInputField placeholder="Navn" onChange={(e)=>setTripName(e.target.value)} value={tripName}/>
+            <DateTimeField selectedDate={selectedDate} handleDateChange={handleDateChange} />
             <LandingPageCategory title="Inviterte">
                 <AddToTripContainer>
                     <AutocompleteField
@@ -168,15 +161,15 @@ function InsertTripInfo({setTripName, setTripTime, selectedUsers, setSelectedUse
                     
                 </AddToTripContainer>
 
-                {errorMessage ? 
-                    <BottomText>
-                    Brukeren finnes ikke eller du har allerede lagt dem til i turen.
-                    </BottomText> : ""
-                }
+                    {errorMessage ? 
+                        <BottomText>
+                        Brukeren finnes ikke eller du har allerede lagt dem til i turen.
+                        </BottomText> : ""
+                    }
 
-                    {selectedUsers?.map((item, index) => 
-                    <PersonBox title={item} imgPath="person.svg">
-                        <FaTimes onClick={() => removeFromTrip(item)} style={{color:'red'}} />
+                    {selectedUsers?.map((user, index) => 
+                    <PersonBox title={user.username} imgPath="person.svg" id={"addedfriend"+index}>
+                        <FaTimes onClick={() => removeFromTrip(user)} style={{color:'red'}} />
                     </PersonBox>)}
 
 
@@ -185,7 +178,7 @@ function InsertTripInfo({setTripName, setTripTime, selectedUsers, setSelectedUse
                 <ArrowButton title="Definer rute" onClick={()=>history.push(path.concat("/enterroute"))}>
                     <FaChevronRight />
                 </ArrowButton>
-                <CustomUnderlineButton onClick={()=>history.push(path.concat("/enterroute"))}>Lag</CustomUnderlineButton>
+                <CustomUnderlineButton onClick={()=>createTripFunction()}>Lag</CustomUnderlineButton>
         </CustomGreenBox>
     )
 }
@@ -193,7 +186,6 @@ function InsertTripInfo({setTripName, setTripTime, selectedUsers, setSelectedUse
 
 function InsertTripRoute({routeData}) {
     const history = useHistory();
-    let { path, url } = useRouteMatch();
 
     return(
         <SmallCustomGreenBox>
@@ -211,24 +203,54 @@ function InsertTripRoute({routeData}) {
 
 function CreateTripPage() {
     const [tripName, setTripName] = useState("");
-    const [tripTime, setTripTime] = useState("");
+    const [selectedDate, handleDateChange] = useState(new Date());
     const [selectedUsers, setSelectedUsers] = useState([])
-
     const [routeData, setRouteData] = useState([]);
-    console.log(routeData)
+    const [routeJson, setRouteJson] = useState({})
+    const [createTripResponse, setCreateTripResponse] = useState();
+
 
     let { path, url } = useRouteMatch();
     const history = useHistory();
 
+    function createTripFunction(){
+        let friendsIds = selectedUsers.map(user=>user.id)
+        let destinations = routeData.map((point, index) => {
+            return {"destination":point.address, "number":index+1, "longitude":point.lng, "latitude":point.lat}
+        })
+        
+        let createTripBody = {
+            "friendsIds": friendsIds,
+            "name": tripName,
+            "date": selectedDate,
+            "routeDescription": JSON.stringify(routeJson),
+            "destinations": destinations
+        }
+        
+        axios.post('Trip', createTripBody)
+        .then(response => {
+            setCreateTripResponse(response.data)
+            history.push("/trips")
+        })
+    }
+
     return (
         <Wrapper>
-            <MapContainer className="MapContainer" routeData={routeData} setRouteData={setRouteData} />
+            <MapContainer className="MapContainer" routeData={routeData} setRouteData={setRouteData} setRouteJson={setRouteJson} />
             <Switch>
                 <Route exact path={path}>
-                    <InsertTripInfo setTripName={setTripName} selectedUsers={selectedUsers} setSelectedUsers={setSelectedUsers}/>
+                    <InsertTripInfo
+                        tripName={tripName}
+                        setTripName={setTripName}
+                        selectedUsers={selectedUsers}
+                        setSelectedUsers={setSelectedUsers}
+                        selectedDate={selectedDate}
+                        handleDateChange={handleDateChange}
+                        createTripFunction={createTripFunction}
+                    />
                 </Route>
                 <Route path={path.concat("/enterroute")}>
-                    <InsertTripRoute routeData={routeData}/>
+                    <InsertTripRoute routeData={routeData} />
                 </Route>
             </Switch>
         </Wrapper>

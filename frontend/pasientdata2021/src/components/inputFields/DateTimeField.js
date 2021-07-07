@@ -13,8 +13,9 @@ import { ThemeProvider } from "@material-ui/styles";
 
 import { useState } from 'react';
 
-function DateTimeField() {
-    const [selectedDate, handleDateChange] = useState(new Date());
+function DateTimeField({selectedDate, handleDateChange}) {
+    // Pair this component with a hook like this:
+    // const [selectedDate, handleDateChange] = useState(new Date());
 
 
     return (
