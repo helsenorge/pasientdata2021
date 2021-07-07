@@ -38,9 +38,7 @@ const RemoveMeButton = styled(TextImgButton)`
 
 function SettingsPage() {
     const [ButtonPopup, setButtonPopUp] = useState(false)
-    const [LogoutPopup, setLogoutPopUp] = useState(false)
     const history = useHistory()
-
 
 
 
@@ -52,9 +50,9 @@ function SettingsPage() {
     }
 
     function handleLogout() {
-        localStorage.clear()
+        localStorage.removeItem('user');
+        localStorage.removeItem('token');
         console.log(localStorage.getItem('token'))
-        console.log(localStorage.getItem('name'))
         history.push("/login");
       }
 
@@ -69,11 +67,7 @@ function SettingsPage() {
                 </LandingPageCategory>
             </TopButtons>
             <BottomButtons>
-                <TextImgButton title="Logg ut" imgSrc="log-out.svg" onClick={()=> setLogoutPopUp(true)} />
-                <PopUpBox trigger={LogoutPopup} setTrigger={setLogoutPopUp}>
-                    <h3>Er du sikker du skal logge ut?</h3>
-                    <TextImgButton title="Ja" imgSrc="log-out.svg" onClick={()=> handleLogout()} />
-                </PopUpBox>
+                <TextImgButton title="Logg ut" imgSrc="log-out.svg" onClick={()=> handleLogout()} />
                 <Border />
                 <RemoveMeButton title="Slett meg" imgSrc="trash.svg" onClick={()=> setButtonPopUp(true)} />
                 <PopUpBox trigger={ButtonPopup} setTrigger={setButtonPopUp}>
@@ -84,7 +78,7 @@ function SettingsPage() {
         </GreenBoxWrapper>
         </Wrapper>
 
-)
+    )
 }
 
 export default SettingsPage
