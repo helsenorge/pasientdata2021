@@ -8,7 +8,7 @@ const PopUpBoxStyle = styled.div`
     left: 0;
     right: inherit;
     width: 100%;
-    height: 100vh;
+    height: 100%;
     background-color: rgba(0, 0, 0, 0.2);
     display: flex;
     justify-content: center;
