@@ -4,11 +4,8 @@ import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-load
 
 import 'mapbox-gl/dist/mapbox-gl.css'
 
-//import MapBoxDirections from '@mapbox/mapbox-gl-directions'
-
-import MapboxDirections from '@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions'
 import '@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions.css'
-
+import axios from "axios";
 mapboxgl.accessToken = 'pk.eyJ1IjoidGVvMzIwMSIsImEiOiJja3FhbGwzMjYwbmJuMm5sYmQ0NWJnaTlzIn0.CvCp6NNdxaBVmCheNWhjYw';
 
 
@@ -18,13 +15,14 @@ function MapComponent({className}) {
     const [lng, setLng] = useState(10.749);
     const [lat, setLat] = useState(59.907);
     const [zoom, setZoom] = useState(9);
-
-    let data = require('../route2.json');
+    const Route = useRef(null);
+    const [Points, setPoints] = useState([]);
+    const routeId = useRef("");
 
     useEffect(() => {
-        console.log(data)
+
         if (map.current) return; // initialize map only once
-        
+
         map.current = new mapboxgl.Map({
             container: mapContainer.current,
             style: 'mapbox://styles/mapbox/streets-v11',
@@ -38,26 +36,61 @@ function MapComponent({className}) {
         }).setLngLat([10.74, 59.91])
         .addTo(map.current);
 
-        map.current.addControl(
-            new MapboxDirections({
-                accessToken: mapboxgl.accessToken,
-                profile: 'mapbox/walking'
-            }),
-            'top-left'
-        );
+        map.current.on("click",function(e){
+            var curentpoints = Points
+            curentpoints.push({"lng":e["lngLat"]["lng"], "lat":e["lngLat"]["lat"]})
+            getAdress(e["lngLat"]["lng"],e["lngLat"]["lat"])
+            if(curentpoints.length == 1){
+                setPoints(curentpoints)
+                return
+            }
+            else{
+                setPoints(curentpoints)
+            }
+            var string = ""
+            for(var i=0;i<Points.length; i++){
+                string = string + Points[i].lng+","+Points[i].lat+";"
+            }
+            string = string.slice(0,-1)
 
+            axios.get('https://api.mapbox.com/directions/v5/mapbox/walking/'+string+'?access_token=pk.eyJ1IjoidGVvMzIwMSIsImEiOiJja3FhbGwzMjYwbmJuMm5sYmQ0NWJnaTlzIn0.CvCp6NNdxaBVmCheNWhjYw&geometries=geojson')
+                 .then(response => {
+                    Route.current = response.data.routes[0].geometry
+                    addRoute()
+                 })
+        });
     });
+
+    function getAdress(longitude, latitude){
+        var key = "pk.eyJ1IjoidGVvMzIwMSIsImEiOiJja3FhbGwzMjYwbmJuMm5sYmQ0NWJnaTlzIn0.CvCp6NNdxaBVmCheNWhjYw"
+        axios.get('http://api.tiles.mapbox.com/v4/geocode/mapbox.places/'+longitude+","+latitude+".json?access_token="+key)
+                 .then(response => {
+                    console.log(response.data)
+                    console.log(response.data.features[0]["place_name"])
+                 })
+    }
+
     
     function addRoute(){
+        var randomstring = require("randomstring");
+        if(routeId.current != "")
+            map.current.removeLayer(routeId.current)
+        routeId.current = randomstring.generate({
+            length: 12,
+            charset: 'alphabetic'
+        });
+        console.log("Router id er "+routeId.current)
+        console.log(Route.current)
         map.current.addLayer({
-            id: 'route',
+            id: routeId.current,
             type: 'line',
             source: {
                 type: 'geojson',
                 data: {
                 type: 'Feature',
                 properties: {},
-                geometry: data.routes[0].geometry,
+                //geometry: data.routes[0].geometry,
+                geometry: Route.current,
                 },
             },
             layout: {
@@ -65,21 +98,15 @@ function MapComponent({className}) {
                 'line-cap': 'round',
             },
             paint: {
-                'line-color': '#ff7e5f',
-                'line-width': 8,
+                'line-color': '#025944',
+                'line-width': 6,
             },
         })
     };
 
-    function removeRoute(){
-        map.current.removeLayer('route');
-    }
-
-
     return (
         <>
-        <button onClick={()=>addRoute()}>Put in route</button>
-        <button onClick={()=>removeRoute()}>Remove route</button>
+       
         <div ref={mapContainer} className={className} />
         </>
     )
