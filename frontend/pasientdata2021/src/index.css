@@ -19,19 +19,6 @@ code {
   display: none;
 }
 
-<<<<<<< HEAD
-.mapbox-directions-input{
-  display: none
-}
-
-.mapbox-directions-component{
-  display: none
-}
-
-.mapbox-directions-step{
-  display: none
-}
-=======
 
 .mapbox-directions-component {
   display: none;
@@ -44,4 +31,3 @@ code {
 .mapboxgl-ctrl-top-left {
   display: none;
 } 
->>>>>>> 814c196ae4d47b06607e8597bb12f12ec7194757
