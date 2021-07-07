@@ -12,7 +12,6 @@ import { useState } from 'react';
 const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
-    height: 100%;
     background-color: #7BEFB2;
     width: inherit;
     `
@@ -44,17 +43,16 @@ function MapPage() {
 
     const history = useHistory();
     const [open, setOpen] = useState(false)
-
+    //<MapContainer className="map-container" />
     return (
         <Wrapper className="MapPageWrapper">
         <TopContainer className="TopContainer"></TopContainer>
-        <MapContainer className="map-container" />
         <SwipeableBottom style={SwipeableBottomStyle} open={open} setOpen = {setOpen}>
               <SwipeableBottomTop onClick={()=>setOpen(!open)}>
                 Sveip opp
               </SwipeableBottomTop>
               <SwipeableBottomContainer className="SwipeableBottomContainer">
-                    <LandingPageLink title="Lag tur" imgPath="map.svg" onClick={()=> history.push("/createTrip")} />
+                    <LandingPageLink title="Lag tur" imgPath="map.svg" onClick={()=> history.push("/map/newtrip")} />
                     <LandingPageLink title="Mine venner" imgPath="team.svg" onClick={() => history.push("/myfriends")}/>
                     <LandingPageLink title="Legg til venner" imgPath="goal.svg" onClick={() => history.push("/addfriend")}/>
                     <LandingPageLink title="Turer" imgPath="running.svg" onClick={() => history.push("/trips")} />
