@@ -4,11 +4,11 @@ import TextImgButton from '../buttons/TextImgButton'
 
 const PopUpBoxStyle = styled.div`
     position: fixed;
-    top: inherit;
+    top: 0;
     left: 0;
     right: inherit;
     width: 100%;
-    height: 1000vh;
+    height: 100vh;
     background-color: rgba(0, 0, 0, 0.2);
     display: flex;
     justify-content: center;
@@ -19,8 +19,7 @@ const PopUpInner = styled.div`
     position: relative;
     width: 100%;
     max-width: 640px;
-    background-color: white;
-    opacity: 10;
+    background-color:#7BEFB2 ;
 `
 
 const CloseButton = styled(TextImgButton)`

@@ -3,9 +3,10 @@ import WhiteHeaderWrapper from "../boxes/WhiteHeaderWrapper";
 import GreenBoxRoundedCorner from "../boxes/GreenBoxRoundedCorner";
 import TextImgButton from "../buttons/TextImgButton";
 import axios from "axios";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useHistory } from "react-router";
 import LandingPageCategory from "../boxes/LandingPageCategory";
+import PopUpBox from "../boxes/PopUpBox";
 
 const Wrapper = styled.div`
     display: flex;
@@ -36,8 +37,10 @@ const RemoveMeButton = styled(TextImgButton)`
 
 
 function SettingsPage() {
-    //const [mydata, setMydata] = useState([])
+    const [ButtonPopup, setButtonPopUp] = useState(false)
+    const [LogoutPopup, setLogoutPopUp] = useState(false)
     const history = useHistory()
+
 
 
 
@@ -49,9 +52,9 @@ function SettingsPage() {
     }
 
     function handleLogout() {
-        localStorage.removeItem('user');
-        localStorage.removeItem('token');
+        localStorage.clear()
         console.log(localStorage.getItem('token'))
+        console.log(localStorage.getItem('name'))
         history.push("/login");
       }
 
@@ -66,14 +69,22 @@ function SettingsPage() {
                 </LandingPageCategory>
             </TopButtons>
             <BottomButtons>
-                <TextImgButton title="Logg ut" imgSrc="log-out.svg" onClick={()=> handleLogout()} />
+                <TextImgButton title="Logg ut" imgSrc="log-out.svg" onClick={()=> setLogoutPopUp(true)} />
+                <PopUpBox trigger={LogoutPopup} setTrigger={setLogoutPopUp}>
+                    <h3>Er du sikker du skal logge ut?</h3>
+                    <TextImgButton title="Ja" imgSrc="log-out.svg" onClick={()=> handleLogout()} />
+                </PopUpBox>
                 <Border />
-                <RemoveMeButton title="Slett meg" imgSrc="trash.svg" onClick={()=> removeMe()} />
+                <RemoveMeButton title="Slett meg" imgSrc="trash.svg" onClick={()=> setButtonPopUp(true)} />
+                <PopUpBox trigger={ButtonPopup} setTrigger={setButtonPopUp}>
+                    <h3>Er du sikker du skal bli slettet?</h3>
+                    <RemoveMeButton title="Ja" imgSrc="trash.svg" onClick={()=> removeMe()} />
+                </PopUpBox>
             </BottomButtons>
         </GreenBoxWrapper>
         </Wrapper>
 
-    )
+)
 }
 
 export default SettingsPage
