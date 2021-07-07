@@ -82,7 +82,7 @@ function LoginPage() {
                 onFailure={responsefailedgoogle}
                 cookiePolicy={'single_host_origin'}
                 />
-            <UnderlineButton onClick={() => history.goBack()} theme={UnderlineButtonTheme}>Avbryt</UnderlineButton>
+            <UnderlineButton onClick={() => history.push('/welcome')} theme={UnderlineButtonTheme}>Avbryt</UnderlineButton>
           </BottomWrapper>
         </ColorTriangleWrapper>
     )
