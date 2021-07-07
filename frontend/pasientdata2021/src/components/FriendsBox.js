@@ -28,9 +28,6 @@ const TitleText = styled.a`
     overflow: hidden;  
     color: black;
 `
-const CustomTextImgButton = styled(TextImgButton)`
-  font-size: 30px ;
-`
 
 const FriendsBox = ({imgPath, title, children, className, onClick}) => {
     const [ButtonPopup, setButtonPopUp] = useState(false);
