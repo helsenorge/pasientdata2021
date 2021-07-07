@@ -2,7 +2,9 @@ import styled from "styled-components";
 import WhiteHeaderWrapper from "../boxes/WhiteHeaderWrapper";
 import GreenBoxRoundedCorner from "../boxes/GreenBoxRoundedCorner";
 import TextImgButton from "../buttons/TextImgButton";
-
+import axios from "axios";
+import { useState, useEffect } from "react";
+import { useHistory } from "react-router";
 import LandingPageCategory from "../boxes/LandingPageCategory";
 
 const Wrapper = styled.div`
@@ -32,24 +34,45 @@ const RemoveMeButton = styled(TextImgButton)`
     color: #B23B3B;
 `
 
+
 function SettingsPage() {
+    //const [mydata, setMydata] = useState([])
+    const history = useHistory()
+
+
+
+    function removeMe(){
+        axios.delete('/User')
+          .then(
+            history.push("/login")
+        );
+    }
+
+    function handleLogout() {
+        localStorage.removeItem('user');
+        localStorage.removeItem('token');
+        console.log(localStorage.getItem('token'))
+        history.push("/login");
+      }
+
     return (
         <Wrapper className="Wrapper">
         <WhiteHeaderWrapper title="Innstillinger"/>
         <GreenBoxWrapper className="GreenBoxWrapper">
             <TopButtons>
                 <LandingPageCategory title="Personlig">
-                <TextImgButton title="Mine data" imgSrc="hard-drive.svg" />
+                <TextImgButton title="Mine data" imgSrc="hard-drive.svg" onClick={()=> history.push("/userpage")}/>
                 <TextImgButton title="Rediger profil" imgSrc="user.svg" />
                 </LandingPageCategory>
             </TopButtons>
             <BottomButtons>
-                <TextImgButton title="Logg ut" imgSrc="log-out.svg" />
+                <TextImgButton title="Logg ut" imgSrc="log-out.svg" onClick={()=> handleLogout()} />
                 <Border />
-                <RemoveMeButton title="Slett meg" imgSrc="trash.svg" />
+                <RemoveMeButton title="Slett meg" imgSrc="trash.svg" onClick={()=> removeMe()} />
             </BottomButtons>
         </GreenBoxWrapper>
         </Wrapper>
+
     )
 }
 

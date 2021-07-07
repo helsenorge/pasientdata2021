@@ -14,6 +14,8 @@ import CreateTripPage from './components/pages/CreateTripPage';
 import TripsPage from "./components/pages/TripsPage"
 import TripInfo from './components/pages/TripInfoPage'
 import UserInfoPage from './components/pages/UserInfoPage';
+import UserPage from './components/pages/UserPage'
+
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -25,8 +27,10 @@ import { useEffect } from 'react';
 
 
 
+
 function App() {
-  axios.defaults.baseURL = 'http://localhost:5000';
+  localStorage.setItem('baseurl', 'http://localhost:5000')
+  axios.defaults.baseURL = localStorage.getItem('baseurl');
   
   
   useEffect(() => {
@@ -52,6 +56,7 @@ function App() {
            <Route path="/settings" exact render={()=> <SettingsPage />} />
            <Route path="/myfriends" exact render={()=> <MyFriendsPage/>} />
            <Route path="/userinfo" exact render={()=> <UserInfoPage/>} />
+           <Route path="/userpage" exact render={()=> <UserPage/>} />
         </Switch>
       </PageWrapper>
     </Router>
