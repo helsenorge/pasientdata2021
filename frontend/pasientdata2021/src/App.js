@@ -49,7 +49,7 @@ function App() {
            <Route path="/login" exact render={() => <LoginPage /> } />
            <Route path="/register" exact render={() => <RegisterPage /> } />
            <Route path="/map" exact render={() => <MapPage /> } />
-           <Route path="/createTrip" exact render={() => <CreateTripPage /> } />
+           <Route path="/createTrip" render={() => <CreateTripPage /> } />
            <Route path="/addfriend" exact render={()=> <AddFriendsPage />} />
            <Route path="/trips" exact render={()=> <TripsPage />} />
            <Route path="/tripinfo" exact render={()=> <TripInfo />} /> 

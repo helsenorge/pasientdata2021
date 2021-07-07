@@ -6,9 +6,9 @@ import WhiteHeaderWrapper from "../boxes/WhiteHeaderWrapper";
 import GreenBoxRoundedCorner from "../boxes/GreenBoxRoundedCorner";
 import { useState } from "react";
 import axios from "axios";
-import {Autocomplete} from '@material-ui/lab';
-import {TextField} from '@material-ui/core';
 import styled from "styled-components";
+
+import AutocompleteField from "../inputFields/AutocompleteField";
 
 const LoginButtonTheme = {
     marginTop: "40px"
@@ -30,22 +30,15 @@ function AddFriendsPage() {
   const [requestResult, setRequestResult] = useState({});
   const [acceptMessage, setAcceptMessage] = useState(false)
   const [errorMessage, setErrorMessage] = useState(false)
-  
   const [selectedUser, setSelectedUser] = useState();
     
   function searchResult(key){
     axios.get('user/search/'+key)
     .then(response => setRequestUser(response.data))
-    console.log(requestUsers)
-    
   }
-  
-  console.log(requestUsers)
+
   //Legger til valgte brukerer som venn ved å bruke /Addfriend routen til backenden
   function sendFriendRequest(friendName){
-    console.log("selectedUser: "+ (friendName.username))
-
-    //Må tømme set
     
     axios.post('/Friend/AddFriend/'+ friendName.id)
         .then(response => {          
@@ -58,7 +51,7 @@ function AddFriendsPage() {
           setErrorMessage(true)
           setAcceptMessage(false)
         })
-}
+  }
 
 
     
@@ -66,32 +59,29 @@ function AddFriendsPage() {
       <>
       <WhiteHeaderWrapper title="Legg til venner" />
       <GreenBoxRoundedCorner>
-       
-          <Autocomplete
+
+        <AutocompleteField
           id="combo-box-demo"
           options={requestUsers}
           getOptionLabel={(option) => option.username}
           onChange={(event, value)=>setSelectedUser(value)}
           getOptionSelected = {(option, value) => option.username === value.username}
           style={{ width: 370 }}
-          renderInput={(params) => <TextField {...params} onChange={e=>searchResult(e.target.value)} label="Brukernavn" variant="outlined" />}
+          onInputChange={e=>searchResult(e.target.value)}
+          inputLabel="Brukernavn"
         />
 
         {errorMessage ? 
           <BottomText>
           Kunne ikke sende venneforspørselen. Du har allerede lagt til brukeren eller skrevet feil brukernavn.
           </BottomText> : ""
-          }
+        }
         {acceptMessage ?
         <BottomText>
           venneforspørselen ble sendt!
         </BottomText> : ""
 
         }
-
-
-    
-
         <LoginButton classname theme={LoginButtonTheme} onClick={()=>sendFriendRequest(selectedUser)}>Legg til</LoginButton>
       </GreenBoxRoundedCorner>
       </>
