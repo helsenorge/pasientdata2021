@@ -25,11 +25,11 @@ const MapContainer = styled(MapComponent)`
 `
 
 const SwipeableBottomStyle = {
-    width: "inherit",
+    width: "inherit"
 };
 
 const SwipeableBottomTop = styled.div`
-    min-height: 30px;
+    min-height: 35px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -54,6 +54,7 @@ function MapPage() {
                 Sveip opp
               </SwipeableBottomTop>
               <SwipeableBottomContainer className="SwipeableBottomContainer">
+                    <LandingPageLink title="Lag tur" imgPath="map.svg" onClick={()=> history.push("/createTrip")} />
                     <LandingPageLink title="Mine venner" imgPath="team.svg" onClick={() => history.push("/myfriends")}/>
                     <LandingPageLink title="Legg til venner" imgPath="goal.svg" onClick={() => history.push("/addfriend")}/>
                     <LandingPageLink title="Turer" imgPath="running.svg" onClick={() => history.push("/trips")} />
