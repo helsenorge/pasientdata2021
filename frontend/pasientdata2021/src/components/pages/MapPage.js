@@ -8,6 +8,11 @@ import LandingPageLink from '../buttons/LandingPageLink';
 import { useHistory } from 'react-router';
 
 import { useState } from 'react';
+import ArrowButton from '../buttons/ArrowButton';
+import { Fab } from '@material-ui/core'
+import AddIcon from '@material-ui/icons/Add'
+
+import { makeStyles } from '@material-ui/core/styles';
 
 const Wrapper = styled.div`
     display: flex;
@@ -23,6 +28,20 @@ const TopContainer = styled.div`
 const MapContainer = styled(MapComponent)`
     height: 100%;
 `
+const FloatButtonContainer = styled.div`
+    position: fixed;
+    top: inherit;
+    margin-top: 20px;
+    margin-left: 82%;
+    color: #7BEFB2;
+`
+
+const useStyles = makeStyles((theme) => ({
+    color: {
+        color: "#7BEFB2",
+        backgroundColor:"#7BEFB2",
+    },
+}));
 
 const SwipeableBottomStyle = {
     width: "inherit"
@@ -42,6 +61,7 @@ const SwipeableBottomContainer = styled.div`
 
 function MapPage() {
 
+    const classes = useStyles();
     const history = useHistory();
     const [open, setOpen] = useState(false)
 
@@ -49,12 +69,16 @@ function MapPage() {
         <Wrapper className="MapPageWrapper">
         <TopContainer className="TopContainer"></TopContainer>
         <MapContainer className="map-container" />
+        <FloatButtonContainer>
+        <Fab className={classes.color} aria-label="add" size="large">
+            <AddIcon style ={{ fontSize: 40, color: "black" }} onClick={() =>history.push("/createtrip")}/>
+        </Fab>
+        </FloatButtonContainer>
         <SwipeableBottom style={SwipeableBottomStyle} open={open} setOpen = {setOpen}>
               <SwipeableBottomTop onClick={()=>setOpen(!open)}>
-                Sveip opp
+                <ArrowButton direction="up"></ArrowButton>
               </SwipeableBottomTop>
               <SwipeableBottomContainer className="SwipeableBottomContainer">
-                    <LandingPageLink title="Lag tur" imgPath="map.svg" onClick={()=> history.push("/createTrip")} />
                     <LandingPageLink title="Mine venner" imgPath="team.svg" onClick={() => history.push("/myfriends")}/>
                     <LandingPageLink title="Legg til venner" imgPath="goal.svg" onClick={() => history.push("/addfriend")}/>
                     <LandingPageLink title="Turer" imgPath="running.svg" onClick={() => history.push("/trips")} />
@@ -66,3 +90,4 @@ function MapPage() {
 }
 
 export default MapPage
+
