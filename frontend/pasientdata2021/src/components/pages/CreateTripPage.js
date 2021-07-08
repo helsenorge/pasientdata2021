@@ -30,6 +30,7 @@ import LoginButton from "../buttons/LoginButton";
 
 import ScrollList from '../boxes/ScrollList';
 
+import DateTimeField from '../inputFields/DateTimeField';
 
     const Wrapper = styled.div`
         display: flex;
@@ -150,7 +151,7 @@ function InsertTripInfo({setTripName, setTripTime, selectedUsers, setSelectedUse
         <CustomGreenBox>
            <HeaderWrapper title="Lag Tur" />
             <UserInputField placeholder="Navn" onChange={(e)=>setTripName(e.target.value)} />
-            <UserInputField placeholder="Dato"/>
+            <DateTimeField />
             <LandingPageCategory title="Inviterte">
                 <AddToTripContainer>
                     <AutocompleteField
