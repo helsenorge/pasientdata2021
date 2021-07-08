@@ -72,8 +72,8 @@ namespace backend.Controllers
             try
             {
                 var id = GetUserId();
-                _service.SearchFriends(id, key);
-                return Ok();
+                var users = _service.SearchFriends(id, key);
+                return Ok(users);
             }
             catch (ApplicationException ex)
             {

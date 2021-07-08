@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace backend.Migrations
 {
-    public partial class initial : Migration
+    public partial class inital : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -208,7 +208,9 @@ namespace backend.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     TripDataId = table.Column<int>(type: "INTEGER", nullable: false),
                     StopDestionation = table.Column<string>(type: "TEXT", nullable: true),
-                    StopNumber = table.Column<int>(type: "INTEGER", nullable: false)
+                    StopNumber = table.Column<int>(type: "INTEGER", nullable: false),
+                    Longitude = table.Column<float>(type: "REAL", nullable: false),
+                    Latitude = table.Column<float>(type: "REAL", nullable: false)
                 },
                 constraints: table =>
                 {
