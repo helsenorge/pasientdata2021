@@ -12,7 +12,18 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import WhiteHeaderWrapper from '../boxes/WhiteHeaderWrapper';
 
-const CustomPageLink = styled(LandingPageLink)`
+
+const UserIcon = styled.img`
+    display: flex;
+    height: 130px;
+    margin-left: 33%;
+`
+const UserFullName = styled.h2`
+   text-align: center;
+`
+
+const UserName = styled.h4`
+    text-align: center;
 `
 
 const UserPage = () => {
@@ -29,12 +40,13 @@ const UserPage = () => {
           <GreenBoxRoundedCorner className="MainBox">
             <LandingPageCategory title="BRUKER-INFO">
             <div>
-                <h2>
+            <UserIcon src="person.svg" alt="Icon" height ={100} /> 
+                <UserFullName>
                     {userResult.name} 
-                </h2>
-                <h4>
+                </UserFullName>
+                <UserName>
                     {userResult.username} 
-                </h4>
+                </UserName>
             </div>
             </LandingPageCategory>
         </GreenBoxRoundedCorner>

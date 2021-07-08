@@ -1,11 +1,13 @@
 
 import styled from 'styled-components';
-import MapComponent from './MapComponent';
+import FriendsMapComponent from './FriendsMapComponent';
 import SwipeableBottom from '../boxes/SwipeableBottom';
 
 import LandingPageLink from '../buttons/LandingPageLink';
 
 import { useHistory } from 'react-router';
+
+import { useState } from 'react';
 
 const Wrapper = styled.div`
     display: flex;
@@ -18,16 +20,16 @@ const Wrapper = styled.div`
 const TopContainer = styled.div`
 `
 
-const MapContainer = styled(MapComponent)`
+const MapContainer = styled(FriendsMapComponent)`
     height: 100%;
 `
 
 const SwipeableBottomStyle = {
-    width: "inherit",
+    width: "inherit"
 };
 
 const SwipeableBottomTop = styled.div`
-    min-height: 30px;
+    min-height: 35px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -41,16 +43,18 @@ const SwipeableBottomContainer = styled.div`
 function MapPage() {
 
     const history = useHistory();
+    const [open, setOpen] = useState(false)
 
     return (
         <Wrapper className="MapPageWrapper">
         <TopContainer className="TopContainer"></TopContainer>
         <MapContainer className="map-container" />
-        <SwipeableBottom style={SwipeableBottomStyle}>
-              <SwipeableBottomTop>
+        <SwipeableBottom style={SwipeableBottomStyle} open={open} setOpen = {setOpen}>
+              <SwipeableBottomTop onClick={()=>setOpen(!open)}>
                 Sveip opp
               </SwipeableBottomTop>
               <SwipeableBottomContainer className="SwipeableBottomContainer">
+                    <LandingPageLink title="Lag tur" imgPath="map.svg" onClick={()=> history.push("/createTrip")} />
                     <LandingPageLink title="Mine venner" imgPath="team.svg" onClick={() => history.push("/myfriends")}/>
                     <LandingPageLink title="Legg til venner" imgPath="goal.svg" onClick={() => history.push("/addfriend")}/>
                     <LandingPageLink title="Turer" imgPath="running.svg" onClick={() => history.push("/trips")} />

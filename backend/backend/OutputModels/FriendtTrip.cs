@@ -1,14 +1,15 @@
-﻿using System;
+﻿using backend.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace backend.InputModels.Trip
+namespace backend.OutputModels
 {
-    public class DestionationModel
+    public class FriendtTrip
     {
-        public string Destionation { get; set; }
-        public int Number { get; set; }
+        public int Tripid { get; set; }
+        public User User { get; set; }
         public float Longitude { get; set; }
         public float Latitude { get; set; }
     }
