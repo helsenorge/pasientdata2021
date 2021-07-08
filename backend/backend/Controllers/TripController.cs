@@ -1,6 +1,7 @@
 ﻿using backend.Helpers;
 using backend.InputModels;
 using backend.InputModels.Trip;
+using backend.OutputModels;
 using backend.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -29,12 +30,7 @@ namespace backend.Controllers
             try
             {
                 var userid = GetUserId();
-                var destionations = new List<(int, string)>();
-                model.destinations.ForEach(dest =>
-                {
-                    destionations.Add((dest.Number, dest.Destionation));
-                });
-               var trip = _service.Create(userid, model.friendsIds, model.name, model.date, model.routeDescription, destionations);
+                var trip = _service.Create(userid, model.friendsIds, model.name, model.date, model.routeDescription, model.destinations);
                 return Ok(trip.Id);
             }
             catch (ApplicationException ex)
@@ -138,8 +134,31 @@ namespace backend.Controllers
             try
             {
                 var userid = GetUserId();
-                _service.GetFriendsTrips(userid);
-                return Ok();
+                var trips =_service.GetFriendsTrips(userid);
+                var tripWithCreator = new List<FriendtTrip>();
+                trips.ForEach(trip =>
+                {
+                    float longitude = 0;
+                    float latitude = 0;
+                    trip.TripData.Destionations.ForEach(dest =>
+                    {
+                        if (dest.StopNumber == 1)
+                        {
+                            longitude = dest.Longitude;
+                            latitude = dest.Latitude;
+                        }
+                    });
+
+                    tripWithCreator.Add(new FriendtTrip
+                    {
+                        Tripid = trip.Id,
+                        User = _service.GetCreator(trip.Id),
+                        Longitude = longitude,
+                        Latitude = latitude
+                    });
+                });
+                return Ok(tripWithCreator);
+                //legg til slik at det long og lat til første destinasjonen til turen returneres
             }
             catch (ApplicationException ex)
             {

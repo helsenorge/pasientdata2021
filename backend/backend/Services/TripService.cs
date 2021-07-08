@@ -1,4 +1,5 @@
 ﻿using backend.Helpers;
+using backend.InputModels.Trip;
 using backend.Model;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -10,7 +11,7 @@ namespace backend.Services
 {
     public interface ITripService
     {
-        Trip Create(int userid, List<int> friendsIds, string name, DateTime date, string routeDescription, List<(int, string)> destinations);
+        Trip Create(int userid, List<int> friendsIds, string name, DateTime date, string routeDescription, List<DestionationModel> destinations);
         void InviteFriend(int userid, int tripid, int friendId);
         void AcceptTripRequest(int userid, int tripreqid);
         void DeclineTripRequest(int userid, int tripreqid);
@@ -18,6 +19,7 @@ namespace backend.Services
         Trip GetTrip(int tripid);
         List<Trip> GetUsersTrips(int userid);
         List<Trip> GetFriendsTrips(int userid);
+        User GetCreator(int tripid);
     }
 
     public class TripService: ITripService
@@ -53,7 +55,7 @@ namespace backend.Services
             _context.SaveChanges();
         }
 
-        public Trip Create(int userid, List<int> friendsIds, string name, DateTime date, string routeDescription, List<(int, string)> destinations)
+        public Trip Create(int userid, List<int> friendsIds, string name, DateTime date, string routeDescription, List<DestionationModel> destinations)
         {
             friendsIds.Add(1);
             friendsIds.Add(2);
@@ -89,8 +91,10 @@ namespace backend.Services
             {
                 destinationsToStore.Add(new Destination
                 {
-                    StopDestionation = destination.Item2,
-                    StopNumber = destination.Item1
+                    StopDestionation = destination.Destionation,
+                    StopNumber = destination.Number,
+                    Longitude = destination.Longitude,
+                    Latitude = destination.Latitude
                 });
             });
 
@@ -154,6 +158,16 @@ namespace backend.Services
             _context.SaveChanges();
         }
 
+        public User GetCreator(int tripid)
+        {
+            var trip = _context.Trips.Include(x => x.Users).ToList().Find(x=>x.Id == tripid);
+            if(trip == null)
+                throw new AppException($"Trip with id {tripid} dosent exist");
+
+            var userIdCreator = trip.Users.ToList().Find(x => x.IsCreator);
+            return _context.Users.Find(userIdCreator.UserId);
+        }
+
         //Sjekk om det er mulig å effektivisere denne funksjonen litt
         public List<Trip> GetFriendsTrips(int userid)
         {
@@ -174,7 +188,7 @@ namespace backend.Services
 
             var tripIds = userHasTripIds.ToList().Where(x=>x.IsCreator).Select(x => x.TripId).ToList();
 
-            return _context.Trips.ToList().FindAll(x => tripIds.Contains(x.Id));
+            return _context.Trips.Include(x=>x.TripData).ThenInclude(x=>x.Destionations).ToList().FindAll(x => tripIds.Contains(x.Id));
         }
 
         public Trip GetTrip(int tripid)
