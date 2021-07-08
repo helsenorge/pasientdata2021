@@ -1,6 +1,6 @@
 
 import styled from 'styled-components';
-import MapComponent from './MapComponent';
+import FriendsMapComponent from './FriendsMapComponent';
 import SwipeableBottom from '../boxes/SwipeableBottom';
 
 import LandingPageLink from '../buttons/LandingPageLink';
@@ -20,7 +20,7 @@ const Wrapper = styled.div`
 const TopContainer = styled.div`
 `
 
-const MapContainer = styled(MapComponent)`
+const MapContainer = styled(FriendsMapComponent)`
     height: 100%;
 `
 
