@@ -81,7 +81,7 @@ function InsertTripInfo({setTripName, setTripTime}) {
     const [selectedUser, setSelectedUser] = useState();
 
     function searchResult(key){
-        axios.get('user/search/'+key)
+        axios.get('Friend/SearchFriends/'+key)
         .then(response => setRequestUser(response.data))
     }
 
