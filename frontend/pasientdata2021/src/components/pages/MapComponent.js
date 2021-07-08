@@ -9,7 +9,7 @@ import axios from "axios";
 mapboxgl.accessToken = 'pk.eyJ1IjoidGVvMzIwMSIsImEiOiJja3FhbGwzMjYwbmJuMm5sYmQ0NWJnaTlzIn0.CvCp6NNdxaBVmCheNWhjYw';
 
 
-function MapComponent({className, routeData, setRouteData}) {
+function MapComponent({className, routeData, setRouteData, setRouteJson}) {
     const mapContainer = useRef(null);
     const map = useRef(null);
     const [lng, setLng] = useState(10.749);
@@ -18,8 +18,6 @@ function MapComponent({className, routeData, setRouteData}) {
     const Route = useRef(null);
     const [Points, setPoints] = useState([]);
     const routeId = useRef("");
-
-
 
     useEffect(() => {
 
@@ -61,6 +59,7 @@ function MapComponent({className, routeData, setRouteData}) {
             axios.get('https://api.mapbox.com/directions/v5/mapbox/walking/'+string+'?access_token=pk.eyJ1IjoidGVvMzIwMSIsImEiOiJja3FhbGwzMjYwbmJuMm5sYmQ0NWJnaTlzIn0.CvCp6NNdxaBVmCheNWhjYw&geometries=geojson')
                  .then(response => {
                     Route.current = response.data.routes[0].geometry
+                    setRouteJson(response.data.routes[0].geometry)
                     addRoute()
                  })
         });
