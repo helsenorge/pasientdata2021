@@ -66,6 +66,21 @@ namespace backend.Controllers
             }
         }
 
+        [HttpGet("SearchFriends/{key}")]
+        public IActionResult SearchFriends([FromRoute] string key)
+        {
+            try
+            {
+                var id = GetUserId();
+                _service.SearchFriends(id, key);
+                return Ok();
+            }
+            catch (ApplicationException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
         [HttpPost("RemoveFriend/{useridToRemove}")]
         public IActionResult RemoveFriend([FromRoute] int useridToRemove)
         {

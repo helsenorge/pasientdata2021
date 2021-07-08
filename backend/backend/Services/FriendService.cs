@@ -16,7 +16,8 @@ namespace backend.Services
         void DeleteFriend(int id, int userToDeleteId);
         void AcceptFriendRequest(int id, int friendrequestId);
         void DeclineFriendRequest(int id, int friendrequestId);
-        
+        List<User> SearchFriends(int id, string key);
+
     }
     public class FriendService: IFriendService
     {
@@ -153,6 +154,13 @@ namespace backend.Services
                 .Select(x=>x.Users).SelectMany(x => x).ToList();
             var friendsIds = Users.ToList().FindAll(x => x.UserId != id).Select(x=>x.UserId);
             return _context.Users.ToList().FindAll(x => friendsIds.Contains(x.Id));
+        }
+
+        public List<User> SearchFriends(int id, string key)
+        {
+            var friends = GetAllFriends(id);
+            var users = friends.ToList().FindAll(x => x.Username.ToLower().StartsWith(key.ToLower()));
+            return users;
         }
     }
 }
