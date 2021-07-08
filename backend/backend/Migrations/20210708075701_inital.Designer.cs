@@ -9,8 +9,8 @@ using backend.Helpers;
 namespace backend.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210706091102_initial")]
-    partial class initial
+    [Migration("20210708075701_inital")]
+    partial class inital
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -24,6 +24,12 @@ namespace backend.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
+
+                    b.Property<float>("Latitude")
+                        .HasColumnType("REAL");
+
+                    b.Property<float>("Longitude")
+                        .HasColumnType("REAL");
 
                     b.Property<string>("StopDestionation")
                         .HasColumnType("TEXT");
