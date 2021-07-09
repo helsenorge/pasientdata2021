@@ -13,8 +13,8 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 import { useHistory } from "react-router"
-import Accordion from "react-bootstrap/Accordion";
-import Card from "react-bootstrap/Card"
+import AccordionComponent from "../boxes/Accordion";
+import Accordion from "react-bootstrap/esm/Accordion";
 
 
 const CustomTextImgButton = styled(TextImgButton)`
@@ -74,7 +74,7 @@ function MyFriendsPage() {
   
 
   //Hent ut alle venner
-
+  console.log("FRIENDS", friends)
   function GetAllFriends(){
     axios.get('Friend/GetAllFriends')
         .then(response => setFriends(response.data));
@@ -148,24 +148,23 @@ function MyFriendsPage() {
 
       <Accordion>
         {friends?.map((item, index) =>
-          <Card>
-            <Accordion.Toggle as={Card.Header} eventKey={index.toString()}>
-              {item.name}
-            </Accordion.Toggle>
-            <Accordion.Collapse eventKey={index.toString()}>
-              <Card.Body>
-                <CustomTextImgButton imgSrc="trash.svg" title="Fjern Venn" onClick={()=> removeFriend(item.id)} />
-              </Card.Body>
-            </Accordion.Collapse>
-          </Card>
+          <AccordionComponent  
+          children = {item.name}
+          eventKey ={index.toString()} 
+          trashImg="trash.svg"
+          profileImg="person.svg"
+          arrowImg = "arrowdown.svg"
+          title="Fjern Venn" 
+          removeFunction={()=> removeFriend(item.id)} />
         )}
       </Accordion>
+      
+
 
     <LandingPageCategory title="Venneforespørsler"/>
 
-      {friendRequest?.map(item => <TripComponent name={item?.userSender?.username} invited="True">
-          <Icon onClick={()=>acceptRequest(item.id)}/>
-          <IconX onClick={()=>removeRequest(item.id)}/>
+      {friendRequest?.map(item => <TripComponent className="TripComponent" name={item?.userSender?.username} invited="true" accept={() => acceptRequest(item.id)} decline={() => removeRequest(item.id)} >
+          
       </TripComponent>
       )}
       
