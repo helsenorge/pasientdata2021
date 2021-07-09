@@ -62,7 +62,7 @@ function App() {
            <Route path="/myfriends" exact render={()=> <MyFriendsPage/>} />
            <Route path="/userinfo" exact render={()=> <UserInfoPage/>} />
            <Route path="/userpage" exact render={()=> <UserPage/>} />
-           <Route path="/specifictrip" exact render={()=> <SpecificTripPage/>} />
+           <Route path="/specifictrip/:tripId" render={()=> <SpecificTripPage/>} />
         </Switch>
       </PageWrapper>
     </Router>
