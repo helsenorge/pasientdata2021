@@ -1,6 +1,7 @@
 ﻿using backend.Helpers;
 using backend.InputModels.Trip;
 using backend.Model;
+using backend.OutputModels;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -21,7 +22,7 @@ namespace backend.Services
         List<Trip> GetFriendsTrips(int userid);
         List<User> GetAllInvitedUsers(int tripid);
         List<User> GetAllAcceptedUsers(int tripid);
-        List<TripRequest> GetAllTripRequests(int userid);
+        List<TripWithRequest> GetAllTripRequests(int userid);
         User GetCreator(int tripid);
     }
     
@@ -183,9 +184,26 @@ namespace backend.Services
             return _context.Users.ToList().FindAll(x => UserIds.Contains(x.Id));
         }
 
-        public List<TripRequest> GetAllTripRequests(int userid)
+        public List<TripWithRequest> GetAllTripRequests(int userid)
         {
-            throw new NotImplementedException();
+            var user = _context.Users.Include(x=>x.TripRequests).ToList().Find(x=>x.Id == userid);
+            if(user == null)
+                throw new AppException("User dosent exist");
+            var tripIds = user.TripRequests.Select(x => x.TripId);
+            var trips = _context.Trips.Include(x=>x.Requests).ToList().FindAll(x => tripIds.Contains(x.Id));
+            var info = new List<TripWithRequest>();
+            trips.ForEach(trip =>
+            {
+                info.Add(new TripWithRequest
+                {
+                    NameCreator = GetCreator(trip.Id).Username,
+                    Name = trip.Name,
+                    TripId = trip.Id,
+                    Date = trip.TripDate,
+                    RequestId = trip.Requests.ToList().Find(x=>x.UserId == userid).Id,
+                });
+            });
+            return info;
         }
 
         public User GetCreator(int tripid)

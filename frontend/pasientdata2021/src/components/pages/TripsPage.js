@@ -33,18 +33,18 @@ margin-top:30px;
 
 function TripsPage(){
 
-    const [trip, setTrip] = useState();
+    const [trips, setTrips] = useState();
 
     function getAllTrips(){
-    axios.get('user/')
-    .then(response => setTrip(response.data))
+    axios.get('Trip/AllTripRequests')
+    .then(response => setTrips(response.data))
     }
 
     useEffect(() => {
         getAllTrips()
       }, []);
     
-      console.log("Tur-id:",trip)
+      console.log("Turer:",trips)
 
     return(
         <>

@@ -117,9 +117,10 @@ namespace backend.Controllers
         {
             try
             {
+                //TESTE DENNE ETTER PAUSEN
                 var userid = GetUserId();
-                var accepted = _service.GetAllTripRequests(userid);
-                return Ok(accepted);
+                var trips = _service.GetAllTripRequests(userid);
+                return Ok(trips);
             }
             catch (ApplicationException ex)
             {
