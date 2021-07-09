@@ -16,7 +16,7 @@ namespace backend.Controllers
     [Authorize]
     [ApiController]
     [Route("[controller]")]
-    public class TripController: ControllerBase
+    public class TripController : ControllerBase
     {
         private ITripService _service;
         public TripController(ITripService service)
@@ -40,7 +40,7 @@ namespace backend.Controllers
         }
 
         [HttpPost("Invite/{tripid}/{friendid}")]
-        public IActionResult InviteToTrip([FromRoute] int tripid ,int friendid)
+        public IActionResult InviteToTrip([FromRoute] int tripid, int friendid)
         {
             try
             {
@@ -84,6 +84,50 @@ namespace backend.Controllers
             }
         }
 
+        [HttpGet("AllInvitedUsers/{tripid}")]
+        public IActionResult AllInvitedUsers([FromRoute] int tripid)
+        {
+            try
+            {
+                var invited = _service.GetAllInvitedUsers(tripid);
+                return Ok(invited);
+            }
+            catch (ApplicationException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+        [HttpGet("AllAcceptedUsers/{tripid}")]
+        public IActionResult AllAcceptedUsers([FromRoute] int tripid)
+        {
+            try
+            {
+                var accepted = _service.GetAllAcceptedUsers(tripid);
+                return Ok(accepted);
+            }
+            catch (ApplicationException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+        [HttpGet("AllTripRequests")]
+        public IActionResult AllTripRequests()
+        {
+            try
+            {
+                //TESTE DENNE ETTER PAUSEN
+                var userid = GetUserId();
+                var trips = _service.GetAllTripRequests(userid);
+                return Ok(trips);
+            }
+            catch (ApplicationException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
         [HttpDelete("{tripid}")]
         public IActionResult DeleteTrip([FromRoute] int tripid)
         {
@@ -105,8 +149,8 @@ namespace backend.Controllers
             try
             {
                 var userid = GetUserId();
-                _service.GetTrip(tripid);
-                return Ok();
+                var trip =_service.GetTrip(tripid);
+                return Ok(trip);
             }
             catch (ApplicationException ex)
             {
@@ -114,13 +158,14 @@ namespace backend.Controllers
             }
         }
 
-        [HttpGet("UserTrips/{userid}")]
-        public IActionResult GetUsersTrips([FromRoute] int userid)
+        [HttpGet("UserTrips")]
+        public IActionResult GetUsersTrips()
         {
             try
             {
-                _service.GetUsersTrips(userid);
-                return Ok();
+                var userid = GetUserId();
+                var trips = _service.GetUsersTrips(userid);
+                return Ok(trips);
             }
             catch (ApplicationException ex)
             {
@@ -138,8 +183,8 @@ namespace backend.Controllers
                 var tripWithCreator = new List<FriendtTrip>();
                 trips.ForEach(trip =>
                 {
-                    float longitude = 0;
-                    float latitude = 0;
+                    double longitude = 0;
+                    double latitude = 0;
                     trip.TripData.Destionations.ForEach(dest =>
                     {
                         if (dest.StopNumber == 1)

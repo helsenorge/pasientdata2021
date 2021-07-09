@@ -2,6 +2,8 @@ import styled from "styled-components";
 import WhiteHeaderWrapper from "../boxes/WhiteHeaderWrapper";
 import GreenBoxRoundedCorner from "../boxes/GreenBoxRoundedCorner";
 import TripComponent from "../boxes/TripComponent";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 
 const OwnGreenBox = styled(GreenBoxRoundedCorner)`
@@ -30,6 +32,20 @@ margin-top:30px;
 
 
 function TripsPage(){
+
+    const [trips, setTrips] = useState();
+
+    function getAllTrips(){
+    axios.get('Trip/AllTripRequests')
+    .then(response => setTrips(response.data))
+    }
+
+    useEffect(() => {
+        getAllTrips()
+      }, []);
+    
+      console.log("Turer:",trips)
+
     return(
         <>
         <WhiteHeaderWrapper className="Turer" title="Turer">

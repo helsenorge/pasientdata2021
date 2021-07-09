@@ -6,6 +6,7 @@ import 'mapbox-gl/dist/mapbox-gl.css'
 
 import '@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions.css'
 import axios from "axios";
+
 mapboxgl.accessToken = 'pk.eyJ1IjoidGVvMzIwMSIsImEiOiJja3FhbGwzMjYwbmJuMm5sYmQ0NWJnaTlzIn0.CvCp6NNdxaBVmCheNWhjYw';
 
 
@@ -20,6 +21,10 @@ function MapComponent({className, routeData, setRouteData, setRouteJson}) {
     const routeId = useRef("");
 
     useEffect(() => {
+
+
+        
+
 
         if (map.current) return; // initialize map only once
 
@@ -40,8 +45,6 @@ function MapComponent({className, routeData, setRouteData, setRouteJson}) {
             var curentpoints = Points
             curentpoints.push({"lng":e["lngLat"]["lng"], "lat":e["lngLat"]["lat"]})
             getAdress(e["lngLat"]["lng"], e["lngLat"]["lat"])
-
-            //currentpoints.push()
 
             if(curentpoints.length == 1){
                 setPoints(curentpoints)

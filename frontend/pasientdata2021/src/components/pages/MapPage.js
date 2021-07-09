@@ -18,15 +18,8 @@ const Wrapper = styled.div`
     width: inherit;
     `
 
-const TopContainer = styled.div`
-`
-
-const MapContainer = styled(FriendsMapComponent)`
-    height: 100%;
-`
-
 const SwipeableBottomStyle = {
-    width: "inherit"
+    width: "inherit",
 };
 
 const SwipeableBottomTop = styled.div`
@@ -41,15 +34,21 @@ const SwipeableBottomContainer = styled.div`
     font-size: 22px;
 `
 
+const FloatingButtonCustom = styled(FloatingButton)`
+    margin-top: 10px;
+    padding-right: 20px;
+    position: fixed;
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
+`
+
 function MapPage() {
     const history = useHistory();
     const [open, setOpen] = useState(false)
-    //<MapContainer className="map-container" />
     return (
-        
-        <Wrapper className="MapPageWrapper">
-        
-        <TopContainer className="TopContainer"></TopContainer>
+        <>
+        <FloatingButtonCustom className="FloatingButton" onClick={()=>history.push('/map/newtrip')} />
         <SwipeableBottom style={SwipeableBottomStyle} open={open} setOpen = {setOpen}>
               <SwipeableBottomTop onClick={()=>setOpen(!open)}>
                 <ArrowButton direction="up"></ArrowButton>
@@ -62,7 +61,7 @@ function MapPage() {
                     <LandingPageLink title="Innstillinger" imgPath="/settings.svg" onClick={() => history.push("/settings")} />
                 </SwipeableBottomContainer>
         </SwipeableBottom>
-        </Wrapper>
+        </>
     )
 }
 

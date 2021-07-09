@@ -1,6 +1,7 @@
 ﻿using backend.Helpers;
 using backend.InputModels.Trip;
 using backend.Model;
+using backend.OutputModels;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -19,8 +20,12 @@ namespace backend.Services
         Trip GetTrip(int tripid);
         List<Trip> GetUsersTrips(int userid);
         List<Trip> GetFriendsTrips(int userid);
+        List<User> GetAllInvitedUsers(int tripid);
+        List<User> GetAllAcceptedUsers(int tripid);
+        List<TripWithRequest> GetAllTripRequests(int userid);
         User GetCreator(int tripid);
     }
+    
 
     public class TripService: ITripService
     {
@@ -57,8 +62,6 @@ namespace backend.Services
 
         public Trip Create(int userid, List<int> friendsIds, string name, DateTime date, string routeDescription, List<DestionationModel> destinations)
         {
-            friendsIds.Add(1);
-            friendsIds.Add(2);
             var user = _context.Users.Find(userid);
             if(user == null)
             {
@@ -159,6 +162,50 @@ namespace backend.Services
             _context.SaveChanges();
         }
 
+        public List<User> GetAllAcceptedUsers(int tripid)
+        {
+            var trip = _context.Trips.Include(x=>x.Users).ToList().Find(x=>x.Id == tripid);
+            if(trip == null)
+            {
+                throw new AppException("Trip dosent exist");
+            }
+            var UserIds = trip.Users.Select(x => x.UserId);
+            return _context.Users.ToList().FindAll(x => UserIds.Contains(x.Id));
+        }
+
+        public List<User> GetAllInvitedUsers(int tripid)
+        {
+            var trip = _context.Trips.Include(x => x.Requests).ToList().Find(x => x.Id == tripid);
+            if (trip == null)
+            {
+                throw new AppException("Trip dosent exist");
+            }
+            var UserIds = trip.Requests.ToList().Select(x => x.UserId);
+            return _context.Users.ToList().FindAll(x => UserIds.Contains(x.Id));
+        }
+
+        public List<TripWithRequest> GetAllTripRequests(int userid)
+        {
+            var user = _context.Users.Include(x=>x.TripRequests).ToList().Find(x=>x.Id == userid);
+            if(user == null)
+                throw new AppException("User dosent exist");
+            var tripIds = user.TripRequests.Select(x => x.TripId);
+            var trips = _context.Trips.Include(x=>x.Requests).ToList().FindAll(x => tripIds.Contains(x.Id));
+            var info = new List<TripWithRequest>();
+            trips.ForEach(trip =>
+            {
+                info.Add(new TripWithRequest
+                {
+                    NameCreator = GetCreator(trip.Id).Username,
+                    Name = trip.Name,
+                    TripId = trip.Id,
+                    Date = trip.TripDate,
+                    RequestId = trip.Requests.ToList().Find(x=>x.UserId == userid).Id,
+                });
+            });
+            return info;
+        }
+
         public User GetCreator(int tripid)
         {
             var trip = _context.Trips.Include(x => x.Users).ToList().Find(x=>x.Id == tripid);
@@ -194,9 +241,10 @@ namespace backend.Services
 
         public Trip GetTrip(int tripid)
         {
-            var trip = _context.Trips.Find(tripid);
+            var trip = _context.Trips.Include(x=>x.TripData).ThenInclude(x=>x.Destionations).ToList().Find(x=>x.Id == tripid);
             if(trip == null)
                 throw new AppException("Trip dosent exist");
+            trip.TripData.Trip = null;
             return trip;
         }
 
