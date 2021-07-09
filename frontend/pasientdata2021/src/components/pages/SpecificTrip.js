@@ -8,10 +8,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useHistory } from "react-router";
 
-import {
-    useParams,
-    useLocation
-  } from "react-router-dom";
+import {useParams} from "react-router-dom";
 import TextImgButton from "../buttons/TextImgButton";
 
 
@@ -61,11 +58,6 @@ function SpecificTripPage(){
     const history = useHistory();
     
     let { tripId } = useParams();
-
-    console.log("SLUG: ",  tripId)
-    console.log("Tripinfo: ", tripInfo)
-
-
     
     function TripDetails(){
         axios.get('Trip/'+tripId)
