@@ -14,7 +14,6 @@ const TextImgButtonWrapper = styled.button`
 ` 
 
 const ButtonImg = styled.img`
-    margin-right: 10px;
 `
 
 function TextImgButton({className, title, imgSrc, onClick}) {

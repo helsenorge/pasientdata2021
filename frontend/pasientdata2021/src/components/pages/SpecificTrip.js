@@ -4,7 +4,12 @@ import GreenBoxRoundedCorner from "../boxes/GreenBoxRoundedCorner";
 import TripComponent from "../boxes/TripComponent";
 import LandingPageCategory from "../boxes/LandingPageCategory";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { useHistory } from "react-router";
+
+import {useParams} from "react-router-dom";
+import TextImgButton from "../buttons/TextImgButton";
 
 
 const OwnGreenBox = styled(GreenBoxRoundedCorner)`
@@ -26,41 +31,84 @@ const OptionsContainer = styled.div`
     margin-top: 20px;
     display: flex;
     justify-content: space-around;
+    margin-top: 10px;
+    margin-bottom: 10px;
 `
-const EditTripButton = styled(LandingPageCategory)`
-    font-weight: bolder;
-    font-family:"Comfortaa";
-`
-const DeleteTripButton = styled(LandingPageCategory)`
+
+const DeleteTripButton = styled(TextImgButton)`
     font-weight: bolder;
     font-family:"Comfortaa";
     color: #B23B3B;
+    background-color: white;
+    font-size: 17px;
+    margin: 0px;
+`
+
+const EditTripButton = styled(DeleteTripButton)`
+    font-weight: bolder;
+    font-family:"Comfortaa";
+    color: grey;
 `
 
 function SpecificTripPage(){
-    const [creator, setCreator] = useState(true)
+    const [tripInfo, setTripInfo] = useState({})
+    const [tripFriends, setTripfriends] = useState([])
+    const [tripInvited, setInvited] = useState([])
+
+    const history = useHistory();
+    
+    let { tripId } = useParams();
+    
+    function TripDetails(){
+        axios.get('Trip/'+tripId)
+            .then(response=> setTripInfo(response.data));
+    }
+
+    function TripFriends(){
+        axios.get('Trip/AllAcceptedUsers/'+tripId)
+            .then(response=> setTripfriends(response.data));
+    }
+
+    function TripInvited(){
+        axios.get('Trip/AllInvitedUsers'+tripId)
+            .then(response=> setInvited(response.data));
+    }
+
+    useEffect(() => {
+        TripDetails();
+        TripFriends();
+        TripInvited();
+    }, []);
+
+    function DeleteTrip(){
+        console.log("DELETING")
+        axios.delete('Trip/'+tripId)
+            .then(history.push('/trips'));
+    }
 
     return(
         <>
-            <OwnWhiteHeaderWrapper className = "WhiteHeaderWrapper" title="Lørdagstur">
+            <OwnWhiteHeaderWrapper className = "WhiteHeaderWrapper" title={tripInfo.name}>
                 
             </OwnWhiteHeaderWrapper>
                 <TimeContainer>
                     <OwnLandingPageCategory title="26.01.21 - 14.00" />
                 </TimeContainer>
-                { creator ? 
+                { tripInfo ? 
                     <OptionsContainer>
                         <EditTripButton title="Rediger"/>
-                        <DeleteTripButton title="Slett"/>
+                        <DeleteTripButton title="Slett" onClick={()=> DeleteTrip()}/>
                     </OptionsContainer> :
                     ""
                 }
-            <OwnGreenBox>
+        
+                <OwnGreenBox>
                 <LandingPageCategory title="Kommer"/>
-                <TripComponent name="Awalle" img="" />
+                {tripFriends?.map(item => <TripComponent className="TripComponent" name={item.username} />)}
+                <LandingPageCategory title="Inviterte" />
+                {tripInvited?.map(item => <TripComponent className="TripComponent" name={item.username} />)}
+                </OwnGreenBox>
 
-
-            </OwnGreenBox>
         </>
     )
 }
