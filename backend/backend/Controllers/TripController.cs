@@ -105,8 +105,8 @@ namespace backend.Controllers
             try
             {
                 var userid = GetUserId();
-                _service.GetTrip(tripid);
-                return Ok();
+                var trip =_service.GetTrip(tripid);
+                return Ok(trip);
             }
             catch (ApplicationException ex)
             {
@@ -138,8 +138,8 @@ namespace backend.Controllers
                 var tripWithCreator = new List<FriendtTrip>();
                 trips.ForEach(trip =>
                 {
-                    float longitude = 0;
-                    float latitude = 0;
+                    double longitude = 0;
+                    double latitude = 0;
                     trip.TripData.Destionations.ForEach(dest =>
                     {
                         if (dest.StopNumber == 1)

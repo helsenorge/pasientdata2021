@@ -11,7 +11,7 @@ namespace backend.Model
         public int TripDataId { get; set; }
         public string StopDestionation { get; set; }
         public int StopNumber { get; set; }
-        public float Longitude { get; set; }
-        public float Latitude { get; set; }
+        public double Longitude { get; set; }
+        public double Latitude { get; set; }
     }
 }

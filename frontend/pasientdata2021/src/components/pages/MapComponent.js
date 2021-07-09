@@ -43,8 +43,6 @@ function MapComponent({className, routeData, setRouteData}) {
             curentpoints.push({"lng":e["lngLat"]["lng"], "lat":e["lngLat"]["lat"]})
             getAdress(e["lngLat"]["lng"], e["lngLat"]["lat"])
 
-            //currentpoints.push()
-
             if(curentpoints.length == 1){
                 setPoints(curentpoints)
                 return
