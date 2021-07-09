@@ -35,16 +35,23 @@ font-size: 2em;
 color: red;
 `
 
-function TripComponent({name, time, invited, children, accept, decline }){
+function TripComponent({name, time, invited, children, accept, decline, creator, onClick }){
 
         return(
-        <Tripwrapper>
+        <Tripwrapper onClick={onClick}>
 
             <Trip>
                 {name}
                 <TripTime>
                     {time}
                 </TripTime>
+                {
+                    invited ? 
+                    <TripTime>
+                        Created by: {creator}
+                    </TripTime> :
+                    ""
+                }
             </Trip>
             {
             invited ?

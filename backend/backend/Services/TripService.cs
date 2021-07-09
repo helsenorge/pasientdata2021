@@ -48,7 +48,7 @@ namespace backend.Services
             if (request.UserId != userid)
                 throw new AppException("Trip-request dosent belong to this user");
 
-            var trip = _context.Trips.Find(request.TripId);
+            var trip = _context.Trips.Include(x=>x.Users).ToList().Find(x=>x.Id == request.TripId);
             trip.Users.Add(new UserHasTrip
             {
                 IsCreator = false,
@@ -254,7 +254,7 @@ namespace backend.Services
             if(user == null)
                 throw new AppException("User dosent exist");
 
-            var userHasTrips = user.UserHasTrips.ToList().Where(x => x.IsCreator).ToList();
+            var userHasTrips = user.UserHasTrips.ToList();
             if (userHasTrips.Count == 0)
                 return new List<Trip>();
 

@@ -2,12 +2,14 @@ import styled from "styled-components";
 import WhiteHeaderWrapper from "../boxes/WhiteHeaderWrapper";
 import GreenBoxRoundedCorner from "../boxes/GreenBoxRoundedCorner";
 import TripComponent from "../boxes/TripComponent";
+import LandingPageCategory from "../boxes/LandingPageCategory";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { useHistory } from "react-router";
 
 
 const OwnGreenBox = styled(GreenBoxRoundedCorner)`
-height: auto;
+height: 100%;
 `
 
 const SubTitle = styled.a`
@@ -33,18 +35,53 @@ margin-top:30px;
 
 function TripsPage(){
 
+    const [triprequests, setTriprequests] = useState();
     const [trips, setTrips] = useState();
+    const history = useHistory();
 
     function getAllTrips(){
+        axios.get('Trip/UserTrips')
+        .then(response => setTrips(response.data))
+        console.log("Turer:",trips)
+        }
+    
+        useEffect(() => {
+            getAllTrips()
+          }, []);
+        
+    
+
+    function getAllTriprequests(){
     axios.get('Trip/AllTripRequests')
-    .then(response => setTrips(response.data))
+    .then(response => setTriprequests(response.data))
+    console.log("Turforespørsler:",triprequests)
     }
 
     useEffect(() => {
-        getAllTrips()
+        getAllTriprequests()
       }, []);
     
-      console.log("Turer:",trips)
+    
+
+    function acceptTripRequest(requestId){
+        axios.post('/Trip/AcceptTripRequest/'+ requestId)
+          .then( () => {
+            getAllTriprequests()
+            getAllTrips()
+            console.log("HVASKJER")
+          });
+          
+      };
+    
+    function declineTripRequest(requestId){
+    axios.post('/Trip/DeclineTripRequest/'+ requestId)
+        .then( () => {
+        getAllTriprequests()
+        getAllTrips()
+        console.log("HVASKJER")
+        });
+        
+    };
 
     return(
         <>
@@ -53,34 +90,33 @@ function TripsPage(){
         </WhiteHeaderWrapper>
         <OwnGreenBox>
             <TripsContainer className= "TripsContainer">
-                <SubTitle className = "SubTitle">
-                Mine Turer
-                </SubTitle>
-                <TripComponent name="Dagstur" time="09.05.1998 - 11:00"/>
-                <TripComponent name="Ettermiddagstur" time="09.05.1998 - 11:00"/>
-                <TripComponent name="Hardtur" time="09.05.1998 - 11:00"/>
-                <TripComponent name="Ture" time="09.05.1998 - 11:00"/>                            
+                <LandingPageCategory title="Mine Turer"/>
+                {trips?.map((item) =>
+                    <TripComponent 
+                    name={item.name} 
+                    time={new Date(item.tripDate).toLocaleString()}
+                    onClick={()=>history.push("/specifictrip/".concat(item.id))}/>
+                )}
+                
+                           
             </TripsContainer>
 
-            <OtherTripsContainer>
-                <SubTitle className = "SubTitle">
-                    Andre turer
-                </SubTitle>
-                <TripComponent name="Annen Tur" time="09.05.1998 - 11:00"/>
-                <TripComponent name="Annen Tur" time="09.05.1998 - 11:00"/>
-                <TripComponent name="Annen Turrrrrrrrrrrrrrrrrrrrr" time="09.05.1998 - 11:00"/>
-                <TripComponent name="Annen Tur" time="09.05.1998 - 11:00"/>
-            </OtherTripsContainer>
 
             <OtherTripsContainer>
-                <SubTitle className = "SubTitle">
-                    Invitasjoner
-                </SubTitle>
-                <TripComponent name = "Kvelsturennnnnnnnn" time="På kvelden da.." invited="True"/>
-               
-
-
+                <LandingPageCategory title="Invitasjoner"/>
+                {triprequests?.map((item) =>
+                    <TripComponent 
+                    name={item.name} 
+                    time={new Date(item.tripDate).toISOString()} 
+                    creator={item.nameCreator} 
+                    invited={true} 
+                    accept={() => acceptTripRequest(item.requestId)}
+                    decline={() => declineTripRequest(item.requestId)} 
+                    />
+                )}   
+                              
             </OtherTripsContainer>
+
         </OwnGreenBox>
         </>
     )
