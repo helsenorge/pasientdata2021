@@ -5,8 +5,6 @@ import UserInputField from '../inputFields/UserInputField';
 
 import WhiteHeaderWrapper from '../boxes/WhiteHeaderWrapper';
 
-import MapComponent from './MapComponent';
-
 import GreenBoxRoundedCorner from '../boxes/GreenBoxRoundedCorner';
 
 import {FaTimes, FaChevronRight} from 'react-icons/fa'
@@ -32,13 +30,9 @@ import ScrollList from '../boxes/ScrollList';
 
 import DateTimeField from '../inputFields/DateTimeField';
 
-    const Wrapper = styled.div`
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-end;
-        height: 100%;
-        background-color: white;
-    `
+import MapPage from './MapPage';
+
+
     const HeaderWrapper = styled(WhiteHeaderWrapper)`
         background-color: inherit;
     `
@@ -51,9 +45,7 @@ import DateTimeField from '../inputFields/DateTimeField';
         text-align: center;
     `
 
-   const MapContainer = styled(MapComponent)`
-        height: 100%;
-    `
+
 
     const CustomGreenBox = styled(GreenBoxRoundedCorner)`
         position: fixed;
@@ -200,13 +192,11 @@ function InsertTripRoute({routeData}) {
     )
 }
 
-
-function CreateTripPage() {
+function CreateTripPage({routeData, setRouteData, routeJson, setRouteJson}) {
     const [tripName, setTripName] = useState("");
     const [selectedDate, handleDateChange] = useState(new Date());
     const [selectedUsers, setSelectedUsers] = useState([])
-    const [routeData, setRouteData] = useState([]);
-    const [routeJson, setRouteJson] = useState({})
+
     const [createTripResponse, setCreateTripResponse] = useState();
 
 
@@ -233,10 +223,8 @@ function CreateTripPage() {
             history.push("/trips")
         })
     }
-
+    
     return (
-        <Wrapper>
-            <MapContainer className="MapContainer" routeData={routeData} setRouteData={setRouteData} setRouteJson={setRouteJson} />
             <Switch>
                 <Route exact path={path}>
                     <InsertTripInfo
@@ -253,7 +241,6 @@ function CreateTripPage() {
                     <InsertTripRoute routeData={routeData} />
                 </Route>
             </Switch>
-        </Wrapper>
     )
 }
 

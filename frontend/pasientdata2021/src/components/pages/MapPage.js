@@ -14,7 +14,6 @@ import FloatingButton from '../buttons/FloatingButton';
 const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
-    height: 100%;
     background-color: #7BEFB2;
     width: inherit;
     `
@@ -45,11 +44,10 @@ const SwipeableBottomContainer = styled.div`
 function MapPage() {
     const history = useHistory();
     const [open, setOpen] = useState(false)
-
+    //<MapContainer className="map-container" />
     return (
         <Wrapper className="MapPageWrapper">
         <TopContainer className="TopContainer"></TopContainer>
-        <MapContainer className="map-container" />
         <FloatingButton className="FloatingButton" onClick={()=>history.push('/createtrip')} />
         <SwipeableBottom style={SwipeableBottomStyle} open={open} setOpen = {setOpen}>
               <SwipeableBottomTop onClick={()=>setOpen(!open)}>
