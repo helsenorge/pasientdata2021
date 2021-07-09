@@ -85,9 +85,6 @@ function MyFriendsPage() {
   }, []);
 
 
-  
-
-
   // request for å fjrene venner
 
   function removeFriend(friendId){

@@ -34,24 +34,23 @@ function AccordionComponent({eventKey, children, trashImg, profileImg, arrowImg,
     return(
         
           <StyledCard className = "StyledCard">
-              
-                   
-                    <Accordion.Toggle as={Card.Header} eventKey={eventKey}>
-                        <CardContainer>
-                            <CustomTextImgButton imgSrc = {profileImg}/>                    
-                            {children}
-                            <ArrowButton direction="down"/>
-                            
-                        </CardContainer>  
-                    </Accordion.Toggle>
+                                 
+            <Accordion.Toggle as={Card.Header} eventKey={eventKey}>
+                <CardContainer>
+                    <CustomTextImgButton imgSrc = {profileImg}/>                    
+                    {children}
+                    <ArrowButton direction="down"/>
                     
-                
-            
+                </CardContainer>  
+            </Accordion.Toggle>
+                    
+                         
             <Accordion.Collapse eventKey={eventKey}>
               <Card.Body>
                 <CustomTextImgButton imgSrc={trashImg} title={title} onClick={removeFunction} />
               </Card.Body>
             </Accordion.Collapse>
+         
           </StyledCard>
     )
 }

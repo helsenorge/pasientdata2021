@@ -59,6 +59,8 @@ function SpecificTripPage(){
                 <LandingPageCategory title="Kommer"/>
                 <TripComponent name="Awalle" img="" />
 
+                <LandingPageCategory title="Inviterte"/>
+
 
             </OwnGreenBox>
         </>

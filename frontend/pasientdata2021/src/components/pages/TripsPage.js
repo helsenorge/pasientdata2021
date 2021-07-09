@@ -5,7 +5,7 @@ import TripComponent from "../boxes/TripComponent";
 
 
 const OwnGreenBox = styled(GreenBoxRoundedCorner)`
-height: auto;
+height: 100%;
 `
 
 const SubTitle = styled.a`
@@ -46,15 +46,6 @@ function TripsPage(){
                 <TripComponent name="Ture" time="09.05.1998 - 11:00"/>                            
             </TripsContainer>
 
-            <OtherTripsContainer>
-                <SubTitle className = "SubTitle">
-                    Andre turer
-                </SubTitle>
-                <TripComponent name="Annen Tur" time="09.05.1998 - 11:00"/>
-                <TripComponent name="Annen Tur" time="09.05.1998 - 11:00"/>
-                <TripComponent name="Annen Turrrrrrrrrrrrrrrrrrrrr" time="09.05.1998 - 11:00"/>
-                <TripComponent name="Annen Tur" time="09.05.1998 - 11:00"/>
-            </OtherTripsContainer>
 
             <OtherTripsContainer>
                 <SubTitle className = "SubTitle">
