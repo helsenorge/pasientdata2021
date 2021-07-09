@@ -13,7 +13,7 @@ import { BrowserRouter as Router, Switch, Route, useRouteMatch, useHistory, useP
     const Wrapper = styled.div`
         display: flex;
         flex-direction: column;
-        justify-content: flex-end;
+        justify-content: ${props => props.path==="/map" ? "flex-start" : "flex-end"};
         height: 100%;
         background-color: white;
     `
@@ -28,9 +28,8 @@ function MapPageSwitch() {
     const [routeData, setRouteData] = useState([]);
     const [routeJson, setRouteJson] = useState({})
 
-    
     return (
-        <Wrapper>
+        <Wrapper path={window.location.pathname}>
             <MapContainer className="MapContainer" routeData={routeData} setRouteData={setRouteData} setRouteJson={setRouteJson} />
             <Switch>
                 <Route exact path={path}>

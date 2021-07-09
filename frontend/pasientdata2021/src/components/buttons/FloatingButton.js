@@ -6,11 +6,7 @@ import styled from 'styled-components';
 
 
 const FloatButtonContainer = styled.div`
-position: fixed;
-top: inherit;
-margin-top: 20px;
-margin-left: 82%;
-color: #7BEFB2;
+
 `
 
 
@@ -25,7 +21,7 @@ function FloatingButton({className, onClick}){
     const classes = useStyles();
     
     return(
-    <FloatButtonContainer>
+    <FloatButtonContainer className={className}>
     <Fab className={classes.color} aria-label="add" size="large">
             <AddIcon style ={{ fontSize: 40, color: "black" }} onClick={onClick}/>
     </Fab>
