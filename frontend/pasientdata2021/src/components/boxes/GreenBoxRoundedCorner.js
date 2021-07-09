@@ -8,7 +8,7 @@ const Wrapper = styled.div`
   background-color: #7BEFB2;
   border-radius: 0px 50px 0px 0px;
   padding: 20px 30px 20px 10px;
-  
+  box-shadow: rgb(0 0 0 / 70%) 0px 0px 10px;
 `
 
 function GreenBoxRoundedCorner({children, className}) {
