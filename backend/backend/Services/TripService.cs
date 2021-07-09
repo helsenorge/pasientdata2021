@@ -57,8 +57,6 @@ namespace backend.Services
 
         public Trip Create(int userid, List<int> friendsIds, string name, DateTime date, string routeDescription, List<DestionationModel> destinations)
         {
-            friendsIds.Add(1);
-            friendsIds.Add(2);
             var user = _context.Users.Find(userid);
             if(user == null)
             {
@@ -194,9 +192,10 @@ namespace backend.Services
 
         public Trip GetTrip(int tripid)
         {
-            var trip = _context.Trips.Find(tripid);
+            var trip = _context.Trips.Include(x=>x.TripData).ThenInclude(x=>x.Destionations).ToList().Find(x=>x.Id == tripid);
             if(trip == null)
                 throw new AppException("Trip dosent exist");
+            trip.TripData.Trip = null;
             return trip;
         }
 
