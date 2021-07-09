@@ -8,6 +8,8 @@ import styled from "styled-components"
 
 import { useState } from 'react';
 
+
+
 import { BrowserRouter as Router, Switch, Route, useRouteMatch, useHistory, useParams } from 'react-router-dom';
 
     const Wrapper = styled.div`
@@ -27,6 +29,13 @@ function MapPageSwitch() {
     let { path, url } = useRouteMatch();
     const [routeData, setRouteData] = useState([]);
     const [routeJson, setRouteJson] = useState({})
+    const history = useHistory();
+
+    function back(){
+        setRouteData([])
+        setRouteJson([])
+        history.goBack()
+    }
 
     return (
         <Wrapper path={window.location.pathname}>
@@ -36,7 +45,7 @@ function MapPageSwitch() {
                     <MapPage />
                 </Route>
                 <Route path={path.concat("/newtrip")}>
-                    <CreateTripPage routeData={routeData} setRouteData={setRouteData} setRouteJson={setRouteJson} />
+                    <CreateTripPage routeData={routeData} setRouteData={setRouteData} setRouteJson={setRouteJson} clearAndBack={back}/>
                 </Route>
             </Switch>
         </Wrapper>

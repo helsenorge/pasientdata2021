@@ -1,9 +1,10 @@
 import { useRef, useEffect, useState } from 'react';
+import { BrowserRouter as Router, Switch,useLocation, Route, useHistory, useParams } from 'react-router-dom';
 
 import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
 
 import 'mapbox-gl/dist/mapbox-gl.css'
-
+import ClickableMarker from '../buttons/ClickableMarker'
 import '@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions.css'
 import axios from "axios";
 
@@ -19,12 +20,11 @@ function MapComponent({className, routeData, setRouteData, setRouteJson}) {
     const Route = useRef(null);
     const [Points, setPoints] = useState([]);
     const routeId = useRef("");
+    const [Markers, setMarkers] = useState([]);
+    let path = window.location.pathname;
+    const pathName = useLocation().pathname;
 
     useEffect(() => {
-
-
-        
-
 
         if (map.current) return; // initialize map only once
 
@@ -34,39 +34,55 @@ function MapComponent({className, routeData, setRouteData, setRouteJson}) {
             center: [lng, lat],
             zoom: zoom
         });
-        
-        var marker = new mapboxgl.Marker({
-            color: "#FFFFFF",
-            draggable: true
-        }).setLngLat([10.74, 59.91])
-        .addTo(map.current);
-
-        map.current.on("click",function(e){
-            var curentpoints = Points
-            curentpoints.push({"lng":e["lngLat"]["lng"], "lat":e["lngLat"]["lat"]})
-            getAdress(e["lngLat"]["lng"], e["lngLat"]["lat"])
-
-            if(curentpoints.length == 1){
-                setPoints(curentpoints)
-                return
-            }
-            else{
-                setPoints(curentpoints)
-            }
-            var string = ""
-            for(var i=0;i<Points.length; i++){
-                string = string + Points[i].lng+","+Points[i].lat+";"
-            }
-            string = string.slice(0,-1)
-
-            axios.get('https://api.mapbox.com/directions/v5/mapbox/walking/'+string+'?access_token=pk.eyJ1IjoidGVvMzIwMSIsImEiOiJja3FhbGwzMjYwbmJuMm5sYmQ0NWJnaTlzIn0.CvCp6NNdxaBVmCheNWhjYw&geometries=geojson')
-                 .then(response => {
-                    Route.current = response.data.routes[0].geometry
-                    setRouteJson(response.data.routes[0].geometry)
-                    addRoute()
-                 })
-        });
     });
+
+    useEffect(() => {
+
+        if (!map.current) return;
+
+        map.current.off("click",onclick);
+        console.log("turning click off")
+        if(routeId.current != ""){
+            map.current.removeLayer(routeId.current);
+            routeId.current = "";
+            Route.current = null;
+            setPoints([]);
+        }
+        Markers.forEach(marker=>{
+            marker.remove()
+        });
+
+        if(path == "/map" || path == "/map/newtrip"){
+            console.log("vi er i /map eller /map/newtrip")
+            DrawAllPoints();
+        }
+        else if(path == "/map/newtrip/enterroute"){
+            map.current.on("click",onclick)
+            console.log("turning click on");
+        }
+      },[pathName]);
+
+
+    function DrawAllPoints(){
+        axios.get('/Trip/FriendsTrips')
+        .then(response => { 
+            response.data.forEach(value=>{
+                var marker = new ClickableMarker().setLngLat([value["latitude"],value["longitude"]]).onClick(()=>{
+                    getTrip(value["tripid"]);
+                }).addTo(map.current)
+                setMarkers(Markers => [...Markers, marker]);
+            }) 
+        });
+    }
+
+    function getTrip(tripid){
+        console.log(tripid)
+        axios.get("/Trip/"+tripid.toString()).then(response=>{
+            console.log(response.data)
+            //Husk å fjerne den som evt allerede er tegnet opp
+            //hente route-description og tegne det slik som ble gjort i mapComponent
+        })
+    }
 
     function getAdress(longitude, latitude){
         var key = "pk.eyJ1IjoidGVvMzIwMSIsImEiOiJja3FhbGwzMjYwbmJuMm5sYmQ0NWJnaTlzIn0.CvCp6NNdxaBVmCheNWhjYw"
@@ -75,6 +91,33 @@ function MapComponent({className, routeData, setRouteData, setRouteJson}) {
                     let currentRouteData = {"lng":longitude, "lat":latitude, "address":response.data.features[0]["place_name"]}
                     setRouteData(routeData => [...routeData, currentRouteData]);
                  })
+    }
+
+    function onclick(e){
+        var curentpoints = Points
+        curentpoints.push({"lng":e["lngLat"]["lng"], "lat":e["lngLat"]["lat"]})
+        getAdress(e["lngLat"]["lng"], e["lngLat"]["lat"])
+
+        if(curentpoints.length == 1){
+            setPoints(curentpoints)
+            return
+        }
+        else{
+            setPoints(curentpoints)
+        }
+        var string = ""
+        for(var i=0;i<Points.length; i++){
+            string = string + Points[i].lng+","+Points[i].lat+";"
+        }
+        string = string.slice(0,-1)
+
+        axios.get('https://api.mapbox.com/directions/v5/mapbox/walking/'+string+'?access_token=pk.eyJ1IjoidGVvMzIwMSIsImEiOiJja3FhbGwzMjYwbmJuMm5sYmQ0NWJnaTlzIn0.CvCp6NNdxaBVmCheNWhjYw&geometries=geojson')
+            .then(response => {
+                Route.current = response.data.routes[0].geometry
+                setRouteJson(response.data.routes[0].geometry)
+                addRoute()
+            });
+    
     }
 
     
@@ -86,8 +129,6 @@ function MapComponent({className, routeData, setRouteData, setRouteJson}) {
             length: 12,
             charset: 'alphabetic'
         });
-        console.log("Router id er "+routeId.current)
-        console.log(Route.current)
         map.current.addLayer({
             id: routeId.current,
             type: 'line',

@@ -23,6 +23,7 @@ import AutocompleteField from '../inputFields/AutocompleteField';
 
 import axios from 'axios';
 
+import ArrowButton from "../buttons/ArrowButton"
 
 import LoginButton from "../buttons/LoginButton";
 
@@ -31,6 +32,7 @@ import ScrollList from '../boxes/ScrollList';
 import DateTimeField from '../inputFields/DateTimeField';
 
 import MapPage from './MapPage';
+
 
 
     const HeaderWrapper = styled(WhiteHeaderWrapper)`
@@ -65,7 +67,7 @@ import MapPage from './MapPage';
         margin: 20px 0px 0px 0px;
    `
 
-   const ArrowButton = styled(FriendsBox)`
+   const NextButton = styled(FriendsBox)`
         justify-content: space-between;
         margin: 30px 0px 20px 0px;
    `
@@ -88,7 +90,7 @@ import MapPage from './MapPage';
     
 `
 
-function InsertTripInfo({tripName, setTripName, selectedDate, handleDateChange, selectedUsers, setSelectedUsers, createTripFunction}) {
+function InsertTripInfo({tripName, setTripName, selectedDate, handleDateChange, selectedUsers, setSelectedUsers, createTripFunction, clearAndBack}) {
     const history = useHistory();
     let { path, url } = useRouteMatch();
 
@@ -97,44 +99,45 @@ function InsertTripInfo({tripName, setTripName, selectedDate, handleDateChange, 
     const [errorMessage, setErrorMessage] = useState(false)
     
     
-
+    
     function searchResult(key){
         if (key){
             axios.get('Friend/SearchFriends/'+key)
             .then(response => setRequestUser(response.data))
         }
     }
-
+    
     function addFriendToTrip(){
-      //Hent ut brukernavnet som ligger i inputfielden
-      //Lag en ny personbox-component som inneholder navnet du henter ut
+        //Hent ut brukernavnet som ligger i inputfielden
+        //Lag en ny personbox-component som inneholder navnet du henter ut
         try{
             if (!selectedUsers.includes(selectedUser)){
                 setSelectedUsers(selectedUsers => [...selectedUsers, selectedUser]);
             }else{
                 setErrorMessage(true)         
                 let timerId = setTimeout(() => {
-                setErrorMessage(false);
+                    setErrorMessage(false);
                 timerId = null;
             }, 4000);
-            }       
-        }catch{
-                setErrorMessage(true)         
-                let timerId = setTimeout(() => {
-                setErrorMessage(false);
-                timerId = null;
-            }, 4000);
+        }       
+    }catch{
+        setErrorMessage(true)         
+        let timerId = setTimeout(() => {
+            setErrorMessage(false);
+            timerId = null;
+        }, 4000);
         }
     }
-
+    
     
     function removeFromTrip(item){
         setSelectedUsers(selectedUsers.filter(x => x !== item))
     }
-
+    
+    
     return(
         <CustomGreenBox>
-           <HeaderWrapper title="Lag Tur" />
+           <ArrowButton direction="left" onClick={() => clearAndBack()}/>
             <UserInputField placeholder="Navn" onChange={(e)=>setTripName(e.target.value)} value={tripName}/>
             <DateTimeField selectedDate={selectedDate} handleDateChange={handleDateChange} />
             <LandingPageCategory title="Inviterte">
@@ -167,9 +170,9 @@ function InsertTripInfo({tripName, setTripName, selectedDate, handleDateChange, 
 
                 </LandingPageCategory>
 
-                <ArrowButton title="Definer rute" onClick={()=>history.push(path.concat("/enterroute"))}>
+                <NextButton title="Definer rute" onClick={()=>history.push(path.concat("/enterroute"))}>
                     <FaChevronRight />
-                </ArrowButton>
+                </NextButton>
                 <CustomUnderlineButton onClick={()=>createTripFunction()}>Lag</CustomUnderlineButton>
         </CustomGreenBox>
     )
@@ -178,31 +181,32 @@ function InsertTripInfo({tripName, setTripName, selectedDate, handleDateChange, 
 
 function InsertTripRoute({routeData}) {
     const history = useHistory();
-
+    
     return(
         <SmallCustomGreenBox>
             <CenterText>Legg til stopp</CenterText>
                 <ScrollList>
                     {routeData.map((data, index) => 
                         <LandingPageCategory id={"Checkpoint"+index} title={index+1 + ". " +data.address.split(",")[0]} />
-                    )}
+                        )}
                 </ScrollList>
                 <UnderlineButton onClick={()=>history.goBack()}>Ferdig</UnderlineButton>
         </SmallCustomGreenBox>
     )
 }
 
-function CreateTripPage({routeData, setRouteData, routeJson, setRouteJson}) {
+
+function CreateTripPage({routeData, setRouteData, routeJson, setRouteJson, clearAndBack}) {
     const [tripName, setTripName] = useState("");
     const [selectedDate, handleDateChange] = useState(new Date());
     const [selectedUsers, setSelectedUsers] = useState([])
-
+    
     const [createTripResponse, setCreateTripResponse] = useState();
 
-
+    
     let { path, url } = useRouteMatch();
     const history = useHistory();
-
+    
     function createTripFunction(){
         let friendsIds = selectedUsers.map(user=>user.id)
         let destinations = routeData.map((point, index) => {
@@ -217,6 +221,7 @@ function CreateTripPage({routeData, setRouteData, routeJson, setRouteJson}) {
             "destinations": destinations
         }
         
+        
         axios.post('Trip', createTripBody)
         .then(response => {
             setCreateTripResponse(response.data)
@@ -225,7 +230,7 @@ function CreateTripPage({routeData, setRouteData, routeJson, setRouteJson}) {
     }
     
     return (
-            <Switch>
+        <Switch>
                 <Route exact path={path}>
                     <InsertTripInfo
                         tripName={tripName}
@@ -235,7 +240,8 @@ function CreateTripPage({routeData, setRouteData, routeJson, setRouteJson}) {
                         selectedDate={selectedDate}
                         handleDateChange={handleDateChange}
                         createTripFunction={createTripFunction}
-                    />
+                        clearAndBack={clearAndBack}
+                        />
                 </Route>
                 <Route path={path.concat("/enterroute")}>
                     <InsertTripRoute routeData={routeData} />

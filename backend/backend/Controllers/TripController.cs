@@ -117,7 +117,6 @@ namespace backend.Controllers
         {
             try
             {
-                //TESTE DENNE ETTER PAUSEN
                 var userid = GetUserId();
                 var trips = _service.GetAllTripRequests(userid);
                 return Ok(trips);
