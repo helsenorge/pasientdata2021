@@ -107,6 +107,7 @@ namespace backend.Services
             var trip = new Trip
             {
                 TripData = tripdata,
+                TripDate = date,
                 Name = name,
                 CreatedAt = DateTime.Now,
                 Users = new List<UserHasTrip>() { userHasTrip },

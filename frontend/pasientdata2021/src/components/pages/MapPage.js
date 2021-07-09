@@ -8,11 +8,12 @@ import LandingPageLink from '../buttons/LandingPageLink';
 import { useHistory } from 'react-router';
 
 import { useState } from 'react';
+import ArrowButton from '../buttons/ArrowButton';
+import FloatingButton from '../buttons/FloatingButton';
 
 const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
-    height: 100%;
     background-color: #7BEFB2;
     width: inherit;
     `
@@ -41,20 +42,18 @@ const SwipeableBottomContainer = styled.div`
 `
 
 function MapPage() {
-
     const history = useHistory();
     const [open, setOpen] = useState(false)
-
+    //<MapContainer className="map-container" />
     return (
         <Wrapper className="MapPageWrapper">
         <TopContainer className="TopContainer"></TopContainer>
-        <MapContainer className="map-container" />
+        <FloatingButton className="FloatingButton" onClick={()=>history.push('/createtrip')} />
         <SwipeableBottom style={SwipeableBottomStyle} open={open} setOpen = {setOpen}>
               <SwipeableBottomTop onClick={()=>setOpen(!open)}>
-                Sveip opp
+                <ArrowButton direction="up"></ArrowButton>
               </SwipeableBottomTop>
               <SwipeableBottomContainer className="SwipeableBottomContainer">
-                    <LandingPageLink title="Lag tur" imgPath="map.svg" onClick={()=> history.push("/createTrip")} />
                     <LandingPageLink title="Mine venner" imgPath="team.svg" onClick={() => history.push("/myfriends")}/>
                     <LandingPageLink title="Legg til venner" imgPath="goal.svg" onClick={() => history.push("/addfriend")}/>
                     <LandingPageLink title="Turer" imgPath="running.svg" onClick={() => history.push("/trips")} />
@@ -66,3 +65,4 @@ function MapPage() {
 }
 
 export default MapPage
+

@@ -35,7 +35,7 @@ font-size: 2em;
 color: red;
 `
 
-function TripComponent({name, time, invited, children}){
+function TripComponent({name, time, invited, children, accept, decline }){
 
         return(
         <Tripwrapper>
@@ -50,8 +50,8 @@ function TripComponent({name, time, invited, children}){
             invited ?
                     <div>
                         {children}
-                        <Icon/>
-                        <IconX/>
+                        <Icon onClick={accept}/>
+                        <IconX onClick={decline}/>
                     </div>
                 
                 :

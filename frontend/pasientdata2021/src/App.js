@@ -6,7 +6,7 @@ import LandingPage from './components/pages/LandingPage';
 import WelcomePage from './components/pages/WelcomePage';
 import LoginPage from './components/pages/LoginPage';
 import RegisterPage from './components/pages/RegisterPage';
-import MapPage from './components/pages/MapPage';
+
 import AddFriendsPage from './components/pages/AddFriendsPage';
 import SettingsPage from './components/pages/SettingsPage';
 import MyFriendsPage from './components/pages/MyFriendsPage';
@@ -15,6 +15,9 @@ import TripsPage from "./components/pages/TripsPage"
 import TripInfo from './components/pages/TripInfoPage'
 import UserInfoPage from './components/pages/UserInfoPage';
 import UserPage from './components/pages/UserPage'
+import MapPageSwitch from './components/pages/MapPageSwitch';
+import SpecificTripPage from './components/pages/SpecificTrip';
+
 
 
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -48,8 +51,10 @@ function App() {
            <Route path="/welcome" exact render={() => <WelcomePage /> } />
            <Route path="/login" exact render={() => <LoginPage /> } />
            <Route path="/register" exact render={() => <RegisterPage /> } />
-           <Route path="/map" exact render={() => <MapPage /> } />
-           <Route path="/createTrip" render={() => <CreateTripPage /> } />
+
+           <Route path="/map">
+             <MapPageSwitch />
+           </Route>
            <Route path="/addfriend" exact render={()=> <AddFriendsPage />} />
            <Route path="/trips" exact render={()=> <TripsPage />} />
            <Route path="/tripinfo" exact render={()=> <TripInfo />} /> 
@@ -57,6 +62,7 @@ function App() {
            <Route path="/myfriends" exact render={()=> <MyFriendsPage/>} />
            <Route path="/userinfo" exact render={()=> <UserInfoPage/>} />
            <Route path="/userpage" exact render={()=> <UserPage/>} />
+           <Route path="/specifictrip" exact render={()=> <SpecificTripPage/>} />
         </Switch>
       </PageWrapper>
     </Router>
