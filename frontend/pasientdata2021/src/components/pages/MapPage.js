@@ -54,8 +54,6 @@ function MapPage() {
                 <ArrowButton direction="up"></ArrowButton>
               </SwipeableBottomTop>
               <SwipeableBottomContainer className="SwipeableBottomContainer">
-                    <LandingPageLink title="Specific Trip" imgPath="team.svg" onClick={() => history.push("/specifictrip/3")}/>
-                    <LandingPageLink title="Lag tur" imgPath="/map.svg" onClick={()=> history.push("/map/newtrip")} />
                     <LandingPageLink title="Mine venner" imgPath="/team.svg" onClick={() => history.push("/myfriends")}/>
                     <LandingPageLink title="Legg til venner" imgPath="/goal.svg" onClick={() => history.push("/addfriend")}/>
                     <LandingPageLink title="Turer" imgPath="/running.svg" onClick={() => history.push("/trips")} />
