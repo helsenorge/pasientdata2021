@@ -20,7 +20,6 @@ import { BrowserRouter as Router, Switch, Route, useRouteMatch, useHistory, useP
 
    const MapContainer = styled(MapComponent)`
         height: 100%;
-        order: 2;
     `
 
 function MapPageSwitch() {

@@ -20,7 +20,6 @@ const Wrapper = styled.div`
 
 const SwipeableBottomStyle = {
     width: "inherit",
-    order: 3
 };
 
 const SwipeableBottomTop = styled.div`
@@ -33,11 +32,9 @@ const SwipeableBottomTop = styled.div`
 const SwipeableBottomContainer = styled.div`
     padding: 5px 0px 0px 30px;
     font-size: 22px;
-    order: 3;
 `
 
 const FloatingButtonCustom = styled(FloatingButton)`
-    order: 1;
     margin-top: 10px;
     padding-right: 20px;
     position: fixed;
