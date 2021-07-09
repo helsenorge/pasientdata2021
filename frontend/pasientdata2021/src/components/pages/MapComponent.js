@@ -15,11 +15,16 @@ function MapComponent({className, routeData, setRouteData, setRouteJson}) {
     const [lng, setLng] = useState(10.749);
     const [lat, setLat] = useState(59.907);
     const [zoom, setZoom] = useState(9);
+    let { path, url } = useRouteMatch();
     const Route = useRef(null);
     const [Points, setPoints] = useState([]);
     const routeId = useRef("");
 
     useEffect(() => {
+
+
+        console.log(url)
+
 
         if (map.current) return; // initialize map only once
 
