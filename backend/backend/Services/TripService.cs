@@ -19,8 +19,12 @@ namespace backend.Services
         Trip GetTrip(int tripid);
         List<Trip> GetUsersTrips(int userid);
         List<Trip> GetFriendsTrips(int userid);
+        List<User> GetAllInvitedUsers(int tripid);
+        List<User> GetAllAcceptedUsers(int tripid);
+        List<TripRequest> GetAllTripRequests(int userid);
         User GetCreator(int tripid);
     }
+    
 
     public class TripService: ITripService
     {
@@ -155,6 +159,33 @@ namespace backend.Services
 
             _context.Trips.Remove(trip);
             _context.SaveChanges();
+        }
+
+        public List<User> GetAllAcceptedUsers(int tripid)
+        {
+            var trip = _context.Trips.Include(x=>x.Users).ToList().Find(x=>x.Id == tripid);
+            if(trip == null)
+            {
+                throw new AppException("Trip dosent exist");
+            }
+            var UserIds = trip.Users.Select(x => x.UserId);
+            return _context.Users.ToList().FindAll(x => UserIds.Contains(x.Id));
+        }
+
+        public List<User> GetAllInvitedUsers(int tripid)
+        {
+            var trip = _context.Trips.Include(x => x.Requests).ToList().Find(x => x.Id == tripid);
+            if (trip == null)
+            {
+                throw new AppException("Trip dosent exist");
+            }
+            var UserIds = trip.Requests.ToList().Select(x => x.UserId);
+            return _context.Users.ToList().FindAll(x => UserIds.Contains(x.Id));
+        }
+
+        public List<TripRequest> GetAllTripRequests(int userid)
+        {
+            throw new NotImplementedException();
         }
 
         public User GetCreator(int tripid)
