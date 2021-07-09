@@ -16,6 +16,8 @@ import TripInfo from './components/pages/TripInfoPage'
 import UserInfoPage from './components/pages/UserInfoPage';
 import UserPage from './components/pages/UserPage'
 import MapPageSwitch from './components/pages/MapPageSwitch';
+import SpecificTripPage from './components/pages/SpecificTrip';
+
 
 
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -60,6 +62,7 @@ function App() {
            <Route path="/myfriends" exact render={()=> <MyFriendsPage/>} />
            <Route path="/userinfo" exact render={()=> <UserInfoPage/>} />
            <Route path="/userpage" exact render={()=> <UserPage/>} />
+           <Route path="/specifictrip" exact render={()=> <SpecificTripPage/>} />
         </Switch>
       </PageWrapper>
     </Router>
