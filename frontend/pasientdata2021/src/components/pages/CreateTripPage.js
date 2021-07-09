@@ -160,7 +160,7 @@ function InsertTripInfo({tripName, setTripName, selectedDate, handleDateChange, 
                     }
 
                     {selectedUsers?.map((user, index) => 
-                    <PersonBox title={user.username} imgPath="person.svg" id={"addedfriend"+index}>
+                    <PersonBox title={user.username} imgPath="/person.svg" id={"addedfriend"+index}>
                         <FaTimes onClick={() => removeFromTrip(user)} style={{color:'red'}} />
                     </PersonBox>)}
 
