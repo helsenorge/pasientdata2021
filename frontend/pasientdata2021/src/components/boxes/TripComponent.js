@@ -48,7 +48,7 @@ function TripComponent({name, time, invited, children, accept, decline, creator,
                 {
                     invited ? 
                     <TripTime>
-                        Created by: {creator}
+                       {creator}
                     </TripTime> :
                     ""
                 }

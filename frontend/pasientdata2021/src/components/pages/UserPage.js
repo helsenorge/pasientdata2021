@@ -14,9 +14,7 @@ import WhiteHeaderWrapper from '../boxes/WhiteHeaderWrapper';
 
 
 const UserIcon = styled.img`
-    display: flex;
     height: 130px;
-    margin-left: 33%;
 `
 const UserFullName = styled.h2`
    text-align: center;
@@ -24,6 +22,11 @@ const UserFullName = styled.h2`
 
 const UserName = styled.h4`
     text-align: center;
+`
+
+const CustomGreenBox = styled(GreenBoxRoundedCorner)`
+    display: flex;
+    flex-direction: column;
 `
 
 const UserPage = () => {
@@ -37,9 +40,8 @@ const UserPage = () => {
     return (
         <>
         <WhiteHeaderWrapper title="Brukerinformasjon" />
-          <GreenBoxRoundedCorner className="MainBox">
+          <CustomGreenBox>
             <LandingPageCategory title="BRUKER-INFO">
-            <div>
             <UserIcon src="person.svg" alt="Icon" height ={100} /> 
                 <UserFullName>
                     {userResult.name} 
@@ -47,9 +49,8 @@ const UserPage = () => {
                 <UserName>
                     {userResult.username} 
                 </UserName>
-            </div>
             </LandingPageCategory>
-        </GreenBoxRoundedCorner>
+        </CustomGreenBox>
         </>
     )
 }
