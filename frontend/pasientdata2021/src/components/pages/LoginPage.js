@@ -40,7 +40,7 @@ function LoginPage() {
         var axios = require('axios'); 
         axios({
             method: 'post',
-            url: 'http://localhost:5000/user/authenticate',
+            url: localStorage.getItem('baseurl').concat('/user/authenticate'),
             headers: { 
                 'Content-Type': 'application/json'
             },
