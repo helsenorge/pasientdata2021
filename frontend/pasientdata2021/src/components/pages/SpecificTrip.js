@@ -81,18 +81,19 @@ function SpecificTripPage(){
     }, []);
 
     function DeleteTrip(){
-        console.log("DELETING")
         axios.delete('Trip/'+tripId)
             .then(history.push('/trips'));
     }
 
+    console.log(tripInfo)
+
     return(
         <>
-            <OwnWhiteHeaderWrapper className = "WhiteHeaderWrapper" title={tripInfo.name}>
+            <OwnWhiteHeaderWrapper className = "WhiteHeaderWrapper" title={tripInfo?.trip?.name}>
                 
             </OwnWhiteHeaderWrapper>
                 <TimeContainer>
-                    <OwnLandingPageCategory title="26.01.21 - 14.00" />
+                    <OwnLandingPageCategory title={ new Date(tripInfo?.trip?.tripDate).toLocaleString("no-NO")?.slice(0,-3) } />
                 </TimeContainer>
                 { tripInfo ? 
                     <OptionsContainer>
