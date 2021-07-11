@@ -3,8 +3,6 @@ import styled from 'styled-components';
 
 import UserInputField from '../inputFields/UserInputField';
 
-import WhiteHeaderWrapper from '../boxes/WhiteHeaderWrapper';
-
 import GreenBoxRoundedCorner from '../boxes/GreenBoxRoundedCorner';
 
 import {FaTimes, FaChevronRight} from 'react-icons/fa'
@@ -17,7 +15,7 @@ import LandingPageCategory from '../boxes/LandingPageCategory';
 
 import { useState } from 'react';
 
-import { BrowserRouter as Router, Switch, Route, useRouteMatch, useHistory, useParams } from 'react-router-dom';
+import { BrowserRouter as Switch, Route, useRouteMatch, useHistory } from 'react-router-dom';
 
 import AutocompleteField from '../inputFields/AutocompleteField';
 
@@ -31,17 +29,6 @@ import ScrollList from '../boxes/ScrollList';
 
 import DateTimeField from '../inputFields/DateTimeField';
 
-import MapPage from './MapPage';
-
-
-
-    const HeaderWrapper = styled(WhiteHeaderWrapper)`
-        background-color: inherit;
-    `
-
-    const SubTitle = styled.a`
-        color: rgba(0,0,0,.87);
-    `
 
     const CenterText = styled.h2`
         text-align: center;
@@ -113,7 +100,7 @@ import MapPage from './MapPage';
 
 function InsertTripInfo({tripName, setTripName, selectedDate, handleDateChange, selectedUsers, setSelectedUsers, createTripFunction, clearAndBack, created, setCreated}) {
     const history = useHistory();
-    let { path, url } = useRouteMatch();
+    let { path } = useRouteMatch();
 
     const [requestUsers, setRequestUser] = useState([])
     const [selectedUser, setSelectedUser] = useState();
@@ -135,19 +122,16 @@ function InsertTripInfo({tripName, setTripName, selectedDate, handleDateChange, 
         try{
             if (!selectedUsers.includes(selectedUser) && selectedUser != null){
                 setSelectedUsers(selectedUsers => [...selectedUsers, selectedUser]);
-                console.log("CREATED", created)
             }else{
                 setErrorMessage(true)         
-                let timerId = setTimeout(() => {
+                setTimeout(() => {
                     setErrorMessage(false);
-                timerId = null;
             }, 4000);
         }       
     }catch{
         setErrorMessage(true)         
-        let timerId = setTimeout(() => {
+        setTimeout(() => {
             setErrorMessage(false);
-            timerId = null;
         }, 4000);
         }
     }
@@ -200,7 +184,7 @@ function InsertTripInfo({tripName, setTripName, selectedDate, handleDateChange, 
                 <Subtitle title="Inviterte">
 
                     {selectedUsers?.map((user, index) => 
-                    <PersonBox title={user?.username} imgPath="/person.svg" id={"addedfriend"+index}>
+                    <PersonBox title={user?.username} imgPath="/person.svg" key={"addedfriend"+index}>
                         <FaTimes onClick={() => removeFromTrip(user)} style={{color:'red'}} />
                     </PersonBox>)}
 
@@ -228,17 +212,11 @@ function InsertTripRoute({routeData, created, setCreated}) {
 
     function createTrip(){
         if (routeData.length > 0){
-        setCreated(true)
-        console.log("CREATED", created)
-        history.goBack()
-
+            setCreated(true)
+            history.goBack()
         }else{
-        history.goBack()
-        console.log("Du må legge til punkter")
-
+            history.goBack()
         }
-        
-        
     }
     
     return(
@@ -246,7 +224,7 @@ function InsertTripRoute({routeData, created, setCreated}) {
             <CenterText>Legg til stopp</CenterText>
                 <ScrollList>
                     {routeData.map((data, index) => 
-                        <LandingPageCategory id={"Checkpoint"+index} title={index+1 + ". " +data.address.split(",")[0]} />
+                        <LandingPageCategory key={"Checkpoint"+index} title={index+1 + ". " +data.address.split(",")[0]} />
                         )}
                 </ScrollList>
                 <UnderlineButton onClick={() => createTrip()}>Ferdig</UnderlineButton>
@@ -261,10 +239,8 @@ function CreateTripPage({routeData, setRouteData, routeJson, setRouteJson, clear
     const [selectedUsers, setSelectedUsers] = useState([])
     const [created, setCreated] = useState(null)
     
-    const [createTripResponse, setCreateTripResponse] = useState();
-
     
-    let { path, url } = useRouteMatch();
+    let { path } = useRouteMatch();
     const history = useHistory();
     
     function createTripFunction(setRouteError, setNameError){
@@ -272,9 +248,8 @@ function CreateTripPage({routeData, setRouteData, routeJson, setRouteJson, clear
         //Kjører bare denne koden om created er true, 
         //dvs navn og rute er definert
 
-        if(created == true && tripName != ""){
+        if(created === true && tripName !== ""){
         
-        console.log(routeData)
         let friendsIds = selectedUsers.map(user=>user.id)
         let destinations = routeData.map((point, index) => {
             return {"destination":point.address, "number":index+1, "longitude":point.lng, "latitude":point.lat}
@@ -291,32 +266,23 @@ function CreateTripPage({routeData, setRouteData, routeJson, setRouteJson, clear
             
             axios.post('Trip', createTripBody)
             .then(response => {
-                setCreateTripResponse(response.data)
                 history.push("/map/tripinfo/".concat(response.data))
             })
-
-            console.log("KJØRT")
             setCreated(false)
     } 
    
-    if(tripName == ""){
-            
-        console.log("INGEN NAVN")
+    if(tripName === ""){
             setNameError(true)
-            let timerId = setTimeout(() => {
+            setTimeout(() => {
                 setNameError(false);
-                timerId = null;
             }, 4000);
 
     } 
     
-    if(created != true){
-        
-        console.log("DU MÅ DEFINERE RUTA  OG NAVN FØRST")
+    if(created !== true){
         setRouteError(true)
-        let timerId = setTimeout(() => {
+        setTimeout(() => {
             setRouteError(false);
-            timerId = null;
         }, 4000);
         
         //Sett en usestate som aktiverer en feilmelding til bruker

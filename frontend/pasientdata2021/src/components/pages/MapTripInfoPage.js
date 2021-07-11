@@ -60,7 +60,7 @@ function MapTripInfoPage() {
     useEffect(()=>{
         axios.get('Trip/'+tripId)
             .then(response=> setTripInfo(response.data));
-    }, [])
+    }, [tripId])
 
     return (
         <CustomGreenBox>
@@ -70,11 +70,11 @@ function MapTripInfoPage() {
             </HeaderBox>
             <Category title="Inviterte" />
                 <ScrollList>
-                    {tripInfo?.invited?.map(item => <CustomFriendsBox title={item.name} imgPath="/person.svg" />)}
+                    {tripInfo?.invited?.map((item, index) => <CustomFriendsBox title={item.name} imgPath="/person.svg" key={"invitedtrip"+index} />)}
                 </ScrollList>
             <Category title="Rute" />
                 <ScrollList>
-                    {tripInfo?.trip?.tripData?.destionations?.map((item, index) => <RouteText>{index+1}. {item?.stopDestionation.split(",")[0]}</RouteText>)}
+                    {tripInfo?.trip?.tripData?.destionations?.map((item, index) => <RouteText key={"routepoint"+index}>{index+1}. {item?.stopDestionation.split(",")[0]}</RouteText>)}
                 </ScrollList>
 
             <UnderlineButton onClick={()=>history.push("/map")}>Ferdig</UnderlineButton>

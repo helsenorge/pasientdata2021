@@ -35,7 +35,6 @@ const BottomText = styled.div`
 `
 
 function UserInfoPage() {
-    const [requestResult, setRequestResult] = useState({});
     const [userInput, setUserInput] = useState("");
     const [showError, setShowError] = useState(false);
     const history = useHistory();
@@ -43,7 +42,6 @@ function UserInfoPage() {
     function sendData(username){
         axios.post('/user/setusername',{username})
             .then(function(response){
-                setRequestResult(response.data)
                 history.push("/map");
             })
             .catch(function (error) {

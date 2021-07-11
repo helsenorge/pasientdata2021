@@ -5,10 +5,10 @@ const CategoryText = styled.div`
     margin-bottom: 10px;
 `
 
-const LandingPageCategory = ({title, children, className, id}) => {
+const LandingPageCategory = ({title, children, className}) => {
     return (
         <>
-        <CategoryText id={id} className = {className}>
+        <CategoryText className = {className}>
             {title}
         </CategoryText>
         {children}

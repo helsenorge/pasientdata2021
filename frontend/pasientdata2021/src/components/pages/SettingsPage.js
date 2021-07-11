@@ -52,9 +52,8 @@ function SettingsPage() {
     function handleLogout() {
         localStorage.removeItem('user');
         localStorage.removeItem('token');
-        console.log(localStorage.getItem('token'))
         history.push("/login");
-      }
+      } 
 
     return (
         <Wrapper className="Wrapper">

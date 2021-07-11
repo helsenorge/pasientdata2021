@@ -1,11 +1,8 @@
 
 import styled from 'styled-components'
 
-import ButtonBox from '../boxes/ButtonBox'
-import TopBox from '../boxes/TopBox'
 import GreenBoxRoundedCorner from '../boxes/GreenBoxRoundedCorner'
 
-import LandingPageLink from '../buttons/LandingPageLink'
 
 import LandingPageCategory from '../boxes/LandingPageCategory';
 import { useState, useEffect } from 'react';
