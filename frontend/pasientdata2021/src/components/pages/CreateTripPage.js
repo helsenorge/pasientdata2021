@@ -15,7 +15,7 @@ import LandingPageCategory from '../boxes/LandingPageCategory';
 
 import { useState } from 'react';
 
-import { BrowserRouter as Switch, Route, useRouteMatch, useHistory } from 'react-router-dom';
+import { Switch, Route, useRouteMatch, useHistory } from 'react-router-dom';
 
 import AutocompleteField from '../inputFields/AutocompleteField';
 
