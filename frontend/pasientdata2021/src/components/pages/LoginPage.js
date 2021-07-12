@@ -52,7 +52,8 @@ function LoginPage() {
             .then(function (response) {
                 axios.defaults.headers.common['Authorization'] = "Bearer ".concat(response.data['token']);
                 localStorage.setItem('token', response.data['token']);
-                localStorage.setItem('user', response.data);
+                localStorage.setItem('user', JSON.stringify(response.data));
+
                 if (response.data['username'] === ""){
                         history.push("/userinfo");
                 }else{
