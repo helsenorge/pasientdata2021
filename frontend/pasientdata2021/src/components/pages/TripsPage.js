@@ -39,8 +39,8 @@ function TripsPage(props){
             .then(response => setTrips(response.data))
             console.log("Turer:",trips)
         }
-    
-        
+
+  
         function getAllTriprequests(){
             axios.get('Trip/AllTripRequests')
             .then(response => setTriprequests(response.data))
