@@ -70,7 +70,7 @@ function SpecificTripPage(){
     }
 
     function TripInvited(){
-        axios.get('Trip/AllInvitedUsers'+tripId)
+        axios.get('Trip/AllInvitedUsers/'+tripId)
             .then(response=> setInvited(response.data));
     }
 
@@ -83,7 +83,7 @@ function SpecificTripPage(){
     function DeleteTrip(){
         console.log("DELETING")
         axios.delete('Trip/'+tripId)
-            .then(history.push('/trips'));
+            .then(history.goBack());
     }
 
     return(

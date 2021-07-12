@@ -44,12 +44,7 @@ function TripsPage(){
         .then(response => setTrips(response.data))
         console.log("Turer:",trips)
         }
-    
-        useEffect(() => {
-            getAllTrips()
-          }, []);
-        
-    
+
 
     function getAllTriprequests(){
     axios.get('Trip/AllTripRequests')
@@ -58,6 +53,7 @@ function TripsPage(){
     }
 
     useEffect(() => {
+        getAllTrips()
         getAllTriprequests()
       }, []);
     
