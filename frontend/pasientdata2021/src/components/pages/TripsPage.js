@@ -41,25 +41,21 @@ function TripsPage(){
 
     function getAllTrips(){
         axios.get('Trip/UserTrips')
-        .then(response => setTrips(response.data))
-        console.log("Turer:",trips)
+            .then(response => setTrips(response.data))
+            console.log("Turer:",trips)
         }
     
+        
+        function getAllTriprequests(){
+            axios.get('Trip/AllTripRequests')
+            .then(response => setTriprequests(response.data))
+            console.log("Turforespørsler:",triprequests)
+        }
+        
         useEffect(() => {
             getAllTrips()
-          }, []);
-        
-    
-
-    function getAllTriprequests(){
-    axios.get('Trip/AllTripRequests')
-    .then(response => setTriprequests(response.data))
-    console.log("Turforespørsler:",triprequests)
-    }
-
-    useEffect(() => {
-        getAllTriprequests()
-      }, []);
+            getAllTriprequests()
+        }, []);
     
     
 
@@ -107,7 +103,7 @@ function TripsPage(){
                 {triprequests?.map((item) =>
                     <TripComponent 
                     name={item.name} 
-                    time={new Date(item.tripDate).toISOString()} 
+                    time={item.tripDate} 
                     creator={item.nameCreator} 
                     invited={true} 
                     accept={() => acceptTripRequest(item.requestId)}
