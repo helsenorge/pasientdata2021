@@ -22,18 +22,25 @@ const Wrapper = styled.div`
   margin-right: 100px;
 `
 
-function WhiteHeaderWrapper({className, title, children}) {
+function WhiteHeaderWrapper({className, title, children, showBackButton}) {
     const history = useHistory();
 
     return (
       <Wrapper className={className}>
-          <ArrowButton direction="left" onClick={() => history.goBack()}/>
+          { showBackButton ? 
+            <ArrowButton direction="left" onClick={() => history.goBack()}/>
+            : 
+            children
+          }
         <HeaderTitle>
           {title}
         </HeaderTitle>
-        {children}
       </Wrapper>
     )
+}
+
+WhiteHeaderWrapper.defaultProps={
+  showBackButton: true
 }
 
 export default WhiteHeaderWrapper
