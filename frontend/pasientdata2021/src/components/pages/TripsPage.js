@@ -5,7 +5,7 @@ import TripComponent from "../boxes/TripComponent";
 import LandingPageCategory from "../boxes/LandingPageCategory";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { useHistory } from "react-router";
+import { useHistory, } from "react-router";
 
 
 const OwnGreenBox = styled(GreenBoxRoundedCorner)`
@@ -28,13 +28,8 @@ margin-top:30px;
 `
 
 
-
-
-
-
-
-function TripsPage(){
-
+function TripsPage(props){
+    console.log(props)
     const [triprequests, setTriprequests] = useState();
     const [trips, setTrips] = useState();
     const history = useHistory();
@@ -55,7 +50,7 @@ function TripsPage(){
         useEffect(() => {
             getAllTrips()
             getAllTriprequests()
-        }, []);
+        }, ["pathname"]);
     
     
 

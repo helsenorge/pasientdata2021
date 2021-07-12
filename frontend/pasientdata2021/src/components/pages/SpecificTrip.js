@@ -83,7 +83,7 @@ function SpecificTripPage(){
     function DeleteTrip(){
         console.log("DELETING")
         axios.delete('Trip/'+tripId)
-            .then(history.push("/map"));
+            .then(history.goBack());
     }
 
     console.log("DETTE ER TRIPINFO: ", tripInfo)

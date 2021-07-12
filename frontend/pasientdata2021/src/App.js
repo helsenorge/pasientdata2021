@@ -56,7 +56,7 @@ function App() {
              <MapPageSwitch />
            </Route>
            <Route path="/addfriend" exact render={()=> <AddFriendsPage />} />
-           <Route path="/trips" exact render={()=> <TripsPage />} />
+           <Route path="/trips" exact render={(renderProps)=> <TripsPage pathname={renderProps?.pathname?.location?.pathname}/>} />
            <Route path="/tripinfo" exact render={()=> <TripInfo />} /> 
            <Route path="/settings" exact render={()=> <SettingsPage />} />
            <Route path="/myfriends" exact render={()=> <MyFriendsPage/>} />
