@@ -70,7 +70,7 @@ function AddFriendsPage() {
           getOptionLabel={(option) => option.username}
           onChange={(event, value)=>setSelectedUser(value)}
           getOptionSelected = {(option, value) => option.username === value.username}
-          style={{ width: 370 }}
+          style={{ width: 350 }}
           onInputChange={e=>searchResult(e.target.value)}
           inputLabel="Brukernavn"
         />

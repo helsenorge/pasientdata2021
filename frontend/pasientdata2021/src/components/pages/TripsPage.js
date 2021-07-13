@@ -63,7 +63,6 @@ function TripsPage(props){
           .then( () => {
             getAllTriprequests()
             getAllTrips()
-            console.log("HVASKJER")
           });
           
       };

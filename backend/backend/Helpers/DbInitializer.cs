@@ -41,6 +41,7 @@ namespace backend.Helpers
             context.Friendships.Add(friendship);
             context.SaveChanges();
 
+            /*
             var userHasTrip1 = new UserHasTrip
             {
                 UserId = user1.Id,
@@ -79,7 +80,7 @@ namespace backend.Helpers
             };
             context.Trips.Add(trip);
             context.SaveChanges();
-
+            */
         }
 
        

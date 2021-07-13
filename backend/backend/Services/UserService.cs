@@ -80,23 +80,6 @@ namespace backend.Services
             };
             _context.Users.Add(user);
             _context.SaveChanges();
-
-            //test data, legger bruker til en testtur
-            
-            var friendship = new Friendship
-            {
-                CreatedAt = DateTime.Now,
-                Users = new List<UserHasFriendship>() { new UserHasFriendship { UserId = user.Id }, new UserHasFriendship { UserId = 1 } }
-            };
-            _context.Friendships.Add(friendship);
-            _context.SaveChanges();
-
-            var userHasTrip = new UserHasTrip { UserId = user.Id, AcceptedAt = DateTime.Now, IsCreator = false };
-            var trip = _context.Trips.Include(x=> x.Users).ToList().Find(x=>x.Id == 1);
-            trip.Users.Add(userHasTrip);
-            _context.Trips.Update(trip);
-            _context.SaveChanges();
-
             return user;
         }
 

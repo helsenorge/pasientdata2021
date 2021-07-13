@@ -148,8 +148,9 @@ namespace backend.Controllers
             try
             {
                 var userid = GetUserId();
-                var trip =_service.GetTrip(tripid);
+                var trip = _service.GetTrip(tripid);
                 var creator = _service.GetCreator(tripid);
+
                 var invited = _service.GetAllInvitedUsers(tripid);
                 var accepted = _service.GetAllAcceptedUsers(tripid);
                 invited.AddRange(accepted);
@@ -217,6 +218,8 @@ namespace backend.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
+
+
 
         private int GetUserId()
         {

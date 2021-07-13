@@ -23,20 +23,32 @@ function MapComponent({className, routeData, setRouteData, setRouteJson}) {
     const [Markers, setMarkers] = useState([]);
     let path = window.location.pathname;
     const pathName = useLocation().pathname;
+    const history = useHistory();
 
     const handleClickRef = useRef(onClick)
-    handleClickRef.current = onClick            // update reference with every render
+    handleClickRef.current = onClick // update reference with every render
 
     useEffect(() => {
         if (map.current) return; // initialize map only once
 
+        console.log("creating new map!")
         map.current = new mapboxgl.Map({
             container: mapContainer.current,
             style: 'mapbox://styles/mapbox/streets-v11',
             center: [lng, lat],
-            zoom: zoom
+            zoom: zoom,
         });
 
+        map.current.on('style.load', function() {
+            /*map.current.on('load', function () {    
+                var layerid = map.current.getStyle().layers
+                    .map(function(layer) { 
+                        console.log("layer id er : "+layer.id);
+                        return layer.id;
+                    });
+                LayerId.current = layerid;  
+            });*/
+        });
         map.current.on("load",function(){
             map.current.on("click", (event) => handleClickRef.current(event));
         })
@@ -65,6 +77,35 @@ function MapComponent({className, routeData, setRouteData, setRouteJson}) {
             Markers.forEach(marker=>{
                 marker.remove()
             });
+
+            if(routeId.current){
+                console.log("CLEARING MAP")
+                //map.current.removeLayer(routeId.current);
+                //routeId.current = "";
+                //Route.current = null;
+            }
+        }
+        else if(path.substring("/map/tripinfo/")){
+            if(!routeId.current){
+                return
+            }
+
+            console.log(Route.current)
+            var longitudes = []
+            var latitudes = []
+            Route.current["coordinates"].forEach(dest=>{
+                longitudes.push(dest[0])
+                latitudes.push(dest[1])
+            });
+
+            var longmax = Math.max(...longitudes)
+            var longmin = Math.min(...longitudes)
+            var latmax = Math.max(...latitudes)
+            var latmin = Math.min(...latitudes)
+
+            map.current.fitBounds([[longmin,latmin],[longmax,latmax]],{
+                padding: {top: 10, bottom:510, left: 15, right: 5}
+            });
         }
       },[pathName]);
 
@@ -74,20 +115,40 @@ function MapComponent({className, routeData, setRouteData, setRouteJson}) {
         .then(response => { 
             console.log(response.data)
             response.data.forEach(value=>{
-                var marker = new ClickableMarker().setLngLat([value["longitude"],value["latitude"]]).onClick(()=>{
-                    getTrip(value["tripid"]);
+                
+                var marker = new ClickableMarker({"color":"#7BEFB2"}).setLngLat([value["longitude"],value["latitude"]]).onClick(()=>{
+                    history.push("/map")
+                    getTrip(value["tripid"], value["longitude"],value["latitude"]);
                 }).addTo(map.current)
                 setMarkers(Markers => [...Markers, marker]);
             }) 
         });
     }
 
-    function getTrip(tripid){
+    function getTrip(tripid, longitude, latitude){
         console.log(tripid)
         axios.get("/Trip/"+tripid.toString()).then(response=>{
             console.log(response.data)
-            //Husk å fjerne den som evt allerede er tegnet opp
-            //hente route-description og tegne det slik som ble gjort i mapComponent
+            var geojson = JSON.parse(response.data.trip.tripData.description)
+            Route.current = geojson
+            addRoute()
+            var destinations = response.data.trip.tripData.destionations
+            var longitudes = []
+            var latitudes = []
+            destinations.forEach(dest=>{
+                longitudes.push(dest["longitude"])
+                latitudes.push(dest["latitude"])
+            });
+
+            var longmax = Math.max(...longitudes)
+            var longmin = Math.min(...longitudes)
+            var latmax = Math.max(...latitudes)
+            var latmin = Math.min(...latitudes)
+
+            map.current.fitBounds([[longmin,latmin],[longmax,latmax]],{
+                padding: {top: 10, bottom:510, left: 15, right: 5}
+            });
+            history.push("/map/tripinfo/".concat(tripid))
         })
     }
 

@@ -216,7 +216,6 @@ namespace backend.Services
             return _context.Users.Find(userIdCreator.UserId);
         }
 
-        //Sjekk om det er mulig å effektivisere denne funksjonen litt
         public List<Trip> GetFriendsTrips(int userid)
         {
             var user = _context.Users.Include(x => x.UserHasFriendShips).ToList().Find(x=>x.Id == userid);
@@ -236,7 +235,11 @@ namespace backend.Services
 
             var tripIds = userHasTripIds.ToList().Where(x=>x.IsCreator).Select(x => x.TripId).ToList();
 
-            return _context.Trips.Include(x=>x.TripData).ThenInclude(x=>x.Destionations).ToList().FindAll(x => tripIds.Contains(x.Id));
+            var friendsTrips = _context.Trips.Include(x=>x.TripData).ThenInclude(x=>x.Destionations).ToList().FindAll(x => tripIds.Contains(x.Id));
+            var usersTrips = GetUsersTrips(userid);
+
+            friendsTrips.AddRange(usersTrips);
+            return friendsTrips;
         }
 
         public Trip GetTrip(int tripid)
@@ -259,7 +262,12 @@ namespace backend.Services
                 return new List<Trip>();
 
             var tripIds = userHasTrips.ToList().Select(x => x.TripId);
-            return _context.Trips.ToList().FindAll(x => tripIds.Contains(x.Id));
+            var trips = _context.Trips.Include(x => x.TripData).ThenInclude(x => x.Destionations).ToList().FindAll(x => tripIds.Contains(x.Id));
+            trips.ForEach(trip =>
+            {
+                trip.TripData.Trip = null;
+            });
+            return trips;
         }
 
         public void InviteFriend(int userid, int tripid, int friendId)

@@ -257,6 +257,7 @@ function CreateTripPage({routeData, setRouteData, routeJson, setRouteJson, clear
 
         if(created == true && tripName != ""){
         
+        console.log(routeData)
         let friendsIds = selectedUsers.map(user=>user.id)
         let destinations = routeData.map((point, index) => {
             return {"destination":point.address, "number":index+1, "longitude":point.lng, "latitude":point.lat}
@@ -274,7 +275,7 @@ function CreateTripPage({routeData, setRouteData, routeJson, setRouteJson, clear
             axios.post('Trip', createTripBody)
             .then(response => {
                 setCreateTripResponse(response.data)
-                history.push("/trips")
+                history.push("/map/tripinfo/".concat(response.data))
             })
 
             console.log("KJØRT")
