@@ -9,7 +9,7 @@ import { useHistory } from "react-router";
 import ArrowButton from "../buttons/ArrowButton";
 
 const OwnGreenBox = styled(GreenBoxRoundedCorner)`
-height: 100%;
+    height: inherit;
 `
 
 const SubTitle = styled.a`

@@ -11,7 +11,7 @@ import axios from "axios";
 mapboxgl.accessToken = 'pk.eyJ1IjoidGVvMzIwMSIsImEiOiJja3FhbGwzMjYwbmJuMm5sYmQ0NWJnaTlzIn0.CvCp6NNdxaBVmCheNWhjYw';
 
 const marker = styled.div`
-        background-color: #00000;
+        background-color: "#00000";
         width: 200px;
         height: 200px;
         border-radius: 50%;
