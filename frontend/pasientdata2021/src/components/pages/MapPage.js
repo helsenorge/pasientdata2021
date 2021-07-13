@@ -29,7 +29,7 @@ const SwipeableBottomTop = styled.div`
 `
 
 const SwipeableBottomContainer = styled.div`
-    padding: 5px 0px 0px 30px;
+    padding: 8px 0px 0px 30px;
     font-size: 22px;
 `
 

@@ -93,6 +93,23 @@ import MapPage from './MapPage';
     margin-bottom:0px;
     `
 
+    const TopBox = styled.div`
+        display: flex;
+        justify-content: center;
+        position: relative;
+    `
+
+    const Header = styled.h1`
+        position: absolute;
+        font-family:"Comfortaa";
+        font-size: 30px;
+    `
+
+    const CustomArrowButton = styled(ArrowButton)`
+        margin-right: auto;
+        margin-left: 10px;
+    `
+
 
 function InsertTripInfo({tripName, setTripName, selectedDate, handleDateChange, selectedUsers, setSelectedUsers, createTripFunction, clearAndBack, created, setCreated}) {
     const history = useHistory();
@@ -103,9 +120,6 @@ function InsertTripInfo({tripName, setTripName, selectedDate, handleDateChange, 
     const [errorMessage, setErrorMessage] = useState(false)
     const [routeError, setRouteError] = useState()
     const [nameError, setNameError] = useState()
-    
-    
-    
     
     
     function searchResult(key){
@@ -151,7 +165,10 @@ function InsertTripInfo({tripName, setTripName, selectedDate, handleDateChange, 
     
     return(
         <CustomGreenBox>
-           <ArrowButton direction="left" onClick={() => clearAndBack()}/>
+            <TopBox>
+                <CustomArrowButton direction="left" onClick={() => clearAndBack()}/>
+                <Header>Lag tur</Header>
+            </TopBox>
             <UserInputField placeholder="Navn" onChange={(e)=>setTripName(e.target.value)} value={tripName}/>
             {nameError ? 
                 <BottomText>

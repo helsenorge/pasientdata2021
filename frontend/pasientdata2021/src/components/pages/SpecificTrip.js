@@ -64,7 +64,7 @@ function SpecificTripPage(){
             .then(response=> {
                 console.log(response.data.isCreator)
                 setTripInfo(response.data)
-
+                
             });
     }
 
