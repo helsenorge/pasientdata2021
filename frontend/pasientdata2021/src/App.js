@@ -2,15 +2,11 @@
 import './App.css';
 
 import PageWrapper from './components/pages/PageWrapper';
-import LandingPage from './components/pages/LandingPage';
-import WelcomePage from './components/pages/WelcomePage';
 import LoginPage from './components/pages/LoginPage';
-import RegisterPage from './components/pages/RegisterPage';
 
 import AddFriendsPage from './components/pages/AddFriendsPage';
 import SettingsPage from './components/pages/SettingsPage';
 import MyFriendsPage from './components/pages/MyFriendsPage';
-import CreateTripPage from './components/pages/CreateTripPage';
 import TripsPage from "./components/pages/TripsPage"
 import TripInfo from './components/pages/TripInfoPage'
 import UserInfoPage from './components/pages/UserInfoPage';
@@ -47,10 +43,8 @@ function App() {
     <Router>
       <PageWrapper>
         <Switch>
-           <Route path="/" exact render={() => <WelcomePage /> } />
-           <Route path="/welcome" exact render={() => <WelcomePage /> } />
+           <Route path="/" exact render={() => <LoginPage /> } />
            <Route path="/login" exact render={() => <LoginPage /> } />
-           <Route path="/register" exact render={() => <RegisterPage /> } />
 
            <Route path="/map">
              <MapPageSwitch />
