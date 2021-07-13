@@ -81,19 +81,15 @@ function SpecificTripPage(){
     }, []);
 
     function DeleteTrip(){
-        console.log("DELETING")
         axios.delete('Trip/'+tripId)
             .then(history.push("/trips"));
     }
-
-    console.log("DETTE ER TRIPINFO: ", tripInfo)
-    console.log("Dette er user: ", JSON.parse(localStorage.getItem("user")).username)
 
     return(
         <>
             <OwnWhiteHeaderWrapper className = "WhiteHeaderWrapper" title={tripInfo?.trip?.name} />
                 <TimeContainer>
-                    <OwnLandingPageCategory title={new Date(tripInfo?.trip?.tripDate).toLocaleString()} />
+                    <OwnLandingPageCategory title={ new Date(tripInfo?.trip?.tripDate).toLocaleString("no-NO")?.slice(0,-3) } />
                 </TimeContainer>
                 { (tripInfo?.creator?.username === JSON.parse(localStorage.getItem("user")).username) ? 
                     <OptionsContainer>
