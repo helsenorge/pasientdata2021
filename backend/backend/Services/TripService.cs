@@ -262,7 +262,12 @@ namespace backend.Services
                 return new List<Trip>();
 
             var tripIds = userHasTrips.ToList().Select(x => x.TripId);
-            return _context.Trips.Include(x => x.TripData).ThenInclude(x => x.Destionations).ToList().FindAll(x => tripIds.Contains(x.Id));
+            var trips = _context.Trips.Include(x => x.TripData).ThenInclude(x => x.Destionations).ToList().FindAll(x => tripIds.Contains(x.Id));
+            trips.ForEach(trip =>
+            {
+                trip.TripData.Trip = null;
+            });
+            return trips;
         }
 
         public void InviteFriend(int userid, int tripid, int friendId)

@@ -80,10 +80,32 @@ function MapComponent({className, routeData, setRouteData, setRouteJson}) {
 
             if(routeId.current){
                 console.log("CLEARING MAP")
-                map.current.removeLayer(routeId.current);
-                routeId.current = "";
-                Route.current = null;
+                //map.current.removeLayer(routeId.current);
+                //routeId.current = "";
+                //Route.current = null;
             }
+        }
+        else if(path.substring("/map/tripinfo/")){
+            if(!routeId.current){
+                return
+            }
+
+            console.log(Route.current)
+            var longitudes = []
+            var latitudes = []
+            Route.current["coordinates"].forEach(dest=>{
+                longitudes.push(dest[0])
+                latitudes.push(dest[1])
+            });
+
+            var longmax = Math.max(...longitudes)
+            var longmin = Math.min(...longitudes)
+            var latmax = Math.max(...latitudes)
+            var latmin = Math.min(...latitudes)
+
+            map.current.fitBounds([[longmin,latmin],[longmax,latmax]],{
+                padding: {top: 10, bottom:510, left: 15, right: 5}
+            });
         }
       },[pathName]);
 

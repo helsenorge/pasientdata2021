@@ -275,7 +275,7 @@ function CreateTripPage({routeData, setRouteData, routeJson, setRouteJson, clear
             axios.post('Trip', createTripBody)
             .then(response => {
                 setCreateTripResponse(response.data)
-                history.push("/trips")
+                history.push("/map/tripinfo/".concat(response.data))
             })
 
             console.log("KJØRT")

@@ -61,7 +61,10 @@ function SpecificTripPage(){
     
     function TripDetails(){
         axios.get('Trip/'+tripId)
-            .then(response=> setTripInfo(response.data));
+            .then(response=> {
+                setTripInfo(response.data)
+
+            });
     }
 
     function TripFriends(){
