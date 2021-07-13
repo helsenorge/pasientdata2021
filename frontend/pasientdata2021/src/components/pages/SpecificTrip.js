@@ -62,6 +62,7 @@ function SpecificTripPage(){
     function TripDetails(){
         axios.get('Trip/'+tripId)
             .then(response=> {
+                console.log(response.data.isCreator)
                 setTripInfo(response.data)
 
             });
@@ -94,7 +95,7 @@ function SpecificTripPage(){
                 <TimeContainer>
                     <OwnLandingPageCategory title={ new Date(tripInfo?.trip?.tripDate).toLocaleString("no-NO")?.slice(0,-3) } />
                 </TimeContainer>
-                { (tripInfo?.creator?.username === JSON.parse(localStorage.getItem("user")).username) ? 
+                { tripInfo?.isCreator ? 
                     <OptionsContainer>
                         <EditTripButton title="Rediger"/>
                         <DeleteTripButton title="Slett" onClick={()=> DeleteTrip()}/>

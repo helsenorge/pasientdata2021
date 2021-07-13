@@ -68,19 +68,15 @@ function MapTripInfoPage() {
                 <HeaderTitle>{tripInfo?.trip?.name}</HeaderTitle>
                 <HeaderDate>{ new Date(tripInfo?.trip?.tripDate).toLocaleString("no-NO")?.slice(0,-3) }</HeaderDate>
             </HeaderBox>
-            <div >
             <Category title="Inviterte" />
                 <ScrollList>
                     {tripInfo?.invited?.map(item => <CustomFriendsBox title={item.name} imgPath="/person.svg" />)}
                 </ScrollList>
-            </div>
-            <div>
             <Category title="Rute" />
                 <ScrollList>
                     {tripInfo?.trip?.tripData?.destionations?.map((item, index) => <RouteText>{index+1}. {item?.stopDestionation.split(",")[0]}</RouteText>)}
                 </ScrollList>
 
-            </div>
             <UnderlineButton onClick={()=>history.push("/map")}>Ferdig</UnderlineButton>
         </CustomGreenBox>
         
