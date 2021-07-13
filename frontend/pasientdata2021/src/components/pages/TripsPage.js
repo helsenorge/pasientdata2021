@@ -26,7 +26,10 @@ font-weight: bold;
 const OtherTripsContainer = styled(TripsContainer)`
 margin-top:30px;
 `
-
+const Arrow = styled(ArrowButton)`
+    margin-right: auto;
+    margin-left: 10px;
+`
 
 function TripsPage(props){
     console.log(props)
@@ -48,9 +51,10 @@ function TripsPage(props){
         }
         
         useEffect(() => {
+            console.log("Rome")
             getAllTrips()
             getAllTriprequests()
-        }, ["pathname"]);
+        }, []);
     
     
 
@@ -76,9 +80,7 @@ function TripsPage(props){
 
     return(
         <>
-        <WhiteHeaderWrapper className="Turer" title="Turer" showBackButton={false}> 
-                <ArrowButton direction="left" onClick={() => history.push("/map")}/>
-        </WhiteHeaderWrapper>
+        <WhiteHeaderWrapper className="Turer" title="Turer" arrowButtonPath={"/map"} /> 
         <OwnGreenBox>
             <TripsContainer className= "TripsContainer">
                 <LandingPageCategory title="Mine Turer"/>

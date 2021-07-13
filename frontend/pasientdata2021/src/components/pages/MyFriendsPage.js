@@ -1,27 +1,17 @@
 import styled from "styled-components";
-import FriendsBox from "../FriendsBox";
 import AddButton from "../buttons/AddButton";
 import WhiteHeaderWrapper from "../boxes/WhiteHeaderWrapper";
 import GreenBoxRoundedCorner from "../boxes/GreenBoxRoundedCorner";
-import TextImgButton from "../buttons/TextImgButton";
 import LandingPageCategory from "../boxes/LandingPageCategory";
 import TripComponent from "../boxes/TripComponent";
-import PopUpBox from "../boxes/PopUpBox";
-import {FaTimes, FaCheck} from "react-icons/fa";
 
 import { useEffect, useState } from "react";
 import axios from "axios";
-
 import { useHistory } from "react-router"
+
 import AccordionComponent from "../boxes/Accordion";
 import Accordion from "react-bootstrap/esm/Accordion";
 
-
-const CustomTextImgButton = styled(TextImgButton)`
-  margin: 0px 0px 0px 0px;
-  background-color: transparent;
-  font-size:20px;
-`
 
 const Wrapper = styled.div`
   display: flex;
@@ -34,27 +24,11 @@ const Wrapper = styled.div`
 const GreenBoxWrapper = styled(GreenBoxRoundedCorner)`
   justify-content: top;
 `
-const CustomHeaderWrapper = styled(WhiteHeaderWrapper)`
-  width: inherit;
-  margin-left: -17px;
+
+const PlusButton = styled(AddButton)`
+    margin-right: 15px;
 `
 
-const FriendsBoxCustom = styled(FriendsBox)`
-  margin-left: 10px;
-  width: 363px;
-  font-weight: 600;
-`
-
-
-const Icon = styled(FaCheck)`
-font-size: 2em;
-color: green;
-margin-right: 7px;
-`
-const IconX = styled(FaTimes)`
-font-size: 2em;
-color: red;
-`
 
 function MyFriendsPage() {  
   const history = useHistory();
@@ -143,9 +117,12 @@ function MyFriendsPage() {
 
   return (
   <Wrapper className ="Wrapper">
-    <CustomHeaderWrapper title="Mine Venner"> <AddButton onClick={() => history.push("/addfriend")} /> </CustomHeaderWrapper>
-    <GreenBoxWrapper>
 
+    <WhiteHeaderWrapper title="Mine Venner" showChildren={true}>
+       <PlusButton onClick={() => history.push("/addfriend")} />
+    </WhiteHeaderWrapper>
+
+    <GreenBoxWrapper>
       <Accordion>
         {friends?.map((item, index) =>
           <AccordionComponent  

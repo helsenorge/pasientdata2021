@@ -9,6 +9,7 @@ const HeaderTitle = styled.a`
   font-size: 30px;
   color: black;
   font-weight: bold;
+  position: absolute;
 `
 
 const Wrapper = styled.div`
@@ -18,29 +19,30 @@ const Wrapper = styled.div`
   background-color: white;
   justify-content: space-around;
   align-items: center;
-  padding: 0px 0px 0px 10px;
-  margin-right: 100px;
 `
 
-function WhiteHeaderWrapper({className, title, children, showBackButton}) {
+const CustomArrow = styled(ArrowButton)`
+    margin-right: auto;
+    margin-left: 10px;
+`
+
+function WhiteHeaderWrapper({className, title, children, arrowButtonPath}) {
     const history = useHistory();
 
     return (
       <Wrapper className={className}>
-          { showBackButton ? 
-            <ArrowButton direction="left" onClick={() => history.goBack()}/>
+          { arrowButtonPath ? 
+            <CustomArrow direction="left" onClick={() => history.push(arrowButtonPath)}/>
             : 
-            children
+            <CustomArrow direction="left" onClick={() => history.goBack()}/>
           }
         <HeaderTitle>
           {title}
         </HeaderTitle>
+        {children}
       </Wrapper>
     )
 }
 
-WhiteHeaderWrapper.defaultProps={
-  showBackButton: true
-}
 
 export default WhiteHeaderWrapper
