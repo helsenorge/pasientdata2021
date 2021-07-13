@@ -153,11 +153,15 @@ namespace backend.Controllers
 
                 var invited = _service.GetAllInvitedUsers(tripid);
                 var accepted = _service.GetAllAcceptedUsers(tripid);
+                bool isCreator = false;
+                if (userid == creator.Id)
+                    isCreator = true;
                 invited.AddRange(accepted);
                 return Ok(new { 
                     trip= trip,
                     creator= creator,
-                    invited= invited
+                    invited= invited,
+                    isCreator = isCreator
                 });
             }
             catch (ApplicationException ex)
