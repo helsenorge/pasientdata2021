@@ -5,11 +5,11 @@ import TripComponent from "../boxes/TripComponent";
 import LandingPageCategory from "../boxes/LandingPageCategory";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { useHistory, } from "react-router";
-
+import { useHistory } from "react-router";
+import ArrowButton from "../buttons/ArrowButton";
 
 const OwnGreenBox = styled(GreenBoxRoundedCorner)`
-height: 100%;
+    height: inherit;
 `
 
 const SubTitle = styled.a`
@@ -76,8 +76,8 @@ function TripsPage(props){
 
     return(
         <>
-        <WhiteHeaderWrapper className="Turer" title="Turer">
-            
+        <WhiteHeaderWrapper className="Turer" title="Turer" showBackButton={false}> 
+                <ArrowButton direction="left" onClick={() => history.push("/map")}/>
         </WhiteHeaderWrapper>
         <OwnGreenBox>
             <TripsContainer className= "TripsContainer">

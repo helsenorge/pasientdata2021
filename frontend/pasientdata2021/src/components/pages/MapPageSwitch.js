@@ -8,6 +8,8 @@ import styled from "styled-components"
 
 import { useState } from 'react';
 
+import MapTripInfoPage from "./MapTripInfoPage";
+
 
 
 import { BrowserRouter as Router, Switch, Route, useRouteMatch, useHistory, useParams } from 'react-router-dom';
@@ -46,6 +48,9 @@ function MapPageSwitch() {
                 </Route>
                 <Route path={path.concat("/newtrip")}>
                     <CreateTripPage routeData={routeData} setRouteData={setRouteData} routeJson={routeJson} setRouteJson={setRouteJson} clearAndBack={back}/>
+                </Route>
+                <Route path={path.concat("/tripinfo/:tripId")}>
+                    <MapTripInfoPage />
                 </Route>
             </Switch>
         </Wrapper>

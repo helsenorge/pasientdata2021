@@ -23,9 +23,10 @@ function MapComponent({className, routeData, setRouteData, setRouteJson}) {
     const [Markers, setMarkers] = useState([]);
     let path = window.location.pathname;
     const pathName = useLocation().pathname;
+    const history = useHistory();
 
     const handleClickRef = useRef(onClick)
-    handleClickRef.current = onClick            // update reference with every render
+    handleClickRef.current = onClick // update reference with every render
 
     useEffect(() => {
         if (map.current) return; // initialize map only once
@@ -93,7 +94,8 @@ function MapComponent({className, routeData, setRouteData, setRouteJson}) {
             console.log(response.data)
             response.data.forEach(value=>{
                 
-                var marker = new ClickableMarker().setLngLat([value["longitude"],value["latitude"]]).onClick(()=>{
+                var marker = new ClickableMarker({"color":"#7BEFB2"}).setLngLat([value["longitude"],value["latitude"]]).onClick(()=>{
+                    history.push("/map")
                     getTrip(value["tripid"], value["longitude"],value["latitude"]);
                 }).addTo(map.current)
                 setMarkers(Markers => [...Markers, marker]);
@@ -122,10 +124,9 @@ function MapComponent({className, routeData, setRouteData, setRouteJson}) {
             var latmin = Math.min(...latitudes)
 
             map.current.fitBounds([[longmin,latmin],[longmax,latmax]],{
-                padding: {top: 0, bottom:500, left: 15, right: 5}
+                padding: {top: 10, bottom:510, left: 15, right: 5}
             });
-
-
+            history.push("/map/tripinfo/".concat(tripid))
         })
     }
 

@@ -150,10 +150,14 @@ namespace backend.Controllers
                 var userid = GetUserId();
                 var trip = _service.GetTrip(tripid);
                 var creator = _service.GetCreator(tripid);
-                return Ok(new
-                {
-                    trip = trip,
-                    creator = creator
+
+                var invited = _service.GetAllInvitedUsers(tripid);
+                var accepted = _service.GetAllAcceptedUsers(tripid);
+                invited.AddRange(accepted);
+                return Ok(new { 
+                    trip= trip,
+                    creator= creator,
+                    invited= invited
                 });
             }
             catch (ApplicationException ex)
