@@ -13,9 +13,9 @@ const AddButtonWrapper = styled.input`
     background-color: transparent;
 `
 
-function AddButton({children, theme, imgPath, onClick}) {
+function AddButton({children, theme, imgPath, onClick, className}) {
     return (
-        <AddButtonWrapper type="image" src="addIcon.svg" className="AddButton" theme={theme} onClick={onClick}>
+        <AddButtonWrapper className={className} type="image" src="addIcon.svg" theme={theme} onClick={onClick}>
             {children}
         </AddButtonWrapper>
     )
