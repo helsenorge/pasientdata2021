@@ -119,7 +119,7 @@ function InsertTripInfo({tripName, setTripName, selectedDate, handleDateChange, 
         //Hent ut brukernavnet som ligger i inputfielden
         //Lag en ny personbox-component som inneholder navnet du henter ut
         try{
-            if (!selectedUsers.includes(selectedUser)){
+            if (!selectedUsers.includes(selectedUser) && selectedUser != null){
                 setSelectedUsers(selectedUsers => [...selectedUsers, selectedUser]);
                 console.log("CREATED", created)
             }else{
@@ -140,7 +140,12 @@ function InsertTripInfo({tripName, setTripName, selectedDate, handleDateChange, 
     
     
     function removeFromTrip(item){
+        try{
         setSelectedUsers(selectedUsers.filter(x => x !== item))
+        }catch{
+            
+        }
+       
     }
     
     
@@ -178,7 +183,7 @@ function InsertTripInfo({tripName, setTripName, selectedDate, handleDateChange, 
                 <Subtitle title="Inviterte">
 
                     {selectedUsers?.map((user, index) => 
-                    <PersonBox title={user.username} imgPath="/person.svg" id={"addedfriend"+index}>
+                    <PersonBox title={user?.username} imgPath="/person.svg" id={"addedfriend"+index}>
                         <FaTimes onClick={() => removeFromTrip(user)} style={{color:'red'}} />
                     </PersonBox>)}
 
