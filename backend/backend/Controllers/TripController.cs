@@ -149,7 +149,12 @@ namespace backend.Controllers
             {
                 var userid = GetUserId();
                 var trip =_service.GetTrip(tripid);
-                return Ok(trip);
+                var creator = _service.GetCreator(tripid);
+                return Ok(new
+                {
+                    trip=trip,
+                    creator=creator
+                });
             }
             catch (ApplicationException ex)
             {
@@ -209,6 +214,8 @@ namespace backend.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
+
+
 
         private int GetUserId()
         {

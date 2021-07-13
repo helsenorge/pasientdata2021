@@ -20,6 +20,7 @@ function MapComponent({className, routeData, setRouteData, setRouteJson}) {
     const Route = useRef(null);
     const [Points, setPoints] = useState([]);
     const routeId = useRef("");
+    const LayerId = useRef("Land")
     const [Markers, setMarkers] = useState([]);
     let path = window.location.pathname;
     const pathName = useLocation().pathname;
@@ -28,19 +29,31 @@ function MapComponent({className, routeData, setRouteData, setRouteJson}) {
 
         if (map.current) return; // initialize map only once
 
+        console.log("creating new map!")
         map.current = new mapboxgl.Map({
             container: mapContainer.current,
             style: 'mapbox://styles/mapbox/streets-v11',
             center: [lng, lat],
-            zoom: zoom
+            zoom: zoom,
+        });
+
+        map.current.on('style.load', function() {
+            /*map.current.on('load', function () {    
+                var layerid = map.current.getStyle().layers
+                    .map(function(layer) { 
+                        console.log("layer id er : "+layer.id);
+                        return layer.id;
+                    });
+                LayerId.current = layerid;  
+            });*/
         });
     });
 
     useEffect(() => {
 
         if (!map.current) return;
-
-        map.current.off("click",onclick);
+        console.log(LayerId.current)
+        //map.current.off("click","background",onclick);
         console.log("turning click off")
         if(routeId.current != ""){
             map.current.removeLayer(routeId.current);
@@ -53,11 +66,13 @@ function MapComponent({className, routeData, setRouteData, setRouteJson}) {
         });
 
         if(path == "/map" || path == "/map/newtrip"){
+            map.current.clearMap()
             console.log("vi er i /map eller /map/newtrip")
             DrawAllPoints();
         }
         else if(path == "/map/newtrip/enterroute"){
-            map.current.on("click",onclick)
+            var temp = map.current.on("click",onclick)
+            console.log(temp);
             console.log("turning click on");
         }
       },[pathName]);
@@ -79,6 +94,7 @@ function MapComponent({className, routeData, setRouteData, setRouteJson}) {
         console.log(tripid)
         axios.get("/Trip/"+tripid.toString()).then(response=>{
             console.log(response.data)
+            
             //Husk å fjerne den som evt allerede er tegnet opp
             //hente route-description og tegne det slik som ble gjort i mapComponent
         })
@@ -117,7 +133,6 @@ function MapComponent({className, routeData, setRouteData, setRouteJson}) {
                 setRouteJson(response.data.routes[0].geometry)
                 addRoute()
             });
-    
     }
 
     
