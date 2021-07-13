@@ -45,7 +45,7 @@ function MapPageSwitch() {
                     <MapPage />
                 </Route>
                 <Route path={path.concat("/newtrip")}>
-                    <CreateTripPage routeData={routeData} setRouteData={setRouteData} setRouteJson={setRouteJson} clearAndBack={back}/>
+                    <CreateTripPage routeData={routeData} setRouteData={setRouteData} routeJson={routeJson} setRouteJson={setRouteJson} clearAndBack={back}/>
                 </Route>
             </Switch>
         </Wrapper>

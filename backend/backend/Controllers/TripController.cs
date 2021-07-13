@@ -148,12 +148,12 @@ namespace backend.Controllers
             try
             {
                 var userid = GetUserId();
-                var trip =_service.GetTrip(tripid);
+                var trip = _service.GetTrip(tripid);
                 var creator = _service.GetCreator(tripid);
                 return Ok(new
                 {
-                    trip=trip,
-                    creator=creator
+                    trip = trip,
+                    creator = creator
                 });
             }
             catch (ApplicationException ex)

@@ -87,16 +87,24 @@ import MapPage from './MapPage';
     text-align: center;
     font-size: 20px;
     color: #6C757D;
+    `
     
-`
+    const Subtitle = styled(LandingPageCategory)`
+    margin-bottom:0px;
+    `
 
-function InsertTripInfo({tripName, setTripName, selectedDate, handleDateChange, selectedUsers, setSelectedUsers, createTripFunction, clearAndBack}) {
+
+function InsertTripInfo({tripName, setTripName, selectedDate, handleDateChange, selectedUsers, setSelectedUsers, createTripFunction, clearAndBack, created, setCreated}) {
     const history = useHistory();
     let { path, url } = useRouteMatch();
 
     const [requestUsers, setRequestUser] = useState([])
     const [selectedUser, setSelectedUser] = useState();
     const [errorMessage, setErrorMessage] = useState(false)
+    const [routeError, setRouteError] = useState()
+    const [nameError, setNameError] = useState()
+    
+    
     
     
     
@@ -113,6 +121,7 @@ function InsertTripInfo({tripName, setTripName, selectedDate, handleDateChange, 
         try{
             if (!selectedUsers.includes(selectedUser)){
                 setSelectedUsers(selectedUsers => [...selectedUsers, selectedUser]);
+                console.log("CREATED", created)
             }else{
                 setErrorMessage(true)         
                 let timerId = setTimeout(() => {
@@ -139,16 +148,21 @@ function InsertTripInfo({tripName, setTripName, selectedDate, handleDateChange, 
         <CustomGreenBox>
            <ArrowButton direction="left" onClick={() => clearAndBack()}/>
             <UserInputField placeholder="Navn" onChange={(e)=>setTripName(e.target.value)} value={tripName}/>
+            {nameError ? 
+                <BottomText>
+                   Turen må ha et navn.
+               </BottomText>
+               :
+               ""}
             <DateTimeField selectedDate={selectedDate} handleDateChange={handleDateChange} />
-            <LandingPageCategory title="Inviterte">
-                <AddToTripContainer>
+            <Subtitle title="Inviter venn"/>                <AddToTripContainer>
                     <AutocompleteField
                         id="addFriendsField"
                         options={requestUsers}
                         getOptionLabel={(option) => option.username}
                         onChange={(event, value)=>setSelectedUser(value)}
                         getOptionSelected = {(option, value) => option.username === value.username}
-                        style={{ width: 250 }}
+                        style={{ width: 250}}
                         onInputChange={e=>searchResult(e.target.value)}
                         inputLabel="Brukernavn"
                     />  
@@ -161,6 +175,7 @@ function InsertTripInfo({tripName, setTripName, selectedDate, handleDateChange, 
                         Brukeren finnes ikke eller du har allerede lagt dem til i turen.
                         </BottomText> : ""
                     }
+                <Subtitle title="Inviterte">
 
                     {selectedUsers?.map((user, index) => 
                     <PersonBox title={user.username} imgPath="/person.svg" id={"addedfriend"+index}>
@@ -168,19 +183,41 @@ function InsertTripInfo({tripName, setTripName, selectedDate, handleDateChange, 
                     </PersonBox>)}
 
 
-                </LandingPageCategory>
+                </Subtitle>
 
                 <NextButton title="Definer rute" onClick={()=>history.push(path.concat("/enterroute"))}>
                     <FaChevronRight />
                 </NextButton>
-                <CustomUnderlineButton onClick={()=>createTripFunction()}>Lag</CustomUnderlineButton>
+                <CustomUnderlineButton onClick={()=>createTripFunction(setRouteError, setNameError)}>Lag</CustomUnderlineButton>
+                {routeError ? 
+                <BottomText>
+                   Du må definere en rute.
+               </BottomText>
+                :
+                 ""
+                }
         </CustomGreenBox>
     )
 }
 
 
-function InsertTripRoute({routeData}) {
+function InsertTripRoute({routeData, created, setCreated}) {
     const history = useHistory();
+
+    function createTrip(){
+        if (routeData.length > 0){
+        setCreated(true)
+        console.log("CREATED", created)
+        history.goBack()
+
+        }else{
+        history.goBack()
+        console.log("Du må legge til punkter")
+
+        }
+        
+        
+    }
     
     return(
         <SmallCustomGreenBox>
@@ -190,7 +227,7 @@ function InsertTripRoute({routeData}) {
                         <LandingPageCategory id={"Checkpoint"+index} title={index+1 + ". " +data.address.split(",")[0]} />
                         )}
                 </ScrollList>
-                <UnderlineButton onClick={()=>history.goBack()}>Ferdig</UnderlineButton>
+                <UnderlineButton onClick={() => createTrip()}>Ferdig</UnderlineButton>
         </SmallCustomGreenBox>
     )
 }
@@ -200,6 +237,7 @@ function CreateTripPage({routeData, setRouteData, routeJson, setRouteJson, clear
     const [tripName, setTripName] = useState("");
     const [selectedDate, handleDateChange] = useState(new Date());
     const [selectedUsers, setSelectedUsers] = useState([])
+    const [created, setCreated] = useState(null)
     
     const [createTripResponse, setCreateTripResponse] = useState();
 
@@ -207,26 +245,60 @@ function CreateTripPage({routeData, setRouteData, routeJson, setRouteJson, clear
     let { path, url } = useRouteMatch();
     const history = useHistory();
     
-    function createTripFunction(){
+    function createTripFunction(setRouteError, setNameError){
+
+        //Kjører bare denne koden om created er true, 
+        //dvs navn og rute er definert
+
+        if(created == true && tripName != ""){
+        
+        console.log(routeData)
         let friendsIds = selectedUsers.map(user=>user.id)
         let destinations = routeData.map((point, index) => {
             return {"destination":point.address, "number":index+1, "longitude":point.lng, "latitude":point.lat}
         })
         
         let createTripBody = {
-            "friendsIds": friendsIds,
-            "name": tripName,
-            "date": selectedDate,
-            "routeDescription": JSON.stringify(routeJson),
-            "destinations": destinations
-        }
+                "friendsIds": friendsIds,
+                "name": tripName,
+                "date": selectedDate,
+                "routeDescription": JSON.stringify(routeJson),
+                "destinations": destinations
+            }
+            
+            
+            axios.post('Trip', createTripBody)
+            .then(response => {
+                setCreateTripResponse(response.data)
+                history.push("/trips")
+            })
+
+            console.log("KJØRT")
+            setCreated(false)
+    } 
+   
+    if(tripName == ""){
+            
+        console.log("INGEN NAVN")
+            setNameError(true)
+            let timerId = setTimeout(() => {
+                setNameError(false);
+                timerId = null;
+            }, 4000);
+
+    } 
+    
+    if(created != true){
         
+        console.log("DU MÅ DEFINERE RUTA  OG NAVN FØRST")
+        setRouteError(true)
+        let timerId = setTimeout(() => {
+            setRouteError(false);
+            timerId = null;
+        }, 4000);
         
-        axios.post('Trip', createTripBody)
-        .then(response => {
-            setCreateTripResponse(response.data)
-            history.push("/trips")
-        })
+        //Sett en usestate som aktiverer en feilmelding til bruker
+    }
     }
     
     return (
@@ -244,7 +316,11 @@ function CreateTripPage({routeData, setRouteData, routeJson, setRouteJson, clear
                         />
                 </Route>
                 <Route path={path.concat("/enterroute")}>
-                    <InsertTripRoute routeData={routeData} />
+                    <InsertTripRoute
+                    created = {created}
+                    setCreated = {setCreated} 
+                    routeData={routeData} 
+                    />
                 </Route>
             </Switch>
     )

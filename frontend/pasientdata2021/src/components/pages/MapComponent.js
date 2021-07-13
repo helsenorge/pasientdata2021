@@ -18,15 +18,16 @@ function MapComponent({className, routeData, setRouteData, setRouteJson}) {
     const [lat, setLat] = useState(59.907);
     const [zoom, setZoom] = useState(9);
     const Route = useRef(null);
-    const [Points, setPoints] = useState([]);
     const routeId = useRef("");
-    const LayerId = useRef("Land")
+    const ToBeClicked = useRef(false);
     const [Markers, setMarkers] = useState([]);
     let path = window.location.pathname;
     const pathName = useLocation().pathname;
 
-    useEffect(() => {
+    const handleClickRef = useRef(onClick)
+    handleClickRef.current = onClick            // update reference with every render
 
+    useEffect(() => {
         if (map.current) return; // initialize map only once
 
         console.log("creating new map!")
@@ -47,33 +48,41 @@ function MapComponent({className, routeData, setRouteData, setRouteJson}) {
                 LayerId.current = layerid;  
             });*/
         });
+        map.current.on("load",function(){
+            map.current.on("click", (event) => handleClickRef.current(event));
+        })
     });
 
+
     useEffect(() => {
-
         if (!map.current) return;
-        console.log(LayerId.current)
-        //map.current.off("click","background",onclick);
-        console.log("turning click off")
-        if(routeId.current != ""){
-            map.current.removeLayer(routeId.current);
-            routeId.current = "";
-            Route.current = null;
-            setPoints([]);
-        }
-        Markers.forEach(marker=>{
-            marker.remove()
-        });
-
-        if(path == "/map" || path == "/map/newtrip"){
-            map.current.clearMap()
-            console.log("vi er i /map eller /map/newtrip")
+        
+        if(path === "/map/" || path === "/map"){
+            console.log("turning click off")
+            ToBeClicked.current = false;
+            console.log("PATH IS /MAP")
+            if(routeId.current){
+                console.log("CLEARING MAP")
+                map.current.removeLayer(routeId.current);
+                routeId.current = "";
+                Route.current = null;
+                setRouteData([])
+            }
             DrawAllPoints();
         }
-        else if(path == "/map/newtrip/enterroute"){
-            var temp = map.current.on("click",onclick)
-            console.log(temp);
-            console.log("turning click on");
+        else if(path == "/map/newtrip/enterroute" || path == "/map/newtrip"){
+            console.log("PATH IS enterroute or newtrip. Turning click on")
+            ToBeClicked.current = true;
+            Markers.forEach(marker=>{
+                marker.remove()
+            });
+
+            if(routeId.current){
+                console.log("CLEARING MAP")
+                map.current.removeLayer(routeId.current);
+                routeId.current = "";
+                Route.current = null;
+            }
         }
       },[pathName]);
 
@@ -81,22 +90,42 @@ function MapComponent({className, routeData, setRouteData, setRouteJson}) {
     function DrawAllPoints(){
         axios.get('/Trip/FriendsTrips')
         .then(response => { 
+            console.log(response.data)
             response.data.forEach(value=>{
-                var marker = new ClickableMarker().setLngLat([value["latitude"],value["longitude"]]).onClick(()=>{
-                    getTrip(value["tripid"]);
+                
+                var marker = new ClickableMarker().setLngLat([value["longitude"],value["latitude"]]).onClick(()=>{
+                    getTrip(value["tripid"], value["longitude"],value["latitude"]);
                 }).addTo(map.current)
                 setMarkers(Markers => [...Markers, marker]);
             }) 
         });
     }
 
-    function getTrip(tripid){
+    function getTrip(tripid, longitude, latitude){
         console.log(tripid)
         axios.get("/Trip/"+tripid.toString()).then(response=>{
             console.log(response.data)
-            
-            //Husk å fjerne den som evt allerede er tegnet opp
-            //hente route-description og tegne det slik som ble gjort i mapComponent
+            var geojson = JSON.parse(response.data.trip.tripData.description)
+            Route.current = geojson
+            addRoute()
+            var destinations = response.data.trip.tripData.destionations
+            var longitudes = []
+            var latitudes = []
+            destinations.forEach(dest=>{
+                longitudes.push(dest["longitude"])
+                latitudes.push(dest["latitude"])
+            });
+
+            var longmax = Math.max(...longitudes)
+            var longmin = Math.min(...longitudes)
+            var latmax = Math.max(...latitudes)
+            var latmin = Math.min(...latitudes)
+
+            map.current.fitBounds([[longmin,latmin],[longmax,latmax]],{
+                padding: {top: 0, bottom:500, left: 15, right: 5}
+            });
+
+
         })
     }
 
@@ -109,23 +138,26 @@ function MapComponent({className, routeData, setRouteData, setRouteJson}) {
                  })
     }
 
-    function onclick(e){
-        var curentpoints = Points
-        curentpoints.push({"lng":e["lngLat"]["lng"], "lat":e["lngLat"]["lat"]})
-        getAdress(e["lngLat"]["lng"], e["lngLat"]["lat"])
 
-        if(curentpoints.length == 1){
-            setPoints(curentpoints)
+    function onClick(e){
+        
+        if(!ToBeClicked.current){
+            return;
+        }
+
+        getAdress(e["lngLat"]["lng"], e["lngLat"]["lat"])
+        
+        if(routeData.length == 0){
+            console.log(routeData.length)
             return
         }
-        else{
-            setPoints(curentpoints)
-        }
+
         var string = ""
-        for(var i=0;i<Points.length; i++){
-            string = string + Points[i].lng+","+Points[i].lat+";"
+        for(var i=0;i<routeData.length; i++){
+            string = string + routeData[i].lng+","+ routeData[i].lat+";"
         }
-        string = string.slice(0,-1)
+
+        string = string + e["lngLat"]["lng"] + ","+e["lngLat"]["lat"];
 
         axios.get('https://api.mapbox.com/directions/v5/mapbox/walking/'+string+'?access_token=pk.eyJ1IjoidGVvMzIwMSIsImEiOiJja3FhbGwzMjYwbmJuMm5sYmQ0NWJnaTlzIn0.CvCp6NNdxaBVmCheNWhjYw&geometries=geojson')
             .then(response => {
@@ -152,7 +184,6 @@ function MapComponent({className, routeData, setRouteData, setRouteJson}) {
                 data: {
                 type: 'Feature',
                 properties: {},
-                //geometry: data.routes[0].geometry,
                 geometry: Route.current,
                 },
             },
@@ -169,7 +200,6 @@ function MapComponent({className, routeData, setRouteData, setRouteJson}) {
 
     return (
         <>
-       
         <div ref={mapContainer} className={className} />
         </>
     )

@@ -5,7 +5,7 @@ import TripComponent from "../boxes/TripComponent";
 import LandingPageCategory from "../boxes/LandingPageCategory";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { useHistory } from "react-router";
+import { useHistory, } from "react-router";
 
 
 const OwnGreenBox = styled(GreenBoxRoundedCorner)`
@@ -28,38 +28,29 @@ margin-top:30px;
 `
 
 
-
-
-
-
-
-function TripsPage(){
-
+function TripsPage(props){
+    console.log(props)
     const [triprequests, setTriprequests] = useState();
     const [trips, setTrips] = useState();
     const history = useHistory();
 
     function getAllTrips(){
         axios.get('Trip/UserTrips')
-        .then(response => setTrips(response.data))
-        console.log("Turer:",trips)
+            .then(response => setTrips(response.data))
+            console.log("Turer:",trips)
         }
-    
+
+  
+        function getAllTriprequests(){
+            axios.get('Trip/AllTripRequests')
+            .then(response => setTriprequests(response.data))
+            console.log("Turforespørsler:",triprequests)
+        }
+        
         useEffect(() => {
             getAllTrips()
-          }, []);
-        
-    
-
-    function getAllTriprequests(){
-    axios.get('Trip/AllTripRequests')
-    .then(response => setTriprequests(response.data))
-    console.log("Turforespørsler:",triprequests)
-    }
-
-    useEffect(() => {
-        getAllTriprequests()
-      }, []);
+            getAllTriprequests()
+        }, ["pathname"]);
     
     
 
@@ -107,7 +98,7 @@ function TripsPage(){
                 {triprequests?.map((item) =>
                     <TripComponent 
                     name={item.name} 
-                    time={new Date(item.tripDate).toISOString()} 
+                    time={item.tripDate} 
                     creator={item.nameCreator} 
                     invited={true} 
                     accept={() => acceptTripRequest(item.requestId)}
