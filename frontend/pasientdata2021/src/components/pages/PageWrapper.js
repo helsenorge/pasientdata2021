@@ -1,8 +1,7 @@
 import styled from 'styled-components'
 
 const MainContainer = styled.div`
-    height: 736px;
-    width: 414px;
+    height: 100vh;
 `
 
 const PageWrapper = ({children}) => {
