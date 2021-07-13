@@ -1,6 +1,5 @@
 
 import styled from 'styled-components';
-import FriendsMapComponent from './FriendsMapComponent';
 import SwipeableBottom from '../boxes/SwipeableBottom';
 
 import LandingPageLink from '../buttons/LandingPageLink';

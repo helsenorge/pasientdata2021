@@ -13,19 +13,18 @@ import TextImgButton from "../buttons/TextImgButton";
 
 
 const OwnGreenBox = styled(GreenBoxRoundedCorner)`
-height: 100%;
+    height: 100%;
 `
 const OwnWhiteHeaderWrapper = styled(WhiteHeaderWrapper)`
-flex-wrap:wrap;
 `
 const OwnLandingPageCategory = styled(LandingPageCategory)`
-justify-content: center;
-font-weight: bold;
-font-family:"Comfortaa";
+    justify-content: center;
+    font-weight: bold;
+    font-family:"Comfortaa";
 `
 const TimeContainer = styled.div`
-display: flex;
-justify-content: center;
+    display: flex;
+    justify-content: center;
 `
 const OptionsContainer = styled.div`
     margin-top: 20px;
@@ -50,6 +49,7 @@ const EditTripButton = styled(DeleteTripButton)`
     color: grey;
 `
 
+
 function SpecificTripPage(){
     const [tripInfo, setTripInfo] = useState({})
     const [tripFriends, setTripfriends] = useState([])
@@ -70,7 +70,7 @@ function SpecificTripPage(){
     }
 
     function TripInvited(){
-        axios.get('Trip/AllInvitedUsers'+tripId)
+        axios.get('Trip/AllInvitedUsers/'+tripId)
             .then(response=> setInvited(response.data));
     }
 
@@ -82,24 +82,21 @@ function SpecificTripPage(){
 
     function DeleteTrip(){
         axios.delete('Trip/'+tripId)
-            .then(history.push('/trips'));
+            .then(history.push("/trips"));
     }
-
-    console.log(tripInfo)
 
     return(
         <>
-            <OwnWhiteHeaderWrapper className = "WhiteHeaderWrapper" title={tripInfo?.trip?.name}>
-                
-            </OwnWhiteHeaderWrapper>
+            <OwnWhiteHeaderWrapper className = "WhiteHeaderWrapper" title={tripInfo?.trip?.name} />
                 <TimeContainer>
                     <OwnLandingPageCategory title={ new Date(tripInfo?.trip?.tripDate).toLocaleString("no-NO")?.slice(0,-3) } />
                 </TimeContainer>
-                { tripInfo ? 
+                { (tripInfo?.creator?.username === JSON.parse(localStorage.getItem("user")).username) ? 
                     <OptionsContainer>
                         <EditTripButton title="Rediger"/>
                         <DeleteTripButton title="Slett" onClick={()=> DeleteTrip()}/>
-                    </OptionsContainer> :
+                    </OptionsContainer>
+                    :
                     ""
                 }
         
