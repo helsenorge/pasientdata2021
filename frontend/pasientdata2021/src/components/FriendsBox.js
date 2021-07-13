@@ -8,12 +8,12 @@ import { useState } from "react";
 const FriendsBoxWrapper = styled.div`
     display: flex;
     font-size: 30px;
-    align-items: center;
     height: 35px;
     margin: 20px 0px 15px 0px;
 
     mix-blend-mode: darken;
     border: none; 
+    font-family: 'Comfortaa';
 `
 
 const FriendsIcon = styled.img`
