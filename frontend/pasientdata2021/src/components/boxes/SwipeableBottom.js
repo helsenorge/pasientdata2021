@@ -1,6 +1,5 @@
 
 import SwipeableBottomSheet from 'react-swipeable-bottom-sheet';
-import { useState } from 'react';
 
 function SwipeableBottom({children, style, open,setOpen}) {
 

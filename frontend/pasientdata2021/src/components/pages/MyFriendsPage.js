@@ -32,23 +32,19 @@ const PlusButton = styled(AddButton)`
 
 function MyFriendsPage() {  
   const history = useHistory();
-  const [ButtonPopup, setButtonPopUp] = useState(false);
   const [friends, setFriends] = useState([])
   const [friendRequest, setFriendRequest] = useState([])
 
-  //Hent ut alle venneforspørsler i en liste(?)
 
   useEffect(() => {
     axios.post('Friend/GetAllFriendRequests')
         .then(response => setFriendRequest(response.data));
   }, []);
 
-  //Render objekter etter hvor mange forespørsler som er i lista
-  console.log(friendRequest)
+  // Rendre objekter etter hvor mange forespørsler som er i lista
   
 
-  //Hent ut alle venner
-  console.log("FRIENDS", friends)
+  // Hent ut alle venner
   function GetAllFriends(){
     axios.get('Friend/GetAllFriends')
         .then(response => setFriends(response.data));
@@ -62,12 +58,11 @@ function MyFriendsPage() {
   
 
 
-  // request for å fjrene venner
+  // Request for å fjerne venner
 
   function removeFriend(friendId){
     axios.post('/Friend/RemoveFriend/'+friendId)
       .then( () => {
-        setButtonPopUp(false)
         GetAllFriendRequests()
         GetAllFriends()
       });
@@ -90,7 +85,6 @@ function MyFriendsPage() {
   function removeRequest(requestId){
     axios.post('/friend/DeclineFriendRequest/'+requestId)
       .then( () => {
-        setButtonPopUp(false)
         GetAllFriendRequests()
         GetAllFriends()
       });
@@ -100,20 +94,12 @@ function MyFriendsPage() {
   function acceptRequest(requestId){
     axios.post('/friend/AcceptFriendRequest/'+requestId)
       .then( () => {
-        setButtonPopUp(false)
         GetAllFriendRequests()
         GetAllFriends()
       });
       
   };
   
-
-  function handleFriendRequest(requestId, address){
-    axios.post(address + requestId)
-      .then(setButtonPopUp(false));
-  };
-
-
 
   return (
   <Wrapper className ="Wrapper">
@@ -125,7 +111,8 @@ function MyFriendsPage() {
     <GreenBoxWrapper>
       <Accordion>
         {friends?.map((item, index) =>
-          <AccordionComponent  
+          <AccordionComponent
+          key={"friend"+index}
           children = {item.name}
           eventKey ={index.toString()} 
           trashImg="trash.svg"
@@ -140,7 +127,7 @@ function MyFriendsPage() {
 
     <LandingPageCategory title="Venneforespørsler"/>
 
-      {friendRequest?.map(item => <TripComponent className="TripComponent" name={item?.userSender?.username} invited="true" accept={() => acceptRequest(item.id)} decline={() => removeRequest(item.id)} >
+      {friendRequest?.map((item, index) => <TripComponent key={"friendrequest"+index} className="TripComponent" name={item?.userSender?.username} invited="true" accept={() => acceptRequest(item.id)} decline={() => removeRequest(item.id)} >
           
       </TripComponent>
       )}

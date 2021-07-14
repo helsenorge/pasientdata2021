@@ -6,15 +6,11 @@ import LandingPageCategory from "../boxes/LandingPageCategory";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useHistory } from "react-router";
-import ArrowButton from "../buttons/ArrowButton";
 
 const OwnGreenBox = styled(GreenBoxRoundedCorner)`
     height: inherit;
 `
 
-const SubTitle = styled.a`
-    color: rgba(0,0,0,.87);
-   `
 const TripsContainer = styled.div`
 display: flex;
 flex-direction: column;
@@ -26,13 +22,8 @@ font-weight: bold;
 const OtherTripsContainer = styled(TripsContainer)`
 margin-top:30px;
 `
-const Arrow = styled(ArrowButton)`
-    margin-right: auto;
-    margin-left: 10px;
-`
 
 function TripsPage(props){
-    console.log(props)
     const [triprequests, setTriprequests] = useState();
     const [trips, setTrips] = useState();
     const history = useHistory();
@@ -40,18 +31,15 @@ function TripsPage(props){
     function getAllTrips(){
         axios.get('Trip/UserTrips')
             .then(response => setTrips(response.data))
-            console.log("Turer:",trips)
         }
 
   
         function getAllTriprequests(){
             axios.get('Trip/AllTripRequests')
             .then(response => setTriprequests(response.data))
-            console.log("Turforespørsler:",triprequests)
         }
         
         useEffect(() => {
-            console.log("Rome")
             getAllTrips()
             getAllTriprequests()
         }, []);
@@ -72,7 +60,6 @@ function TripsPage(props){
         .then( () => {
         getAllTriprequests()
         getAllTrips()
-        console.log("HVASKJER")
         });
         
     };
@@ -83,8 +70,9 @@ function TripsPage(props){
         <OwnGreenBox>
             <TripsContainer className= "TripsContainer">
                 <LandingPageCategory title="Mine Turer"/>
-                {trips?.map((item) =>
-                    <TripComponent 
+                {trips?.map((item, index) =>
+                    <TripComponent
+                    key={"mytrip"+index}
                     name={item.name} 
                     time={new Date(item.tripDate).toLocaleString()}
                     onClick={()=>history.push("/specifictrip/".concat(item.id))}/>
@@ -96,8 +84,9 @@ function TripsPage(props){
 
             <OtherTripsContainer>
                 <LandingPageCategory title="Invitasjoner"/>
-                {triprequests?.map((item) =>
+                {triprequests?.map((item, index) =>
                     <TripComponent 
+                    key={"invitedtrip"+index}
                     name={item.name} 
                     time={item.tripDate} 
                     creator={item.nameCreator} 

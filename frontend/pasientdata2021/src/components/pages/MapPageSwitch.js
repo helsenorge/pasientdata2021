@@ -10,9 +10,7 @@ import { useState } from 'react';
 
 import MapTripInfoPage from "./MapTripInfoPage";
 
-
-
-import { BrowserRouter as Router, Switch, Route, useRouteMatch, useHistory, useParams } from 'react-router-dom';
+import { Switch, Route, useRouteMatch, useHistory } from 'react-router-dom';
 
     const Wrapper = styled.div`
         display: flex;
@@ -28,7 +26,7 @@ import { BrowserRouter as Router, Switch, Route, useRouteMatch, useHistory, useP
 
 function MapPageSwitch() {
 
-    let { path, url } = useRouteMatch();
+    let { path } = useRouteMatch();
     const [routeData, setRouteData] = useState([]);
     const [routeJson, setRouteJson] = useState({})
     const history = useHistory();

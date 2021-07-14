@@ -1,14 +1,9 @@
 import styled from "styled-components";
 import ColorTriangleWrapper from "./ColorTriangleWrapper";
-import UserInputField from "../inputFields/UserInputField";
-import LoginButton from "../buttons/LoginButton";
-import UnderlineButton from "../buttons/UnderlineButton";
 
 import { useHistory } from "react-router";
 
 import GoogleLogin from "react-google-login";
-
-import axios from "axios";
 
 const BottomWrapper = styled.div`
     height: 100%;
@@ -19,24 +14,11 @@ const BottomWrapper = styled.div`
     padding: 10px 70px 130px 70px;
 `
 
-const LoginButtonTheme = {
-    marginTop: "25px"
-}
-
-const UnderlineButtonTheme = {
-    marginTop: "30px"
-}
-
-const UserInputFieldBottom = styled(UserInputField)`
-    margin-top: 15px;
-`;
-
 function LoginPage() {
 
     const history = useHistory();
 
     function responsegoogle(e) {
-        var Provider = "ofdi";
         var axios = require('axios'); 
         axios({
             method: 'post',
@@ -61,7 +43,6 @@ function LoginPage() {
                 };
             })
             .catch(function (error) {
-            console.log(error);
         });
     }
  

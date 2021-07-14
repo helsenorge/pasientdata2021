@@ -59,30 +59,16 @@ function SpecificTripPage(){
     
     let { tripId } = useParams();
     
-    function TripDetails(){
-        axios.get('Trip/'+tripId)
-            .then(response=> {
-                console.log(response.data.isCreator)
-                setTripInfo(response.data)
-                
-            });
-    }
-
-    function TripFriends(){
-        axios.get('Trip/AllAcceptedUsers/'+tripId)
-            .then(response=> setTripfriends(response.data));
-    }
-
-    function TripInvited(){
-        axios.get('Trip/AllInvitedUsers/'+tripId)
-            .then(response=> setInvited(response.data));
-    }
-
     useEffect(() => {
-        TripDetails();
-        TripFriends();
-        TripInvited();
-    }, []);
+        axios.get('Trip/'+tripId)
+            .then(response => setTripInfo(response.data));
+        
+        axios.get('Trip/AllAcceptedUsers/'+tripId)
+            .then(response => setTripfriends(response.data));
+        
+        axios.get('Trip/AllInvitedUsers/'+tripId)
+            .then(response => setInvited(response.data));
+    }, [tripId]);
 
     function DeleteTrip(){
         axios.delete('Trip/'+tripId)
@@ -91,7 +77,7 @@ function SpecificTripPage(){
 
     return(
         <>
-            <OwnWhiteHeaderWrapper className = "WhiteHeaderWrapper" title={tripInfo?.trip?.name} />
+            <OwnWhiteHeaderWrapper className="WhiteHeaderWrapper" title={tripInfo?.trip?.name} />
                 <TimeContainer>
                     <OwnLandingPageCategory title={ new Date(tripInfo?.trip?.tripDate).toLocaleString("no-NO")?.slice(0,-3) } />
                 </TimeContainer>
@@ -106,9 +92,9 @@ function SpecificTripPage(){
         
                 <OwnGreenBox>
                 <LandingPageCategory title="Kommer"/>
-                {tripFriends?.map(item => <TripComponent className="TripComponent" name={item.username} />)}
+                {tripFriends?.map((item, index) => <TripComponent className="TripComponent" name={item.username} key={"coming"+index}/>)}
                 <LandingPageCategory title="Inviterte" />
-                {tripInvited?.map(item => <TripComponent className="TripComponent" name={item.username} />)}
+                {tripInvited?.map((item, index) => <TripComponent className="TripComponent" name={item.username} key={"invited"+index}/>)}
                 </OwnGreenBox>
 
         </>

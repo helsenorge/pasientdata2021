@@ -10,12 +10,6 @@ import { useState } from 'react';
 import ArrowButton from '../buttons/ArrowButton';
 import FloatingButton from '../buttons/FloatingButton';
 
-const Wrapper = styled.div`
-    display: flex;
-    flex-direction: column;
-    background-color: #7BEFB2;
-    width: inherit;
-    `
 
 const SwipeableBottomStyle = {
     width: "inherit",

@@ -1,5 +1,5 @@
 import { useRef, useEffect, useState } from 'react';
-import { BrowserRouter as Router, Switch,useLocation, Route, useHistory, useParams } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 
 import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
 
@@ -31,7 +31,6 @@ function MapComponent({className, routeData, setRouteData, setRouteJson}) {
     useEffect(() => {
         if (map.current) return; // initialize map only once
 
-        console.log("creating new map!")
         map.current = new mapboxgl.Map({
             container: mapContainer.current,
             style: 'mapbox://styles/mapbox/streets-v11',
@@ -39,16 +38,6 @@ function MapComponent({className, routeData, setRouteData, setRouteJson}) {
             zoom: zoom,
         });
 
-        map.current.on('style.load', function() {
-            /*map.current.on('load', function () {    
-                var layerid = map.current.getStyle().layers
-                    .map(function(layer) { 
-                        console.log("layer id er : "+layer.id);
-                        return layer.id;
-                    });
-                LayerId.current = layerid;  
-            });*/
-        });
         map.current.on("load",function(){
             map.current.on("click", (event) => handleClickRef.current(event));
         })
@@ -59,11 +48,8 @@ function MapComponent({className, routeData, setRouteData, setRouteJson}) {
         if (!map.current) return;
         
         if(path === "/map/" || path === "/map"){
-            console.log("turning click off")
             ToBeClicked.current = false;
-            console.log("PATH IS /MAP")
             if(routeId.current){
-                console.log("CLEARING MAP")
                 map.current.removeLayer(routeId.current);
                 routeId.current = "";
                 Route.current = null;
@@ -71,26 +57,17 @@ function MapComponent({className, routeData, setRouteData, setRouteJson}) {
             }
             DrawAllPoints();
         }
-        else if(path == "/map/newtrip/enterroute" || path == "/map/newtrip"){
-            console.log("PATH IS enterroute or newtrip. Turning click on")
+        else if(path === "/map/newtrip/enterroute" || path === "/map/newtrip"){
             ToBeClicked.current = true;
             Markers.forEach(marker=>{
                 marker.remove()
             });
-
-            if(routeId.current){
-                console.log("CLEARING MAP")
-                //map.current.removeLayer(routeId.current);
-                //routeId.current = "";
-                //Route.current = null;
-            }
         }
         else if(path.substring("/map/tripinfo/")){
             if(!routeId.current){
                 return
             }
 
-            console.log(Route.current)
             var longitudes = []
             var latitudes = []
             Route.current["coordinates"].forEach(dest=>{
@@ -113,7 +90,6 @@ function MapComponent({className, routeData, setRouteData, setRouteJson}) {
     function DrawAllPoints(){
         axios.get('/Trip/FriendsTrips')
         .then(response => { 
-            console.log(response.data)
             response.data.forEach(value=>{
                 
                 var marker = new ClickableMarker({"color":"#7BEFB2"}).setLngLat([value["longitude"],value["latitude"]]).onClick(()=>{
@@ -126,9 +102,7 @@ function MapComponent({className, routeData, setRouteData, setRouteJson}) {
     }
 
     function getTrip(tripid, longitude, latitude){
-        console.log(tripid)
         axios.get("/Trip/"+tripid.toString()).then(response=>{
-            console.log(response.data)
             var geojson = JSON.parse(response.data.trip.tripData.description)
             Route.current = geojson
             addRoute()
@@ -170,8 +144,7 @@ function MapComponent({className, routeData, setRouteData, setRouteJson}) {
 
         getAdress(e["lngLat"]["lng"], e["lngLat"]["lat"])
         
-        if(routeData.length == 0){
-            console.log(routeData.length)
+        if(routeData.length === 0){
             return
         }
 
@@ -193,7 +166,7 @@ function MapComponent({className, routeData, setRouteData, setRouteJson}) {
     
     function addRoute(){
         var randomstring = require("randomstring");
-        if(routeId.current != "")
+        if(routeId.current !== "")
             map.current.removeLayer(routeId.current)
         routeId.current = randomstring.generate({
             length: 12,

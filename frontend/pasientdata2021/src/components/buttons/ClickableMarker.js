@@ -1,6 +1,5 @@
 import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
 
-import styled from 'styled-components'
 import 'mapbox-gl/dist/mapbox-gl.css'
 
 import '@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions.css'

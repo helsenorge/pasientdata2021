@@ -1,9 +1,5 @@
 
 import styled from 'styled-components'
-import TextImgButton from './buttons/TextImgButton'
-import PopUpBox from './boxes/PopUpBox'
-import { useState } from "react";
-
 
 const FriendsBoxWrapper = styled.div`
     display: flex;
@@ -30,16 +26,15 @@ const TitleText = styled.a`
 `
 
 const FriendsBox = ({imgPath, title, children, className, onClick}) => {
-    const [ButtonPopup, setButtonPopUp] = useState(false);
     return (
         <>
-        <FriendsBoxWrapper className={className} onClick={onClick}>
+        <FriendsBoxWrapper className={className} onClick={onClick} >
             {imgPath ? <FriendsIcon src={imgPath} alt="Icon" height ={30} /> : ""}
             <TitleText>{title}</TitleText>
             {children}
         </FriendsBoxWrapper>
         </>
-    )
+    )   
 }
 
 export default FriendsBox;
